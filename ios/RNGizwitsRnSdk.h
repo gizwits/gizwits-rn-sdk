@@ -1,11 +1,11 @@
+//
+//  RNGizwitsRnSdk.h
+//
 
-#if __has_include("RCTBridgeModule.h")
-#import "RCTBridgeModule.h"
-#else
+#import <React/RCTEventEmitter.h>
 #import <React/RCTBridgeModule.h>
-#endif
 
-@interface RNGizwitsRnSdk : NSObject <RCTBridgeModule>
+@interface RNGizwitsRnSdk : RCTEventEmitter <RCTBridgeModule>
 
 @end
-  
+
