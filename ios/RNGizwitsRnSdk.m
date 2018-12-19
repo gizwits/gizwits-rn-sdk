@@ -7,61 +7,20 @@
 #import "GizWifiSDKCache.h"
 #import "NSObject+Giz.h"
 #import "NSDictionary+Giz.h"
-
-/////
-@interface GizWifiRnResult: NSObject
-typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
-  GizWifiRnResultTypeAppStart = 1,
-};
-@property (nonatomic, strong) RCTResponseSenderBlock result;
-@property (nonatomic) GizWifiRnResultType type;
-@end
+#import "GizWifiRnCallBackManager.h"
 
 @interface RNGizwitsRnSdk()<GizWifiSDKDelegate>
-@property (nonatomic, strong) NSMutableArray *results;
+@property (nonatomic, strong) GizWifiRnCallBackManager *callBackManager;
 @end
-
-
-@implementation GizWifiRnResult
-@end
-/////
 
 @implementation RNGizwitsRnSdk
-
-- (instancetype)init{
-  self = [super init];
-  if (self) {
-    [GizWifiSDKCache addDelegate:self];
-  }
-  return self;
-}
-
-- (NSMutableArray *)results{
-  if (_results == nil) {
-    _results = [NSMutableArray array];
-  }
-  return _results;
-}
-
-- (void)addResult:(RCTResponseSenderBlock)result{
-  if (result) {
-    for (GizWifiRnResult *item in self.results) {
-      if (item.type == GizWifiRnResultTypeAppStart) {
-        [self.results removeObject:item];
-        break;
-      }
-    }
-    GizWifiRnResult *r = [[GizWifiRnResult alloc] init];
-    r.type = GizWifiRnResultTypeAppStart;
-    r.result = result;
-    [self.results addObject:r];
-  }
-}
-
 RCT_EXPORT_MODULE();
 
+#pragma mark - export methods
 RCT_EXPORT_METHOD(startWithAppID:(id)configInfo result:(RCTResponseSenderBlock)result){
-  [self addResult:result];
+  //set call back
+  [self.callBackManager addResult:result type:GizWifiRnResultTypeAppStart];
+  
   NSDictionary *dict = [configInfo dictionaryObject];
   if (!dict) {
     NSDictionary *errorDict = [NSDictionary makeErrorCodeFromResultCode:GIZ_SDK_PARAM_INVALID];
@@ -139,13 +98,18 @@ RCT_EXPORT_METHOD(startWithAppID:(id)configInfo result:(RCTResponseSenderBlock)r
     }
 }
 
-- (void)callBackWithType:(GizWifiRnResultType)type result:(NSArray *)result{
-  for (GizWifiRnResult *r in self.results) {
-    if (r.type == type) {
-      r.result(result);
-      [self.results removeObject:r];
-    }
+#pragma mark - set callbacks
+- (GizWifiRnCallBackManager *)callBackManager{
+  if (_callBackManager == nil) {
+    self.callBackManager = [[GizWifiRnCallBackManager alloc] init];
+    //set delegate
+    [GizWifiSDKCache addDelegate:self];
   }
+  return _callBackManager;
+}
+
+- (void)callBackWithType:(GizWifiRnResultType)type result:(NSArray *)result{
+  [self.callBackManager callBackWithType:type result:result];
 }
 
 @end
