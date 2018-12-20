@@ -4,6 +4,8 @@
 
 #import "NSDictionary+Giz.h"
 #import <GizWifiSDK/GizWifiDefinitions.h>
+#import <GizWifiSDK/GizWifiDevice.h>
+#import "GizWifiDef.h"
 
 @implementation NSDictionary (Giz)
 - (NSInteger)integerValueForKey:(NSString *)key defaultValue:(NSInteger)defaultValue
@@ -118,15 +120,85 @@
   return mdict;
 }
 
-#pragma mark - make error
-+ (NSDictionary *)makeErrorCodeFromResultCode:(int)resultCode{
+#pragma mark - bussines
++ (NSMutableDictionary *)makeMutableDictFromDevice:(GizWifiDevice *)device {
+  NSMutableDictionary *mdict = [[NSMutableDictionary alloc] init];
+  
+  //设备唯一标识
+  [mdict setValue:device.macAddress forKey:@"mac"];
+  [mdict setValue:device.did forKey:@"did"];
+  
+  //    if ([device isMemberOfClass:[GizWifiSubDevice class]]) {
+  //        GizWifiSubDevice *subDevice = (GizWifiSubDevice *)device;
+  //
+  //        //设备唯一标识
+  //        [mdict setValue:subDevice.subDid forKey:@"subDid"];
+  //    }
+  return mdict;
+}
+
++ (NSDictionary *)makeDictFromDeviceWithProperties:(GizWifiDevice *)device {
+  NSMutableDictionary *mdict = [self makeMutableDictFromDevice:device];
+  NSInteger netStatus = getDeviceNetStatus(device.netStatus);
+  //    if ([device isMemberOfClass:[GizWifiSubDevice class]]) {
+  //        GizWifiSubDevice *subDevice = (GizWifiSubDevice *)device;
+  //
+  //        // 子设备其他属性
+  //        [mdict setValue:subDevice.subProductKey forKey:@"subProductKey"];
+  //        [mdict setValue:subDevice.subProductName forKey:@"subProductName"];
+  //        [mdict setValue:@(subDevice.isConnected) forKey:@"isConnected"];
+  //        [mdict setValue:@(netStatus) forKey:@"netStatus"];
+  //        [mdict setValue:@(subDevice.isOnline) forKey:@"isOnline"];
+  //        [mdict setValue:@0 forKey:@"type"];
+  //        [mdict setValue:subDevice.productKey forKey:@"productKey"];
+  //        [mdict setValue:subDevice.productName forKey:@"productName"];
+  //    } else {
+  // 普通设备其他属性
+  NSInteger productType = getDeviceTypeFromEnum(device.productType);
+  [mdict setValue:device.macAddress forKey:@"mac"];
+  [mdict setValue:device.did forKey:@"did"];
+  [mdict setValue:device.passcode forKey:@"passcode"];
+  [mdict setValue:device.productKey forKey:@"productKey"];
+  [mdict setValue:device.productName forKey:@"productName"];
+  [mdict setValue:device.ipAddress forKey:@"ip"];
+  [mdict setValue:@(productType) forKey:@"type"];
+  [mdict setValue:@(device.isConnected) forKey:@"isConnected"];
+  [mdict setValue:@(device.isOnline) forKey:@"isOnline"];
+  [mdict setValue:device.remark forKey:@"remark"];
+  [mdict setValue:device.alias forKey:@"alias"];
+  [mdict setValue:@(netStatus) forKey:@"netStatus"];
+  [mdict setValue:@(device.isLAN) forKey:@"isLAN"];
+  [mdict setValue:@(device.isBind) forKey:@"isBind"];
+  [mdict setValue:@(device.isDisabled) forKey:@"isDisabled"];
+  [mdict setValue:@(device.isProductDefined) forKey:@"isProductDefined"];
+  [mdict setValue:@(device.isSubscribed) forKey:@"isSubscribed"];
+  //    }
+  return [mdict copy];
+}
+
++ (NSDictionary *)makeErrorDictFromError:(NSError *)error {
+  NSMutableDictionary *mdict = [NSMutableDictionary dictionary];
+  [mdict setValue:@(error.code) forKey:@"errorCode"];
+  [mdict setValue:error.localizedDescription forKey:@"msg"];
+  return [mdict copy];
+}
+
++ (NSDictionary *)makeErrorDictFromResultCode:(NSInteger)resultCode{
   NSMutableDictionary *mdict = [NSMutableDictionary dictionary];
   [mdict setValue:@(resultCode) forKey:@"errorCode"];
   [mdict setValue:[self defaultErrorMessage:resultCode] forKey:@"msg"];
   return [mdict copy];
 }
 
-+ (NSString *)defaultErrorMessage:(int)errorCode {
++ (NSDictionary *)makeErrorCodeFromError:(NSError *)error device:(NSDictionary *)device {
+  NSMutableDictionary *mdict = [NSMutableDictionary dictionary];
+  [mdict setValue:@(error.code) forKey:@"errorCode"];
+  [mdict setValue:error.localizedDescription forKey:@"msg"];
+  [mdict setValue:device forKey:@"device"];
+  return [mdict copy];
+}
+
++ (NSString *)defaultErrorMessage:(NSInteger)errorCode {
   switch (errorCode) {
     case GIZ_SDK_SUCCESS:
       return @"GIZ_SDK_SUCCESS";
