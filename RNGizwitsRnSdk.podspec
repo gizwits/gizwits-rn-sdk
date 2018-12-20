@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "RNGizwitsRnSdk"
-  s.version      = "1.0.0"
+  s.version      = "1.0.5"
   s.summary      = "RNGizwitsRnSdk"
   s.description  = <<-DESC
                   RNGizwitsRnSdk
