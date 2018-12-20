@@ -13,7 +13,7 @@ import com.facebook.react.bridge.JavaScriptModule;
 public class RNGizwitsRnSdkPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-      return Arrays.<NativeModule>asList(new RNGizwitsRnSdkModule(reactContext));
+      return Arrays.<NativeModule>asList(new RNGizwitsRnSdkModule(reactContext),new RNGizwitsRnDeviceModule(reactContext));
     }
 
     // Deprecated from RN 0.47
