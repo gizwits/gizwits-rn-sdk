@@ -20,6 +20,15 @@
 @implementation RNGizwitsRnDevice
 RCT_EXPORT_MODULE();
 
+static id _instace;
++ (instancetype)allocWithZone:(struct _NSZone *)zone {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instace = [super allocWithZone:zone];
+    });
+    return _instace;
+}
+
 #pragma mark - export methods
 RCT_EXPORT_METHOD(setSubscribe:(id)info result:(RCTResponseSenderBlock)result) {
   //set call back
