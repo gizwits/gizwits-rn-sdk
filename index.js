@@ -1,6 +1,7 @@
 
 import { NativeModules } from 'react-native';
 
-const { RNGizwitsRnSdk } = NativeModules;
+const { RNGizwitsRnSdk, RNGizwitsRnDevice } = NativeModules;
 
 export default RNGizwitsRnSdk;
+export {RNGizwitsRnSdk, RNGizwitsRnDevice};
