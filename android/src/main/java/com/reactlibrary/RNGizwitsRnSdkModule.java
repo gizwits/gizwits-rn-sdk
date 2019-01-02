@@ -337,7 +337,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                             } else if ("GizAdapterDataPointFunc".equals(typeStr)) {
                                 type = GizAdapterType.GizAdapterDataPointFunc;
                             }
-                            product.put("usingAdapter", type.name());
+                            product.put("usingAdapter", type.ordinal()+"");
                         }
                         productInfo.add(product);
                     }
@@ -369,6 +369,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                 }
 
             } else {
+                GizWifiSDK.sharedInstance().startWithAppID(reactContext, appID, specialKey, cloudServiceInfos);
                 GizWifiSDK.sharedInstance().startWithAppID(reactContext, appID, specialKey, cloudServiceInfos);
 
             }
@@ -557,7 +558,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         WritableMap writableMap = jsonObject2WriteableMap(params);
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit("GizDeviceListNotifications", writableMap);
+                .emit("nofitication", writableMap);
     }
 
 
@@ -627,12 +628,17 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         if (callbackContext == null) {
             return;
         }
-        if(dataDict!=null) {
-            WritableMap successMap = jsonObject2WriteableMap(dataDict);
-            callbackContext.invoke(null,successMap);
-        }else{
-            WritableMap errorMap = jsonObject2WriteableMap(errDict);
-            callbackContext.invoke(errorMap,null);
+        try {
+            if (dataDict != null) {
+                WritableMap successMap = jsonObject2WriteableMap(dataDict);
+                callbackContext.invoke(null, successMap);
+            } else {
+                WritableMap errorMap = jsonObject2WriteableMap(errDict);
+                callbackContext.invoke(errorMap, null);
+            }
+        }catch (Exception e)
+        {
+
         }
 
     }
