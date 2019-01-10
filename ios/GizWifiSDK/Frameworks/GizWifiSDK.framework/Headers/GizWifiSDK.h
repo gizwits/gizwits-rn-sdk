@@ -289,6 +289,9 @@
  */
 - (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didDeviceSafetyUnbind:(NSArray * _Nullable)failedDevices;
 
+//meshDeviceList mesh设备列表，NSDictionary数组。格式：[{"mac":"xxx", "meshID": "xxx"}]
+- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didDiscoveredMeshDevices:(NSError * _Nullable)result meshDeviceList:(NSArray * _Nonnull)meshDeviceList;
+
 /** @deprecated 此接口已废弃，不再提供支持。 */
 - (void)wifiSDK:(GizWifiSDK * _Null_unspecified)wifiSDK didGetGroups:(NSError * _Null_unspecified)result groupList:(NSArray * _Null_unspecified)groupList DEPRECATED_MSG_ATTRIBUTE("No longer supported.") NS_EXTENSION_UNAVAILABLE_IOS("") NS_SWIFT_UNAVAILABLE("");
 /** @deprecated 此接口已废弃，不再提供支持。 */
@@ -345,12 +348,12 @@
 
 /**
  初始化 SDK。该接口执行后，其他接口功能才能正常执行。如果已经设置了delegate，SDK会立即通过didDiscovered上报发现的设备。
- 如果App要做域名切换和设备过滤，请在初始化SDK时就指定好要切换的域名和产品信息。
+ 如果App要做域名切换和设备过滤，请在初始化SDK时就指定好域名和产品信息。
  如果需要设置设备连接的云服务域名，可以在该接口调用时开启自动设置功能。SDK会为所有已与AppID关联的设备设置域名，支持域名设置的设备会与App连接到同一个云服务域名上。但该接口默认是不开启此功能的。
- 
  注意：设备域名自动设置开启后会一直生效，但调用setDeviceServerInfo接口时将会终止自动设置
+ 
  @param appInfo 应用信息，格式：{"appId": "xxx", "appSecret": "xxx"}。此参数不能填nil，appId和appSecret必须为有效值。在机智云开发者中心 dev.gizwits.com 中，每个注册的设备在对应的“应用配置”中，都能够查到对应的 appID和appSecret
- @param productInfo 产品信息数组，格式：[{"productKey": "xxx", "productSecret": "xxx"}]，此参数为选填。如果填写了此参数，需保证productKey和productSecret为有效值，无效值会被忽略。SDK会根据此参数过滤设备列表
+ @param productInfo 产品信息数组，格式：[{"productKey": "xxx", "productSecret": "xxx", "usingAdapter":"xxx"}]，usingAdapter见GizAdapterType枚举定义。此参数为选填，如果填写了此参数，需保证productKey和productSecret为有效值，无效值会被忽略。SDK会根据此参数过滤设备列表
  @param cloudSeviceInfo 服务器域名信息，格式：{"openAPIInfo": "xxx", "siteInfo": "xxx", "pushInfo": ""}。如果使用机智云统一部署的云服务域名，此参数填nil，此时将根据用户手机的地理位置信息使用匹配的域名。如果需要独立部署，此参数必须指定域名信息。如果需要指定端口号，可指定Http端口如：xxx.gizwits.com:81，或同时指定Http和Https端口如：xxx.gizwits.com:81&8443。不指定端口号时，形如：xxx.gizwits.com
  @param autoSetDeviceDomain 是否要开启设备域名的自动设置功能。此参数默认值为NO，即不开启自动设置。参数值传YES则开启设备域名的自动设置功能，如果开启了设备域名的自动设置，小循环设备将被连接到App当前使用的云服务域名上
  @see 回调 [wifiSDK didNotifyEvent:eventSource:eventID:eventMessage:]
@@ -374,6 +377,26 @@
  @see GizWifiLogLevel
  */
 + (void)setLogLevel:(GizLogPrintLevel)logPrintLevel;
+
+/**
+ 搜索mesh网络设备。每次搜索时间为4秒，时间到则停止搜索。App可重复调用此接口
+ @param meshName 指定mesh网络名称。如果为nil，则搜索所有mesh网络设备；不为nil，则只搜索该mesh网络设备
+ @see 回调 [wifiSDK didDiscoveredMeshDevices:meshDeviceList:]
+ **/
++(void)searchMeshDevice:(NSString * _Nullable)meshName;
+
+/**
+ 添加mesh网络设备
+ @param meshIDList App当前已得到的所有meshID列表。nil表示App没有得到过meshID
+ @param currentMesh 要发现的设备mesh网络名称和密码，格式：{"meshName": "xxx", "password": "xxx"}，不能为nil。
+        特别的：蚂蚁厂商的Mesh名称长度范围在1~6个字节， Mesh密码长度在1~8个长度，泰凌微名称和密码的长度控制在1~16个字节
+ @param defaultMesh 设备的默认网络名称和密码，格式：{"meshName": "xxx", "password": "xxx"}，可填nil。若指定了默认mesh名字，则与该默认mesh网络匹配的设备将被加入到当前mesh网络下
+ @param uuidInfo 服务和角色特征值，格式：{"serviceUUID": "xxx",  "pairUUID": "xxx", "commandUUID": "xxx", "notifyUUID": "xxx"}，这几个key分别对应为：服务特征值、登录配对特征值、控制特征值、通知特征值。此参数不能为nil
+ @param meshLTK mesh设备通信密钥。此参数不能为nil, 长度范围 1 ~ 16个字节
+ @param meshVerdor mesh设备厂商
+ @see 回调 [wifiSDK didDiscoveredMeshDevices:meshDeviceList:]
+ */
++(void)scanDeviceByMeshName:(NSArray * _Nullable)meshIDList currentMesh:(NSDictionary * _Nonnull)currentMesh defaultMesh:(NSDictionary * _Nonnull)defaultMesh uuidInfo:(NSDictionary * _Nonnull)uuidInfo meshLTK:(NSData * _Nonnull)meshLTK meshVerdor:(GizMeshVerdor)meshVerdor;
 
 /**
  把设备配置到局域网 wifi 上。设备处于 softap 模式时，模组会产生一个热点名称，手机 wifi 连接此热点后就可以配置了。如果是机智云提供的固件，模组热点名称前缀为"XPG-GAgent-"，密码为"123456789"。设备处于 airlink 模式时，手机随时都可以开始配置。但无论哪种配置方式，设备上线时，手机要连接到配置的局域网 wifi 上，才能够确认设备已配置成功。
@@ -439,6 +462,14 @@
  NSArray类型，为 GizWifiDevice 对象数组。设备列表缓存，APP 访问该变量即可得到当前 GizWifiSDK 发现的设备列表
  */
 @property (strong, nonatomic, readonly) NSArray <GizWifiDevice *>* _Nullable deviceList;
+
+#if 1 //pomia. 提供缓存的mesh设备列表，方便App处理
+/**
+ NSArray类型，为 NSDictionary 对象数组，格式：[{"mac":"xxx", "meshID":"xxx"}]。
+ mesh设备列表缓存，APP 访问该变量即可得到当前 GizWifiSDK 发现的mesh设备列表
+ */
+@property (strong, nonatomic, readonly) NSArray <NSDictionary *>* _Nullable meshDeviceList;
+#endif
 
 /**
  获取绑定设备列表。在不同的网络环境下，有不同的处理：
@@ -714,6 +745,9 @@
  设置日志加密。此接口无回调。App若要设置日志加密，需要在调用sdk启动接口之前调用此接口。加密后，日志将不再输出到调试终端上
  */
 + (void)encryptLog;
+
+/*不发布（仅智家），仅用于iOS的softap不切wifi配网（即client收到1012后不自动切网）。此接口默认自动绑定，绑定成功才会配置成功*/
+- (void)deviceOnboardingSoftap:(NSString * _Nonnull)ssid key:(NSString * _Nonnull)key softAPSSIDPrefix:(NSString * _Nullable)softAPSSIDPrefix timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types;
 
 /** @deprecated 此接口已废弃，不再提供支持。替代接口：[GizWifiSDK startWithAppInfo:productInfo:cloudServiceInfo:autoSetDeviceDomain:] */
 + (void)startWithAppID:(NSString * _Null_unspecified)appID DEPRECATED_MSG_ATTRIBUTE("Please use startWithAppInfo:productInfo:cloudServiceInfo:autoSetDeviceDomain:") NS_EXTENSION_UNAVAILABLE_IOS("") NS_SWIFT_UNAVAILABLE("");

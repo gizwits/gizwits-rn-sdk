@@ -583,6 +583,8 @@ typedef NS_ENUM(NSInteger, GizWifiConfigureMode) {
     GizWifiSoftAP = 0,
     /** AirLink配置模式 */
     GizWifiAirLink = 1,
+    /** 支持多设备进行AirLink配置 */
+    GizWifiAirLinkMulti = 2
 };
 
 /**
@@ -727,6 +729,8 @@ typedef NS_ENUM(NSInteger, GizPushType) {
     GizPushJiGuang = 1,
     /** 亚马逊推送 */
     GizPushAWS = 2,
+    /** 信鸽推送 */
+    GizPushXinGe = 3
 };
 
 /**
@@ -941,6 +945,23 @@ typedef NS_ENUM(NSInteger, GizOTAFirmwareType) {
     GizOTAFirmareModule = 0,
     /** 设备mcu固件 */
     GizOTAFirmareMcu = 1,
+};
+
+/**
+ @brief 产品适配类型
+ */
+typedef NS_ENUM(NSInteger, GizAdapterType) {
+    GizAdapterNon = 0,
+    GizAdapterDataPointMap = 1,
+    GizAdapterDataPointFunc = 2
+};
+
+/**
+ @brief mesh设备厂商
+ */
+typedef NS_ENUM(NSInteger, GizMeshVerdor) {
+    GizMeshTelink = 0, //泰凌微
+    GizMeshMayi = 1   //蚂蚁
 };
 
 /** @deprecated 此枚举定义已废弃，不再提供支持。请使用替代定义：GizWifiErrorCode */

@@ -550,7 +550,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
         WritableMap writableMap = jsonObject2WriteableMap(params);
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit("deviceStatusNotification", writableMap);
+                .emit("GizDeviceStatusNotifications", writableMap);
     }
 
 

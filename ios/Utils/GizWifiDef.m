@@ -10,8 +10,8 @@ GizWifiConfigureMode getConfigModeFromInteger(NSInteger integerValue) {
             return GizWifiSoftAP;
         case 1:
             return GizWifiAirLink;
-//        case 2:
-//            return GizWifiAirLinkMulti;
+        case 2:
+            return GizWifiAirLinkMulti;
         default:
             break;
     }

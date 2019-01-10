@@ -44,6 +44,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     private Callback getCurrentCloudService;
     private Callback getBoundDevicesCallback;
     private Callback setOnboardingCallback;
+    private Callback bindRemoteDeviceCallback;
 
     private final ReactApplicationContext reactContext;
 
@@ -237,6 +238,26 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                 e.printStackTrace();
             }
 
+        }
+
+        @Override
+        public void didBindDevice(GizWifiErrorCode result, String did) {
+            super.didBindDevice(result, did);
+            try {
+                JSONObject jsonResult = new JSONObject();
+                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS && did!=null&&!did.equals("")) {
+                    jsonResult.put("did", did);
+
+                    sendResultEvent(bindRemoteDeviceCallback, jsonResult, null);
+
+                } else {
+                    jsonResult.put("errorCode", result.getResult());
+                    jsonResult.put("msg", result.name());
+                    sendResultEvent(bindRemoteDeviceCallback, null,jsonResult);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     };
 
@@ -526,7 +547,28 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             case 1:
                 GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiAirLink, null, timeout, types, isBind);
                 break;
+            case 2:
+                GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiAirLinkMulti, null, timeout, types, isBind);
+                break;
         }
+    }
+
+    @ReactMethod
+    public void bindRemoteDevice(ReadableMap readableMap,Callback callbackContext)
+    {
+        JSONObject args = readable2JsonObject(readableMap);
+        if (callbackContext == null) {
+            SDKLog.d("callbackContext is null");
+            return;
+        }
+
+        String uid = args.optString("uid");
+        String token = args.optString("token");
+        String mac = args.optString("mac");
+        String productKey = args.optString("productKey");
+        String productSecret = args.optString("productSecret");
+        bindRemoteDeviceCallback = callbackContext;
+        GizWifiSDK.sharedInstance().bindRemoteDevice(uid, token, mac, productKey, productSecret);
     }
 
     @ReactMethod
@@ -558,7 +600,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         WritableMap writableMap = jsonObject2WriteableMap(params);
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit("nofitication", writableMap);
+                .emit("GizDeviceListNotifications", writableMap);
     }
 
 
