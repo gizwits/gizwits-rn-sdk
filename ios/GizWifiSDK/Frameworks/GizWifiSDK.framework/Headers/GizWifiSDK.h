@@ -289,8 +289,32 @@
  */
 - (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didDeviceSafetyUnbind:(NSArray * _Nullable)failedDevices;
 
-//meshDeviceList mesh设备列表，NSDictionary数组。格式：[{"mac":"xxx", "meshID": "xxx"}]
+/**
+ @param meshDeviceList mesh设备列表，NSDictionary数组。格式：[{"mac":"xxx", "meshID": "xxx", "advData":"xxx"}]
+ @param result 详细见 GizWifiErrorCode 枚举定义。GIZ_SDK_SUCCESS 表示成功，其他为失败
+ @see 触发函数 [GizWifiSDK searchMeshDevice:]
+ */
 - (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didDiscoveredMeshDevices:(NSError * _Nullable)result meshDeviceList:(NSArray * _Nonnull)meshDeviceList;
+
+/**
+ @param meshDeviceInfo 切网成功，返回新的设备信息,切网失败，返回原来的设备信息, NSDictionary类型 [{"mac":"xxx", "meshID": "xxx"}];
+ @param result 详细见 GizWifiErrorCode 枚举定义。GIZ_SDK_SUCCESS 表示成功，其他为失败
+ @see 触发函数 [GizWifiSDK changeDeviceMesh:newMeshID:]
+ */
+- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didChangeDeviceMesh:(NSDictionary * _Nonnull)meshDeviceInfo result:(NSError * _Nullable)result;
+
+/**
+ @param result 详细见 GizWifiErrorCode 枚举定义。GIZ_SDK_SUCCESS 表示成功，其他为失败
+ @see 触发函数 [GizWifiSDK restoreDeviceFactorySetting:meshDeviceInfo]
+ */
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didRestoreDeviceFactorySetting:(NSString *)mac result:(NSError *)result;
+
+/**
+ @param successMeshDevice  添加到分组成功的设备列表
+ @param result 详细见 GizWifiErrorCode 枚举定义。GIZ_SDK_SUCCESS 表示成功，其他为失败
+ @see 触发函数 [GizWifiSDK addGroup:meshDevices:]
+ */
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didAddMeshDevicesToGroup:(NSArray<GizWifiDevice *> *)successMeshDevice result:(NSError *)result;
 
 /** @deprecated 此接口已废弃，不再提供支持。 */
 - (void)wifiSDK:(GizWifiSDK * _Null_unspecified)wifiSDK didGetGroups:(NSError * _Null_unspecified)result groupList:(NSArray * _Null_unspecified)groupList DEPRECATED_MSG_ATTRIBUTE("No longer supported.") NS_EXTENSION_UNAVAILABLE_IOS("") NS_SWIFT_UNAVAILABLE("");
@@ -386,17 +410,38 @@
 +(void)searchMeshDevice:(NSString * _Nullable)meshName;
 
 /**
- 添加mesh网络设备
- @param meshIDList App当前已得到的所有meshID列表。nil表示App没有得到过meshID
- @param currentMesh 要发现的设备mesh网络名称和密码，格式：{"meshName": "xxx", "password": "xxx"}，不能为nil。
-        特别的：蚂蚁厂商的Mesh名称长度范围在1~6个字节， Mesh密码长度在1~8个长度，泰凌微名称和密码的长度控制在1~16个字节
- @param defaultMesh 设备的默认网络名称和密码，格式：{"meshName": "xxx", "password": "xxx"}，可填nil。若指定了默认mesh名字，则与该默认mesh网络匹配的设备将被加入到当前mesh网络下
+ 设置mesh组网信息， 用户登录成功后调用
+ @param meshName  用户组网。此参数不能为nil
+ @param password  组网密码。此参数不能为nil
  @param uuidInfo 服务和角色特征值，格式：{"serviceUUID": "xxx",  "pairUUID": "xxx", "commandUUID": "xxx", "notifyUUID": "xxx"}，这几个key分别对应为：服务特征值、登录配对特征值、控制特征值、通知特征值。此参数不能为nil
- @param meshLTK mesh设备通信密钥。此参数不能为nil, 长度范围 1 ~ 16个字节
- @param meshVerdor mesh设备厂商
- @see 回调 [wifiSDK didDiscoveredMeshDevices:meshDeviceList:]
+ @param meshLTK mesh设备通信密钥。此参数不能为nil
+ @param meshVendor mesh设备厂商
  */
-+(void)scanDeviceByMeshName:(NSArray * _Nullable)meshIDList currentMesh:(NSDictionary * _Nonnull)currentMesh defaultMesh:(NSDictionary * _Nonnull)defaultMesh uuidInfo:(NSDictionary * _Nonnull)uuidInfo meshLTK:(NSData * _Nonnull)meshLTK meshVerdor:(GizMeshVerdor)meshVerdor;
++ (void)setUserMeshName:(NSString * _Nonnull)meshName password:(NSString * _Nonnull)password uuidInfo:(NSDictionary * _Nonnull)uuidInfo meshLTK:(NSData * _Nonnull)meshLTK meshVendor:(GizMeshVerdor)meshVendor;
+
+/**
+ 修改Mesh设备组网，搜索到新的mesh设备后，需要先调用这个接口切网，再去做安全注册
+ @param meshDeviceInfo mesh设备信息 NSDictionary类型 [{"mac":"xxx", "meshID": "xxx"}]。此参数不能为nil
+ @param currentMesh  设备当前所在组网信息，格式：{"meshName": "xxx", "password": "xxx"}，不能为空
+ @param newMeshID 即将为该设备分配的新MeshID, 取值范围1~255,需要传一个在当前组网未被使用过的meshID
+ @see 回调 [GizWifiSDKDelegate didChangeDeviceMesh:result:]
+ **/
++ (void)changeDeviceMesh:(NSDictionary * _Nonnull)meshDeviceInfo currentMesh:(NSDictionary * _Nonnull)currentMesh newMeshID:(NSUInteger)newMeshID;
+
+/**
+ 恢复设备出厂设置，只支持Mesh设备
+ @param meshDeviceInfo mesh设备信息 NSDictionary类型 [{"mac":"xxx", "meshID": "xxx"}]。此参数不能为nil
+ @see 回调 [GizWifiSDKDelegate didRestoreDeviceFactorySetting:result:]
+ **/
++ (void)restoreDeviceFactorySetting:(NSDictionary * _Nonnull)meshDeviceInfo;
+
+/**
+ 将所给设备添加到分组中
+ @param groupID 分组ID 范围 0x8001 ~ 0x80ff
+ @param meshDevices Mesh设备列表
+ @see 回调 [GizWifiSDKDelegate didAddMeshDevicesToGroup:result:]
+ **/
++ (void)addGroup:(NSUInteger)groupID meshDevices:(NSArray<GizWifiDevice *> * _Nonnull)meshDevices;
 
 /**
  把设备配置到局域网 wifi 上。设备处于 softap 模式时，模组会产生一个热点名称，手机 wifi 连接此热点后就可以配置了。如果是机智云提供的固件，模组热点名称前缀为"XPG-GAgent-"，密码为"123456789"。设备处于 airlink 模式时，手机随时都可以开始配置。但无论哪种配置方式，设备上线时，手机要连接到配置的局域网 wifi 上，才能够确认设备已配置成功。
