@@ -245,10 +245,10 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
         int netStatus = 0;
         ConcurrentHashMap<String, Object> tempDataMap = null;
         JSONObject resultJson = new JSONObject();
-        if (dataMap != null) {
+         if (dataMap != null&&dataMap.size()!=0) {
             tempDataMap = dataMap;
         }
-        if (adapterAttrStatus != null) {
+        if (adapterAttrStatus != null&&adapterAttrStatus.size()!=0) {
             tempDataMap = adapterAttrStatus;
         }
         try {
