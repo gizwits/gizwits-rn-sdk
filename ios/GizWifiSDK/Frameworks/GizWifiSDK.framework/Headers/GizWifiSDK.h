@@ -210,7 +210,7 @@
  @see 触发函数：[GizWifiSDK setCloudService:]
  @see GizWifiErrorCode
  */
-- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didGetCurrentCloudService:(NSError * _Nonnull)result cloudServiceInfo:(NSDictionary <NSString *, NSString *>* _Nullable)cloudServiceInfo;
+- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didGetCurrentCloudService:(NSError * _Nonnull)result cloudServiceInfo:(NSDictionary <NSString *, NSObject *>* _Nullable)cloudServiceInfo;
 
 /**
  绑定推送id结果（此接口待发布）
