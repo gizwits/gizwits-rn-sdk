@@ -617,10 +617,7 @@ typedef NS_ENUM(NSInteger, GizWifiGAgentType) {
     GizGAgentOther = 11,
     /** 芯海模组 */
     GizGAgentFlyLink = 12,
-    /** 亚马逊模组 */
     GizGAgentMxchipAWS = 13,
-    /** 汉枫v8模组 */
-    GizGAgentHFV8 = 14,
 };
 
 /**
