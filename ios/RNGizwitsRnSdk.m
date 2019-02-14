@@ -18,6 +18,9 @@
 
 @implementation RNGizwitsRnSdk
 RCT_EXPORT_MODULE();
+- (dispatch_queue_t)methodQueue{
+    return dispatch_get_main_queue();
+}
 
 static id _instace;
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
@@ -307,4 +310,5 @@ RCT_EXPORT_METHOD(disableLan:(id)info){
     return _callBackManager;
 }
 @end
+
 
