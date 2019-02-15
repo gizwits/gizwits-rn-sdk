@@ -198,6 +198,10 @@
   return [mdict copy];
 }
 
++ (NSDictionary *)makeWaitForTheLastRequestError{
+  return @{@"msg": @"Please wait for the last request!"};
+}
+
 + (NSString *)defaultErrorMessage:(NSInteger)errorCode {
   switch (errorCode) {
     case GIZ_SDK_SUCCESS:

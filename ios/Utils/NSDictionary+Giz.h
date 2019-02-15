@@ -20,4 +20,5 @@
 + (NSDictionary *)makeErrorDictFromError:(NSError *)error;
 + (NSDictionary *)makeErrorDictFromResultCode:(NSInteger)resultCode;
 + (NSDictionary *)makeErrorCodeFromError:(NSError *)error device:(NSDictionary *)device;
++ (NSDictionary *)makeWaitForTheLastRequestError;
 @end
