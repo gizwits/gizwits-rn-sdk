@@ -172,6 +172,10 @@
   [mdict setValue:@(device.isDisabled) forKey:@"isDisabled"];
   [mdict setValue:@(device.isProductDefined) forKey:@"isProductDefined"];
   [mdict setValue:@(device.isSubscribed) forKey:@"isSubscribed"];
+  [mdict setValue:@(device.netType) forKey:@"netType"];
+  [mdict setValue:device.productAdapterUI forKey:@"productAdapterUi"];
+  [mdict setValue:device.productKeyAdapter forKey:@"productKeyAdapter"];
+  [mdict setValue:device.rootDevice==nil?@"":device.rootDevice.did forKey:@"rootDeviceId"];
   //    }
   return [mdict copy];
 }

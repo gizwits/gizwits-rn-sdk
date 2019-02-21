@@ -6,6 +6,7 @@
 @class GizWifiRnResult;
 #define GizDeviceListNotifications @"GizDeviceListNotifications"
 #define GizDeviceStatusNotifications @"GizDeviceStatusNotifications"
+#define GizMeshDeviceListNotifications @"GizMeshDeviceListNotifications"
 
 typedef void (^RCTResponseSenderBlock)(NSArray *response);
 
@@ -14,12 +15,15 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
   GizWifiRnResultTypeDeviceListNoti,
   GizWifiRnResultTypeGetBoundDevices,
   GizWifiRnResultTypeGetCurrentCloudService,
+  GizWifiRnResultTypeDeviceSafetyRegister,
   GizWifiRnResultTypeGetVersione,
+  GizWifiRnResultTypeChangeDeviceMesh,
   GizWifiRnResultTypeSetDeviceOnboardingDeploy,
   GizWifiRnResultTypeBindRemoteDevice,
   //device
   GizWifiRnResultTypeSetSubscribe,
   GizWifiRnResultTypeDeviceStatusNoti,
+  GizWifiRnResultTypeMeshDeviceListNoti,
   GizWifiRnResultTypeGetDeviceStatus,
   GizWifiRnResultTypeWrite,
 };

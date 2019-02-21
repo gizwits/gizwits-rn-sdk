@@ -18,6 +18,22 @@ GizWifiConfigureMode getConfigModeFromInteger(NSInteger integerValue) {
     return -1;
 }
 
+GizMeshVerdor getMeshVerdorFromInteger(NSInteger integerValue) {
+    /**
+     GizMeshMayi      = 0
+     GizMeshTelink     = 1
+     */
+    switch (integerValue) {
+        case 0:
+            return GizMeshMayi;
+        case 1:
+            return GizMeshTelink;
+        default:
+            break;
+    }
+    return -1;
+}
+
 XPGConfigureMode getCompatibleConfigModeFromInteger(NSInteger integerValue) {
     switch (integerValue) {
         case 1:

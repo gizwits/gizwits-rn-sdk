@@ -7,6 +7,7 @@
 XPGConfigureMode getCompatibleConfigModeFromInteger(NSInteger integerValue);
 GizWifiConfigureMode getConfigModeFromInteger(NSInteger integerValue);
 GizLogPrintLevel getLogLevelFromInteger(NSInteger integerValue);
+GizMeshVerdor getMeshVerdorFromInteger(NSInteger integerValue);
 NSInteger getDeviceTypeFromEnum(GizWifiDeviceType enumValue);
 NSInteger getEventTypeFromEnum(GizEventType enumValue);
 GizThirdAccountType getThirdAccountTypeFromInteger(NSInteger integerValue);
