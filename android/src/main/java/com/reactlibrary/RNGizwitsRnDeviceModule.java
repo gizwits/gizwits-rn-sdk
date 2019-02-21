@@ -39,8 +39,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
-    private Callback getDeviceStatusCallback;
-    private Callback writeCallback;
+    private Map<String,Callback> getDeviceStatusCallback= new HashMap<String, Callback>();
+    private  Map<String,Callback> writeCallback= new HashMap<String, Callback>();
     Map<String, Callback> subscribeCallbacks = new HashMap<String, Callback>();
 
 
@@ -104,6 +104,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                     jsonResult.put("msg", result.name());
                     sendResultEvent(subscribeCallbacks.get(device.getMacAddress()), null, jsonResult);
                 }
+                subscribeCallbacks.remove(device.getMacAddress());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -112,6 +113,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
     public RNGizwitsRnDeviceModule(ReactApplicationContext reactContext) {
         super(reactContext);
+        getDeviceStatusCallback = 
         RNGizwitsDeviceCache.getInstance().setDeviceListener(deviceListener);
         this.reactContext = reactContext;
 
@@ -136,7 +138,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
             GizWifiDevice device = RNGizwitsDeviceCache.getInstance()
                     .findDeviceByMac(mac, did);
-            getDeviceStatusCallback = callback;
+            getDeviceStatusCallback.put(mac,callback);
             if (device == null) {
                 result.put("errorCode",
                         GizWifiErrorCode.GIZ_SDK_PARAM_INVALID.getResult());
@@ -165,7 +167,6 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
             GizWifiDevice device = RNGizwitsDeviceCache.getInstance()
                     .findDeviceByMac(mac, did);
-            writeCallback = callback;
             if (device == null) {
                 result.put("errorCode",
                         GizWifiErrorCode.GIZ_SDK_DEVICE_DID_INVALID.getResult());
@@ -176,8 +177,10 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 device.setListener(deviceListener);
                 if (args != null && !args.has("sn")) {
                     device.write(dataobj.toString());
+                    writeCallback.put(0+"",callback);
                 } else {
                     int sn = args.optInt("sn");
+                    writeCallback.put(sn+"",callback);
                     Iterator<String> keys = dataobj.keys();
                     ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<String, Object>();
                     while (keys.hasNext()) {
@@ -343,19 +346,14 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
 
                 // 控制命令回调
-                if (writeCallback != null) {
-                    resultJson.put("sn", sn);
-                    sendResultEvent(writeCallback, resultJson, null);
-                } else {
-                    SDKLog.d("didWriteModuleContext is null");
-                }
+                resultJson.put("sn", sn);
+                sendResultEvent(writeCallback.get(sn+""), resultJson, null);
+                writeCallback.remove(sn+"");
 
                 // 状态查询回调
-                if (getDeviceStatusCallback != null) {
-                    sendResultEvent(getDeviceStatusCallback, resultJson, null);
-                } else {
-                    SDKLog.d("moduleContext is null");
-                }
+                sendResultEvent(getDeviceStatusCallback.get(device.getMacAddress()), resultJson, null);
+                getDeviceStatusCallback.remove(device.getMacAddress());
+
 
 
                 if (device != null) {
@@ -373,6 +371,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                     deviceobj.put("remark", device.getRemark());
                     deviceobj.put("alias", device.getAlias());
                     deviceobj.put("isBind", device.isBind());
+                    deviceobj.put("rootDeviceId", device.getRootDevice() == null ? "" : device.getRootDevice().getDid());
                     deviceobj.put("isProductDefined", device.isProductDefined());
                     deviceobj.put("isSubscribed", device.isSubscribed());
                     int type = 0;
