@@ -379,6 +379,19 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
   
 }
 
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didRestoreDeviceFactorySetting:(NSString *)mac result:(NSError *)result{
+  NSDictionary *dataDict = nil;
+  NSDictionary *errDict = nil;
+  
+  if (result.code == GIZ_SDK_SUCCESS) {
+    dataDict = @{@"mac": mac};
+  } else {
+    errDict = [NSDictionary makeErrorDictFromError:result];
+  }
+  
+  [self.callBackManager callBackWithType:GizWifiRnResultTypeRestoreDeviceFactorySetting identity:nil resultDict:dataDict errorDict:errDict];
+}
+
 - (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didChangeDeviceMesh:(NSDictionary * _Nonnull)meshDeviceInfo result:(NSError * _Nullable)result {
   
   NSDictionary *dataDict = nil;

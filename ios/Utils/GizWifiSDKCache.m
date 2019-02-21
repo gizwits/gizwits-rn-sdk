@@ -122,6 +122,12 @@ for (id <GizWifiSDKDelegate>delegate in self.mDelegates) { \
     GIZ_SDK_DELEGATE_CALLBACK_END()
 }
 
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didRestoreDeviceFactorySetting:(NSString *)mac result:(NSError *)result{
+  GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:didChangeDeviceMesh:result:))
+  [delegate wifiSDK:wifiSDK didRestoreDeviceFactorySetting:mac result:result];
+  GIZ_SDK_DELEGATE_CALLBACK_END()
+}
+
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didDeviceSafetyUnbind:(NSArray *)failedDevices{
   GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:didDeviceSafetyUnbind:))
   [delegate wifiSDK:wifiSDK didDeviceSafetyUnbind:failedDevices];
