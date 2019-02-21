@@ -5,6 +5,7 @@
 #import "NSDictionary+Giz.h"
 #import <GizWifiSDK/GizWifiDefinitions.h>
 #import <GizWifiSDK/GizWifiDevice.h>
+#import <GizWifiSDK/GizLiteGWSubDevice.h>
 #import "GizWifiDef.h"
 
 @implementation NSDictionary (Giz)
@@ -140,19 +141,18 @@
 + (NSDictionary *)makeDictFromDeviceWithProperties:(GizWifiDevice *)device {
   NSMutableDictionary *mdict = [self makeMutableDictFromDevice:device];
   NSInteger netStatus = getDeviceNetStatus(device.netStatus);
-  //    if ([device isMemberOfClass:[GizWifiSubDevice class]]) {
-  //        GizWifiSubDevice *subDevice = (GizWifiSubDevice *)device;
-  //
-  //        // 子设备其他属性
-  //        [mdict setValue:subDevice.subProductKey forKey:@"subProductKey"];
-  //        [mdict setValue:subDevice.subProductName forKey:@"subProductName"];
-  //        [mdict setValue:@(subDevice.isConnected) forKey:@"isConnected"];
-  //        [mdict setValue:@(netStatus) forKey:@"netStatus"];
-  //        [mdict setValue:@(subDevice.isOnline) forKey:@"isOnline"];
-  //        [mdict setValue:@0 forKey:@"type"];
-  //        [mdict setValue:subDevice.productKey forKey:@"productKey"];
-  //        [mdict setValue:subDevice.productName forKey:@"productName"];
-  //    } else {
+  if ([device isMemberOfClass:[GizLiteGWSubDevice class]]) {
+      GizLiteGWSubDevice *subDevice = (GizLiteGWSubDevice *)device;
+      // 子设备其他属性
+      [mdict setValue:subDevice.meshID forKey:@"meshID"];
+      // [mdict setValue:subDevice.subProductName forKey:@"subProductName"];
+      // [mdict setValue:@(subDevice.isConnected) forKey:@"isConnected"];
+      // [mdict setValue:@(netStatus) forKey:@"netStatus"];
+      // [mdict setValue:@(subDevice.isOnline) forKey:@"isOnline"];
+      // [mdict setValue:@0 forKey:@"type"];
+      // [mdict setValue:subDevice.productKey forKey:@"productKey"];
+      // [mdict setValue:subDevice.productName forKey:@"productName"];
+  }
   // 普通设备其他属性
   NSInteger productType = getDeviceTypeFromEnum(device.productType);
   [mdict setValue:device.macAddress forKey:@"mac"];
