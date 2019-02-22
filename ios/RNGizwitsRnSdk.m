@@ -270,6 +270,21 @@ RCT_EXPORT_METHOD(searchMeshDevice:(id)info result:(RCTResponseSenderBlock)resul
   }
 }
 
+RCT_EXPORT_METHOD(addGroup:(id)info result:(RCTResponseSenderBlock)result){
+  NSDictionary *dict = [info dictionaryObject];
+  NSUInteger *groupID = [dict integerValueForKey:@"groupID" defaultValue:1];
+  NSArray *meshDevices = [dict arrayValueForKey:@"meshDevices" defaultValue: nil];
+  NSMutableArray *devices=[NSMutableArray array];
+  for (NSDictionary *meshDevice in meshDevices) {
+    NSString *mac = [meshDevice stringValueForKey:@"mac" defaultValue:@""];
+    NSString *did = [meshDevice stringValueForKey:@"did" defaultValue:@""];
+    GizWifiDevice *giz = [GizWifiDeviceCache cachedDeviceWithMacAddress:mac did:did];
+    [devices addObject:giz];
+  }
+  [GizWifiSDK addGroup:groupID meshDevices:devices];
+  [self.callBackManager addResult:result type:GizWifiRnResultTypeaAddMeshGroup identity:nil repeatable:YES];
+}
+
 RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)result){
   NSDictionary *dict = [info dictionaryObject];
   NSDictionary *meshDeviceInfo = [dict dictValueForKey:@"meshDeviceInfo" defaultValue: nil];
@@ -391,6 +406,25 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
   
   [self.callBackManager callBackWithType:GizWifiRnResultTypeRestoreDeviceFactorySetting identity:nil resultDict:dataDict errorDict:errDict];
 }
+
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didAddMeshDevicesToGroup:(NSArray<GizWifiDevice *> *)successMeshDevice result:(NSError *)result{
+  NSArray *dataDict = nil;
+  NSDictionary *errDict = nil;
+  
+  if (result.code == GIZ_SDK_SUCCESS) {
+    NSMutableArray *arrDevice = [NSMutableArray array];
+    for (GizWifiDevice *device in successMeshDevice) {
+      NSDictionary *dictDevice = [NSDictionary makeDictFromDeviceWithProperties:device];
+      [arrDevice addObject:dictDevice];
+    }
+    dataDict = arrDevice;
+  } else {
+    errDict = [NSDictionary makeErrorDictFromError:result];
+  }
+  
+  [self.callBackManager callBackWithType:GizWifiRnResultTypeaAddMeshGroup identity:nil resultDict:dataDict errorDict:errDict];
+}
+
 
 - (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didChangeDeviceMesh:(NSDictionary * _Nonnull)meshDeviceInfo result:(NSError * _Nullable)result {
   

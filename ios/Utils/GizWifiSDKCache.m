@@ -158,4 +158,10 @@ for (id <GizWifiSDKDelegate>delegate in self.mDelegates) { \
     GIZ_SDK_DELEGATE_CALLBACK_END()
 }
 
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didAddMeshDevicesToGroup:(NSArray<GizWifiDevice *> *)successMeshDevice result:(NSError *)result{
+    GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:didAddMeshDevicesToGroup:result:))
+    [delegate wifiSDK:wifiSDK didAddMeshDevicesToGroup:successMeshDevice result:result];
+    GIZ_SDK_DELEGATE_CALLBACK_END()
+}
+
 @end
