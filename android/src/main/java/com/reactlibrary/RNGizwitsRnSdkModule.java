@@ -16,6 +16,7 @@ import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.gizwits.gizwifisdk.api.GizLiteGWSubDevice;
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizAdapterType;
@@ -54,8 +55,8 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     private Callback addGroupCallback;
     private Callback changeMeshNameCallback;
     private Callback discoverMeshDevicesCallback;
-    private List<Callback> setOnboardingCallback;
-    private List<Callback> bindRemoteDeviceCallback;
+    private List<Callback> setOnboardingCallback=new ArrayList<>();
+    private List<Callback> bindRemoteDeviceCallback = new ArrayList<>();
 
     private final ReactApplicationContext reactContext;
 
@@ -157,6 +158,9 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("alias", device.getAlias());
                     deviceobj.put("isBind", device.isBind());
                     deviceobj.put("netType", device.getNetType());
+                    if(device instanceof GizLiteGWSubDevice) {
+                        deviceobj.put("meshID",((GizLiteGWSubDevice)device).getMeshId());
+                    }
                     deviceobj.put("rootDeviceId", device.getRootDevice() == null ? "" : device.getRootDevice().getDid());
                     deviceobj.put("isProductDefined", device.isProductDefined());
                     deviceobj.put("isSubscribed", device.isSubscribed());
@@ -223,6 +227,9 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("remark", device.getRemark());
                     deviceobj.put("alias", device.getAlias());
                     deviceobj.put("isBind", device.isBind());
+                    if(device instanceof GizLiteGWSubDevice) {
+                        deviceobj.put("meshID",((GizLiteGWSubDevice)device).getMeshId());
+                    }
                     deviceobj.put("rootDeviceId", device.getRootDevice() == null ? "" : device.getRootDevice().getDid());
                     deviceobj.put("isProductDefined", device.isProductDefined());
                     deviceobj.put("isSubscribed", device.isSubscribed());
@@ -247,7 +254,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     sendResultEvent(setOnboardingCallback.get(0), null, jsonResult);
                 }
                 setOnboardingCallback.remove(0);
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -320,6 +327,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                         jsonArray.put(jsonObject);
                     }
                     jsonResult.put("meshDevices", jsonArray);
+                    Log.e("meshAddCallBack",jsonArray.toString());
                     sendResultEvent(addGroupCallback, jsonResult, null);
                 } else {
                     JSONObject error = new JSONObject();
@@ -409,7 +417,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     sendResultEvent(bindRemoteDeviceCallback.get(0), null, jsonResult);
                 }
                 bindRemoteDeviceCallback.remove(0);
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -418,9 +426,8 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     public RNGizwitsRnSdkModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        setOnboardingCallback = new ArrayList<Callback>();
-        bindRemoteDeviceCallback = new ArrayList<Callback>();
-        GizWifiSDK.sharedInstance().setListener(gizWifiSDKListener);
+//        setOnboardingCallback = new ArrayList<Callback>();
+//        bindRemoteDeviceCallback = new ArrayList<Callback>();
 
     }
 
@@ -431,6 +438,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void startWithAppID(ReadableMap readableMap, Callback callback) {
+        GizWifiSDK.sharedInstance().setListener(gizWifiSDKListener);
         JSONObject args = readable2JsonObject(readableMap);
         WritableMap writableMap = jsonObject2WriteableMap(args);
         try {
@@ -821,8 +829,9 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setUserMeshName(ReadableMap readableMap, Callback callback) {
+    public void setUserMeseName(ReadableMap readableMap, Callback callback) {
         JSONObject jsonObject = readable2JsonObject(readableMap);
+        Log.e("setUserMeshName",jsonObject.toString());
         String meshName = jsonObject.optString("meshName");
         String password = jsonObject.optString("password");
         JSONObject uuidInfo = jsonObject.optJSONObject("uuidInfo");
@@ -857,7 +866,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setUserMeshName(ReadableMap readableMap, Callback callback) {
+    public void searchMeshDevice(ReadableMap readableMap, Callback callback) {
         JSONObject jsonObject = readable2JsonObject(readableMap);
         String meshName = jsonObject.optString("meshName");
         discoverMeshDevicesCallback = callback;
@@ -879,10 +888,11 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     }
 
     public void callbackMeshDeviceNofitication(JSONObject params) {
+        Log.e("meshDevice",params.toString());
         WritableMap writableMap = jsonObject2WriteableMap(params);
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit("GizWifiRnResultTypeMeshDeviceListNoti", writableMap);
+                .emit("GizMeshDeviceListNotifications", writableMap);
     }
 
 

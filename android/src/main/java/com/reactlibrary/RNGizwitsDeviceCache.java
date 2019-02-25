@@ -84,6 +84,19 @@ public class RNGizwitsDeviceCache {
         return null;
     }
 
+    // 在设备列表中找设备
+    public GizWifiDevice findDeviceByMac(String mac) {
+        List<GizWifiDevice> deviceList = GizWifiSDK.sharedInstance().getDeviceList();
+        for (int i = 0; i < deviceList.size(); i++) {
+            GizWifiDevice device = deviceList.get(i);
+            if (device.getMacAddress().equals(mac)) {
+                return device;
+            }
+        }
+
+        return null;
+    }
+
     // 在设备列表中找中控设备
     public GizWifiCentralControlDevice findCenterControlDeviceByMac(String mac, String did) {
         List<GizWifiDevice> deviceList = GizWifiSDK.sharedInstance().getDeviceList();

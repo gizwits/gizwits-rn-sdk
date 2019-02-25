@@ -113,7 +113,6 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
     public RNGizwitsRnDeviceModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        getDeviceStatusCallback = 
         RNGizwitsDeviceCache.getInstance().setDeviceListener(deviceListener);
         this.reactContext = reactContext;
 
