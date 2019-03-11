@@ -1,6 +1,7 @@
 
 package com.reactlibrary;
 
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -34,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -592,6 +594,36 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             e.printStackTrace();
         }
 
+    }
+
+     @ReactMethod
+    public void getGizLog(ReadableMap readableMap, Callback callback) {
+        JSONObject json = new JSONObject();
+        JSONObject args = readable2JsonObject(readableMap);
+        try {
+            int type = args.optInt("type");
+            String filePath = "";
+            if (type == 0) {
+                filePath = Environment.getExternalStorageDirectory() + "/GizWifiSDK/" + reactContext.getPackageName() + "/GizSDKLog/Client/GizSDKClientLogFile.sys";
+            } else {
+                filePath = Environment.getExternalStorageDirectory() + "/GizWifiSDK/" + reactContext.getPackageName() + "/GizSDKLog/Deamon/GizSDKLogFile.sys";
+            }
+            String str = "";
+            try {
+                FileInputStream fin = new FileInputStream(filePath);
+                int length = fin.available();
+                byte[] buffer = new byte[length];
+                fin.read(buffer);
+                str = new String(buffer);
+                fin.close();
+                json.put("gizLog", str);
+                sendResultEvent(callback, json, null);
+            } catch (Exception e) {
+                json.put("error", e.getMessage());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @ReactMethod
