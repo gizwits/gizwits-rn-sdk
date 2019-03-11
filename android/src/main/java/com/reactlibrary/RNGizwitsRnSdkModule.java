@@ -738,10 +738,10 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void userFeedback(ReadableMap args) {
-        if (callback == null) {
-            SDKLog.d("callbackContext is null");
-            return;
-        }
+        // if (callback == null) {
+        //     SDKLog.d("callbackContext is null");
+        //     return;
+        // }
         String contactInfo = args.getString("contactInfo");
         String feedbackInfo = args.getString("feedbackInfo");
         boolean sendLog = args.getBoolean("sendLog");
