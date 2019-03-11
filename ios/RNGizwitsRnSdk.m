@@ -285,6 +285,10 @@ RCT_EXPORT_METHOD(addGroup:(id)info result:(RCTResponseSenderBlock)result){
   [self.callBackManager addResult:result type:GizWifiRnResultTypeaAddMeshGroup identity:nil repeatable:YES];
 }
 
+/**
+ @param type 0 client 1 deamon
+ */
+
 RCT_EXPORT_METHOD(getLog:(id)info result:(RCTResponseSenderBlock)result){
   
   NSDictionary *dict = [info dictionaryObject];
