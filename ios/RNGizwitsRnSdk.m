@@ -285,6 +285,31 @@ RCT_EXPORT_METHOD(addGroup:(id)info result:(RCTResponseSenderBlock)result){
   [self.callBackManager addResult:result type:GizWifiRnResultTypeaAddMeshGroup identity:nil repeatable:YES];
 }
 
+RCT_EXPORT_METHOD(getLog:(id)info result:(RCTResponseSenderBlock)result){
+  
+  NSDictionary *dict = [info dictionaryObject];
+  
+  NSInteger *type = [dict integerValueForKey:@"type" defaultValue:0];
+  NSString *address = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/GizWifiSDK"];
+  NSString *clientAddress = [NSString stringWithFormat:@"%@%@", address, @"/GizSDKLog/Client/GizSDKClientLogFile.sys" ];
+  NSString *deamonAddress = [NSString stringWithFormat:@"%@%@", address, @"/GizSDKLog/Daemon/GizSDKLogFile.sys" ];
+  
+  NSString *logAddress = @"";
+  if (type == 0) {
+    // 获取client日志
+    logAddress =clientAddress;
+  } else {
+    logAddress =deamonAddress;
+  }
+  
+  NSString *str=[NSString stringWithContentsOfFile:logAddress encoding:NSASCIIStringEncoding error:nil];
+  NSMutableDictionary *data = [NSMutableDictionary dictionary];
+  [data setValue:str forKey:@"log"];
+  
+  result(@[[NSNull null], data]);
+}
+
+
 RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)result){
   NSDictionary *dict = [info dictionaryObject];
   NSDictionary *meshDeviceInfo = [dict dictValueForKey:@"meshDeviceInfo" defaultValue: nil];
