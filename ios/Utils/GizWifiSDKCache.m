@@ -158,10 +158,16 @@ for (id <GizWifiSDKDelegate>delegate in self.mDelegates) { \
     GIZ_SDK_DELEGATE_CALLBACK_END()
 }
 
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didAddMeshDevicesToGroup:(NSArray<GizWifiDevice *> *)successMeshDevice result:(NSError *)result{
-    GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:didAddMeshDevicesToGroup:result:))
-    [delegate wifiSDK:wifiSDK didAddMeshDevicesToGroup:successMeshDevice result:result];
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didAddDevicesToGroup:(NSArray<GizWifiDevice *> *)successMeshDevice result:(NSError *)result{
+    GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:didAddDevicesToGroup:result:))
+    [delegate wifiSDK:wifiSDK didAddDevicesToGroup:successMeshDevice result:result];
     GIZ_SDK_DELEGATE_CALLBACK_END()
+}
+
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didReceiveDeviceLog:(NSError *)result mac:(NSString *)mac timestamp:(NSInteger)timestamp logSN:(NSInteger)logSN log:(NSString *)log{
+  GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:didReceiveDeviceLog:mac:timestamp:logSN:log:))
+  [delegate wifiSDK:wifiSDK didReceiveDeviceLog:result mac:mac timestamp:timestamp logSN:logSN log:log];
+  GIZ_SDK_DELEGATE_CALLBACK_END()
 }
 
 @end

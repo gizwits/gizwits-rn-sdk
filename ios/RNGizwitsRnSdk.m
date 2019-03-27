@@ -286,6 +286,18 @@ RCT_EXPORT_METHOD(addGroup:(id)info result:(RCTResponseSenderBlock)result){
 }
 
 /**
+ @param ssid 前缀
+ */
+
+RCT_EXPORT_METHOD(getDeviceLog:(id)info){
+  
+  NSDictionary *dict = [info dictionaryObject];
+  
+  NSString *softAPSSIDPrefix = [dict stringValueForKey:@"softAPSSIDPrefix" defaultValue:@"XPG-GAgent-"];
+  [GizWifiSDK getDeviceLog:softAPSSIDPrefix];
+}
+
+/**
  @param type 0 client 1 deamon
  */
 
@@ -326,7 +338,7 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
 
 #pragma mark - noti
 - (NSArray<NSString *> *)supportedEvents{
-  return @[GizDeviceListNotifications, GizMeshDeviceListNotifications];
+  return @[GizDeviceListNotifications, GizMeshDeviceListNotifications, GizDeviceLogNotifications];
 }
 
 - (void)notiWithType:(GizWifiRnResultType)type result:(NSDictionary *)result{
@@ -338,6 +350,9 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
       break;
     case GizWifiRnResultTypeMeshDeviceListNoti:{
       [self sendEventWithName:GizMeshDeviceListNotifications body:result];
+    }
+    case GizWifiRnResultTypeReceiveDeviceLogNoti:{
+      [self sendEventWithName:GizDeviceLogNotifications body:result];
     }
       break;
     default:
@@ -423,6 +438,21 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
   
 }
 
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didReceiveDeviceLog:(NSError *)result mac:(NSString *)mac timestamp:(NSInteger)timestamp logSN:(NSInteger)logSN log:(NSString *)log{
+    NSDictionary *dataDict = nil;
+    dataDict = [NSMutableDictionary dictionary];
+    NSDictionary *errDict = nil;
+  
+    if (result.code == GIZ_SDK_SUCCESS) {
+      [dataDict setValue:[NSNumber numberWithInt:timestamp] forKey:@"timestamp"];
+      [dataDict setValue:[NSNumber numberWithInt:logSN] forKey:@"logSN"];
+      [dataDict setValue:log forKey:@"log"];
+    } else {
+      errDict = [NSDictionary makeErrorDictFromError:result];
+    }
+    [self notiWithType:GizWifiRnResultTypeReceiveDeviceLogNoti result:errDict ? : dataDict];
+}
+
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didRestoreDeviceFactorySetting:(NSString *)mac result:(NSError *)result{
   NSDictionary *dataDict = nil;
   NSDictionary *errDict = nil;
@@ -436,7 +466,7 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
   [self.callBackManager callBackWithType:GizWifiRnResultTypeRestoreDeviceFactorySetting identity:nil resultDict:dataDict errorDict:errDict];
 }
 
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didAddMeshDevicesToGroup:(NSArray<GizWifiDevice *> *)successMeshDevice result:(NSError *)result{
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didAddDevicesToGroup:(NSArray<GizWifiDevice *> *)successMeshDevice result:(NSError *)result{
   NSArray *dataDict = nil;
   NSDictionary *errDict = nil;
   

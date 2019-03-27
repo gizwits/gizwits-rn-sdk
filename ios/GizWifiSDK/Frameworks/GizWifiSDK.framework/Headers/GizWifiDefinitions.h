@@ -164,6 +164,13 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     /** M2M服务器连接失败 */
     GIZ_SDK_M2M_CONNECTION_INVALID = 8051,
     
+    /** 停止接收设备日志 */
+    GIZ_SDK_GET_DEVICE_LOG_STOPPED = 8061,
+    /** 没有可以获取设备日志的设备 */
+    GIZ_SDK_NO_AVAILABLE_DEVICE_TO_GET_DEVICE_LOG = 8062,
+    /** 正在获取设备日志 */
+    GIZ_SDK_IS_GETTING_DEVICE_LOG = 8063,
+    
     /** HTTP服务不支持此API */
     GIZ_SDK_HTTP_SERVER_NOT_SUPPORT_API = 8095,
     /** http应答格式错误 */
@@ -329,6 +336,33 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     GIZ_SDK_DEVICE_CONTROL_NEED_MESH_GATEWAY = 8257,
     /** 设备mac长度无效 */
     GIZ_SDK_DEVICE_MAC_LENGTH_INVALID = 8258,
+    
+    /** 蓝牙设备连接失败 */
+    GIZ_SDK_BLE_DEVICE_CONNECT_FAILED = 8280,
+    /** 蓝牙功能没打开 */
+    GIZ_SDK_BLE_BLUETOOTH_FUNCTION_NOT_TURNED_ON = 8281,
+    /** 服务角色特征值不能为空 */
+    GIZ_SDK_BLE_PARAM_UUID_INFO_REQUIRED = 8282,
+    /** 通信密钥LTK不能为空 */
+    GIZ_SDK_BLE_PARAM_LTK_REQUIRED = 8283,
+    /** 没有找到蓝牙设备对应的外设 */
+    GIZ_SDK_BLE_UNFIND_DEVICE_PERIPHERAL = 8284,
+    /** 登录蓝牙设备失败 */
+    GIZ_SDK_BLE_LOGIN_FAILED = 8285,
+    /** 搜索蓝牙设备操作已经停止 */
+    GIZ_SDK_BLE_SEARCH_DEVICE_STOPPED = 8286,
+    /** 查找不到设备的服务和角色特征值 */
+    GIZ_SDK_BLE_CANNOT_FIND_DEVICE_SERVER_OR_CHARACTERISTICS = 8287,
+    /** 当前用户的组网名称或密码不能为空 */
+    GIZ_SDK_BLE_MESHNAME_AND_PASSWORD_CANNOT_BE_EMPTY = 8288,
+    /** 添加分组失败 */
+    GIZ_SDK_BLE_ADD_DEVICE_TO_GROUND_FAILED = 8289,
+    /** 当前有设备正在做切网，分组或者恢复出厂设置，不能同时再进行相关操作 */
+    GIZ_SDK_BLE_HAS_CONFLICT_OPERATION_IS_ONGOING = 8290,
+    /** 当前用户的组网名称或密码无效 */
+    GIZ_SDK_BLE_CURRENT_USER_MESHNAME_OR_PASSWORD_INVALID = 8291,
+    /** 设备处于断开连接状态 */
+    GIZ_SDK_BLE_DEVICE_IS_DISCONNECTED = 8292,
     
     /** SDK 未初始化 */
     GIZ_SDK_NOT_INITIALIZED = 8300,
