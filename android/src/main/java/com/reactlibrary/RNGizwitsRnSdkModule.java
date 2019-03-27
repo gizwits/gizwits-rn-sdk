@@ -127,6 +127,26 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             }
         }
 
+         @Override
+        public void didReceiveDeviceLog(GizWifiErrorCode result, String mac, int timestamp, int logSN, String log) {
+            super.didReceiveDeviceLog(result, mac, timestamp, logSN, log);
+            try {
+                JSONObject result_obj = new JSONObject();
+                result_obj.put("errorCode", result.getResult());
+                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                    result_obj.put("mac", mac);
+                    result_obj.put("timestamp", timestamp);
+                    result_obj.put("logSN", logSN);
+                    result_obj.put("log", log);
+                } else {
+                    result_obj.put("msg", result.name());
+                }
+                callbackDeviceLogNofitication(result_obj);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         @Override
         public void didDiscovered(GizWifiErrorCode result, List<GizWifiDevice> deviceList) {
             /*
@@ -905,6 +925,13 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         GizWifiSDK.sharedInstance().searchMeshDevice(meshName);
     }
 
+     @ReactMethod
+    public void getDeviceLog(ReadableMap readableMap) {
+        JSONObject jsonObject = readable2JsonObject(readableMap);
+        String softApSSID = jsonObject.optString("softAPSSIDPrefix");
+        GizWifiSDK.sharedInstance().getDeviceLog(softApSSID);
+    }
+
     @ReactMethod
     public void disableLan(ReadableMap args) {
         boolean isDisabled = args.getBoolean("isDisableLan");
@@ -926,7 +953,13 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("GizMeshDeviceListNotifications", writableMap);
     }
-
+    public void callbackDeviceLogNofitication(JSONObject params) {
+        Log.e("meshDevice", params.toString());
+        WritableMap writableMap = jsonObject2WriteableMap(params);
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("GizDeviceLogNotifications", writableMap);
+    }
 
     public JSONObject readable2JsonObject(ReadableMap readableMap) {
         try {
