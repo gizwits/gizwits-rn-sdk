@@ -132,13 +132,14 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             super.didReceiveDeviceLog(result, mac, timestamp, logSN, log);
             try {
                 JSONObject result_obj = new JSONObject();
-                result_obj.put("errorCode", result.getResult());
+                
                 if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
                     result_obj.put("mac", mac);
                     result_obj.put("timestamp", timestamp);
                     result_obj.put("logSN", logSN);
                     result_obj.put("log", log);
                 } else {
+                    result_obj.put("errorCode", result.getResult());
                     result_obj.put("msg", result.name());
                 }
                 callbackDeviceLogNofitication(result_obj);
