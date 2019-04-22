@@ -3,6 +3,7 @@ package com.reactlibrary;
 
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
@@ -57,6 +58,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     private Callback addGroupCallback;
     private Callback changeMeshNameCallback;
     private Callback discoverMeshDevicesCallback;
+    private Callback unbindDeviceCallback;
     private List<Callback> setOnboardingCallback=new ArrayList<>();
     private List<Callback> bindRemoteDeviceCallback = new ArrayList<>();
 
@@ -225,6 +227,25 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     SDKLog.d("notifyModuleContext is null");
                 }
 
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        public void didUnbindDevice(GizWifiErrorCode result, String did) {
+            super.didUnbindDevice(result, did);
+            try {
+                JSONObject jsonResult = new JSONObject();
+                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS && !TextUtils.isEmpty(did)) {
+                    jsonResult.put("did", did);
+                    sendResultEvent(unbindDeviceCallback, jsonResult, null);
+                } else {
+                    jsonResult.put("errorCode", result.getResult());
+                    jsonResult.put("msg", result.name());
+                    sendResultEvent(unbindDeviceCallback, null, jsonResult);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -780,8 +801,24 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         String mac = args.optString("mac");
         String productKey = args.optString("productKey");
         String productSecret = args.optString("productSecret");
+        boolean isOwner = args.optBoolean("beOwner");
         bindRemoteDeviceCallback.add(0, callbackContext);
-        GizWifiSDK.sharedInstance().bindRemoteDevice(uid, token, mac, productKey, productSecret);
+        GizWifiSDK.sharedInstance().bindRemoteDevice(uid, token, mac, productKey, productSecret,isOwner);
+    }
+
+      @ReactMethod
+    public void unbindDevice(ReadableMap readableMap, Callback callbackContext) {
+        JSONObject args = readable2JsonObject(readableMap);
+        if (callbackContext == null) {
+            SDKLog.d("callbackContext is null");
+            return;
+        }
+
+        String uid = args.optString("uid");
+        String token = args.optString("token");
+        String did = args.optString("did");
+        unbindDeviceCallback = callbackContext;
+        GizWifiSDK.sharedInstance().unbindDevice(uid, token, did);
     }
 
     @ReactMethod
