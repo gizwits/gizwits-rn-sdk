@@ -25,6 +25,7 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
   GizWifiRnResultTypeSetDeviceOnboardingDeploy,
   GizWifiRnResultTypeBindRemoteDevice,
   GizWifiRnResultTypeReceiveDeviceLogNoti,
+  GizWifiRnResultTypeUnBindDevice,
   //device
   GizWifiRnResultTypeSetSubscribe,
   GizWifiRnResultTypeDeviceStatusNoti,
