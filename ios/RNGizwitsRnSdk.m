@@ -135,6 +135,7 @@ RCT_EXPORT_METHOD(bindRemoteDevice:(id)info result:(RCTResponseSenderBlock)resul
   NSString *mac = [dict stringValueForKey:@"mac" defaultValue:@""];
   NSString *productKey = [dict stringValueForKey:@"productKey" defaultValue:@""];
   NSString *productSecret = [dict stringValueForKey:@"productSecret" defaultValue:@""];
+  NSString *beOwner = [dict boolValueForKey:@"beOwner" defaultValue:false];
   
   if (uid.length == 0 || token.length == 0 || mac.length == 0 || productKey.length == 0 ||
       productSecret.length == 0) {
@@ -142,7 +143,7 @@ RCT_EXPORT_METHOD(bindRemoteDevice:(id)info result:(RCTResponseSenderBlock)resul
     return;
   }
   [self.callBackManager addResult:result type:GizWifiRnResultTypeBindRemoteDevice identity:nil repeatable:YES];
-  [[GizWifiSDK sharedInstance] bindRemoteDevice:uid token:token mac:mac productKey:productKey productSecret:productSecret];
+  [[GizWifiSDK sharedInstance] bindRemoteDevice:uid token:token mac:mac productKey:productKey productSecret:productSecret beOwner:beOwner];
 }
 
 RCT_EXPORT_METHOD(stopDeviceOnboarding){
