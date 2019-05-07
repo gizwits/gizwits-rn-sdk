@@ -164,13 +164,6 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     /** M2M服务器连接失败 */
     GIZ_SDK_M2M_CONNECTION_INVALID = 8051,
     
-    /** 停止接收设备日志 */
-    GIZ_SDK_GET_DEVICE_LOG_STOPPED = 8061,
-    /** 没有可以获取设备日志的设备 */
-    GIZ_SDK_NO_AVAILABLE_DEVICE_TO_GET_DEVICE_LOG = 8062,
-    /** 正在获取设备日志 */
-    GIZ_SDK_IS_GETTING_DEVICE_LOG = 8063,
-    
     /** HTTP服务不支持此API */
     GIZ_SDK_HTTP_SERVER_NOT_SUPPORT_API = 8095,
     /** http应答格式错误 */
@@ -350,7 +343,7 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     /** 登录蓝牙设备失败 */
     GIZ_SDK_BLE_LOGIN_FAILED = 8285,
     /** 搜索蓝牙设备操作已经停止 */
-    GIZ_SDK_BLE_SEARCH_DEVICE_STOPPED = 8286,
+    GIZ_SDK_BLE_SEARCH_DEVICE_STOPED = 8286,
     /** 查找不到设备的服务和角色特征值 */
     GIZ_SDK_BLE_CANNOT_FIND_DEVICE_SERVER_OR_CHARACTERISTICS = 8287,
     /** 当前用户的组网名称或密码不能为空 */

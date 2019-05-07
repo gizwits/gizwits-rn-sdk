@@ -129,26 +129,26 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             }
         }
 
-         @Override
-        public void didReceiveDeviceLog(GizWifiErrorCode result, String mac, int timestamp, int logSN, String log) {
-            super.didReceiveDeviceLog(result, mac, timestamp, logSN, log);
-            try {
-                JSONObject result_obj = new JSONObject();
-                
-                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
-                    result_obj.put("mac", mac);
-                    result_obj.put("timestamp", timestamp);
-                    result_obj.put("logSN", logSN);
-                    result_obj.put("log", log);
-                } else {
-                    result_obj.put("errorCode", result.getResult());
-                    result_obj.put("msg", result.name());
-                }
-                callbackDeviceLogNofitication(result_obj);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+//        @Override
+//        public void didReceiveDeviceLog(GizWifiErrorCode result, String mac, int timestamp, int logSN, String log) {
+//            super.didReceiveDeviceLog(result, mac, timestamp, logSN, log);
+//            try {
+//                JSONObject result_obj = new JSONObject();
+//
+//                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+//                    result_obj.put("mac", mac);
+//                    result_obj.put("timestamp", timestamp);
+//                    result_obj.put("logSN", logSN);
+//                    result_obj.put("log", log);
+//                } else {
+//                    result_obj.put("errorCode", result.getResult());
+//                    result_obj.put("msg", result.name());
+//                }
+//                callbackDeviceLogNofitication(result_obj);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         @Override
         public void didDiscovered(GizWifiErrorCode result, List<GizWifiDevice> deviceList) {
@@ -357,94 +357,94 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
 
         }
 
-        @Override
-        public void didAddDevicesToGroup(GizWifiErrorCode result, List<ConcurrentHashMap<String, String>> mesDevice) {
-            super.didAddDevicesToGroup(result, mesDevice);
-            JSONObject jsonResult = new JSONObject();
-            try {
-                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
-                    JSONArray jsonArray = new JSONArray();
-                    for (int i = 0; i < mesDevice.size(); i++) {
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("mac", mesDevice.get(i).get("mac"));
-                        jsonObject.put("meshID", mesDevice.get(i).get("meshID"));
-                        jsonArray.put(jsonObject);
-                    }
-                    jsonResult.put("meshDevices", jsonArray);
-                    Log.e("meshAddCallBack",jsonArray.toString());
-                    sendResultEvent(addGroupCallback, jsonResult, null);
-                } else {
-                    JSONObject error = new JSONObject();
-                    error.put("errorCode", result.getResult());
-                    error.put("msg", result.name());
-                    sendResultEvent(addGroupCallback, null, error);
-                }
+//        @Override
+//        public void didAddDevicesToGroup(GizWifiErrorCode result, List<ConcurrentHashMap<String, String>> mesDevice) {
+//            super.didAddDevicesToGroup(result, mesDevice);
+//            JSONObject jsonResult = new JSONObject();
+//            try {
+//                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+//                    JSONArray jsonArray = new JSONArray();
+//                    for (int i = 0; i < mesDevice.size(); i++) {
+//                        JSONObject jsonObject = new JSONObject();
+//                        jsonObject.put("mac", mesDevice.get(i).get("mac"));
+//                        jsonObject.put("meshID", mesDevice.get(i).get("meshID"));
+//                        jsonArray.put(jsonObject);
+//                    }
+//                    jsonResult.put("meshDevices", jsonArray);
+//                    Log.e("meshAddCallBack",jsonArray.toString());
+//                    sendResultEvent(addGroupCallback, jsonResult, null);
+//                } else {
+//                    JSONObject error = new JSONObject();
+//                    error.put("errorCode", result.getResult());
+//                    error.put("msg", result.name());
+//                    sendResultEvent(addGroupCallback, null, error);
+//                }
+//
+//            } catch (JSONException e) {
+//
+//            }
+//        }
 
-            } catch (JSONException e) {
+//        @Override
+//        public void didChangeDeviceMesh(GizWifiErrorCode result, ConcurrentHashMap<String, String> mesDevice) {
+//            super.didChangeDeviceMesh(result, mesDevice);
+//            JSONObject jsonResult = new JSONObject();
+//            try {
+//                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+//                    JSONObject jsonObject = new JSONObject();
+//                    jsonObject.put("mac", mesDevice.get("mac"));
+//                    jsonObject.put("meshID", mesDevice.get("meshID"));
+//                    jsonResult.put("meshDevice", jsonObject);
+//                    sendResultEvent(changeMeshNameCallback, jsonResult, null);
+//                } else {
+//                    JSONObject error = new JSONObject();
+//                    error.put("errorCode", result.getResult());
+//                    error.put("msg", result.name());
+//                    sendResultEvent(changeMeshNameCallback, null, error);
+//                }
+//
+//            } catch (JSONException e) {
+//
+//            }
+//        }
 
-            }
-        }
-
-        @Override
-        public void didChangeDeviceMesh(GizWifiErrorCode result, ConcurrentHashMap<String, String> mesDevice) {
-            super.didChangeDeviceMesh(result, mesDevice);
-            JSONObject jsonResult = new JSONObject();
-            try {
-                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("mac", mesDevice.get("mac"));
-                    jsonObject.put("meshID", mesDevice.get("meshID"));
-                    jsonResult.put("meshDevice", jsonObject);
-                    sendResultEvent(changeMeshNameCallback, jsonResult, null);
-                } else {
-                    JSONObject error = new JSONObject();
-                    error.put("errorCode", result.getResult());
-                    error.put("msg", result.name());
-                    sendResultEvent(changeMeshNameCallback, null, error);
-                }
-
-            } catch (JSONException e) {
-
-            }
-        }
-
-        @Override
-        public void didDiscoveredMeshDevices(GizWifiErrorCode result, List<ConcurrentHashMap<String, String>> mesDeviceList) {
-            super.didDiscoveredMeshDevices(result, mesDeviceList);
-            JSONObject jsonResult = new JSONObject();
-            try {
-                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
-                    JSONArray jsonArray = new JSONArray();
-
-                    for (int i = 0; i < mesDeviceList.size(); i++) {
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("mac", mesDeviceList.get(i).get("mac"));
-                        jsonObject.put("meshID", mesDeviceList.get(i).get("meshID"));
-                        String avData = mesDeviceList.get(i).get("advData");
-                        String byteData = "";
-                        for(int j=0;j<avData.length()/2;j++)
-                        {
-                            if((j>=21&&j<=26)||(j>=31&&j<=57))
-                                byteData = byteData+avData.substring(j*2,(j+1)*2);
-                        }
-                        jsonObject.put("advData",byteData.toLowerCase());
-                        jsonArray.put(jsonObject);
-                        Log.e("meshDevices",byteData+"///"+mesDeviceList.get(i).get("advData"));
-                    }
-                    jsonResult.put("meshDevices", jsonArray);
-                    callbackMeshDeviceNofitication(jsonResult);
-//                    sendResultEvent(cbDicoverMesh, jsonResult, null, false);
-                } else {
-                    JSONObject error = new JSONObject();
-                    error.put("errorCode", result.getResult());
-                    error.put("msg", result.name());
-                    sendResultEvent(discoverMeshDevicesCallback,null,error);
-                }
-            } catch (JSONException e) {
-
-            }
-
-        }
+//        @Override
+//        public void didDiscoveredMeshDevices(GizWifiErrorCode result, List<ConcurrentHashMap<String, String>> mesDeviceList) {
+//            super.didDiscoveredMeshDevices(result, mesDeviceList);
+//            JSONObject jsonResult = new JSONObject();
+//            try {
+//                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+//                    JSONArray jsonArray = new JSONArray();
+//
+//                    for (int i = 0; i < mesDeviceList.size(); i++) {
+//                        JSONObject jsonObject = new JSONObject();
+//                        jsonObject.put("mac", mesDeviceList.get(i).get("mac"));
+//                        jsonObject.put("meshID", mesDeviceList.get(i).get("meshID"));
+//                        String avData = mesDeviceList.get(i).get("advData");
+//                        String byteData = "";
+//                        for(int j=0;j<avData.length()/2;j++)
+//                        {
+//                            if((j>=21&&j<=26)||(j>=31&&j<=57))
+//                                byteData = byteData+avData.substring(j*2,(j+1)*2);
+//                        }
+//                        jsonObject.put("advData",byteData.toLowerCase());
+//                        jsonArray.put(jsonObject);
+//                        Log.e("meshDevices",byteData+"///"+mesDeviceList.get(i).get("advData"));
+//                    }
+//                    jsonResult.put("meshDevices", jsonArray);
+//                    callbackMeshDeviceNofitication(jsonResult);
+////                    sendResultEvent(cbDicoverMesh, jsonResult, null, false);
+//                } else {
+//                    JSONObject error = new JSONObject();
+//                    error.put("errorCode", result.getResult());
+//                    error.put("msg", result.name());
+//                    sendResultEvent(discoverMeshDevicesCallback,null,error);
+//                }
+//            } catch (JSONException e) {
+//
+//            }
+//
+//        }
 
         @Override
         public void didBindDevice(GizWifiErrorCode result, String did) {
@@ -638,7 +638,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
 
     }
 
-     @ReactMethod
+    @ReactMethod
     public void getGizLog(ReadableMap readableMap, Callback callback) {
         JSONObject json = new JSONObject();
         JSONObject args = readable2JsonObject(readableMap);
@@ -806,7 +806,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         GizWifiSDK.sharedInstance().bindRemoteDevice(uid, token, mac, productKey, productSecret,isOwner);
     }
 
-      @ReactMethod
+    @ReactMethod
     public void unbindDevice(ReadableMap readableMap, Callback callbackContext) {
         JSONObject args = readable2JsonObject(readableMap);
         if (callbackContext == null) {
@@ -859,18 +859,18 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void addGroup(ReadableMap readableMap, Callback callback) {
-        JSONObject args = readable2JsonObject(readableMap);
-        int groupID = args.optInt("groupID");
-        addGroupCallback = callback;
-        JSONArray jsonArray = args.optJSONArray("meshDevices");
-        List<GizWifiDevice> deviceInfos = new ArrayList<GizWifiDevice>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.optJSONObject(i);
-            GizWifiDevice gizWifiDevice = RNGizwitsDeviceCache.getInstance().findDeviceByMac(jsonObject.optString("mac"));
-            if (gizWifiDevice != null)
-                deviceInfos.add(gizWifiDevice);
-        }
-        GizWifiSDK.sharedInstance().addGroup(groupID, deviceInfos);
+//        JSONObject args = readable2JsonObject(readableMap);
+//        int groupID = args.optInt("groupID");
+//        addGroupCallback = callback;
+//        JSONArray jsonArray = args.optJSONArray("meshDevices");
+//        List<GizWifiDevice> deviceInfos = new ArrayList<GizWifiDevice>();
+//        for (int i = 0; i < jsonArray.length(); i++) {
+//            JSONObject jsonObject = jsonArray.optJSONObject(i);
+//            GizWifiDevice gizWifiDevice = RNGizwitsDeviceCache.getInstance().findDeviceByMac(jsonObject.optString("mac"));
+//            if (gizWifiDevice != null)
+//                deviceInfos.add(gizWifiDevice);
+//        }
+//        GizWifiSDK.sharedInstance().addGroup(groupID, deviceInfos);
     }
 
     @ReactMethod
@@ -898,76 +898,76 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void changeDeviceMesh(ReadableMap readableMap, Callback callback) {
-        JSONObject jsonObject = readable2JsonObject(readableMap);
-        JSONObject meshDeviceInfo = jsonObject.optJSONObject("meshDeviceInfo");
-        Iterator<String> it = meshDeviceInfo.keys();
-        ConcurrentHashMap<String, String> deviceInfo = new ConcurrentHashMap<String, String>();
-        while (it.hasNext()) {
-            String key = (String) it.next();
-            deviceInfo.put(key, meshDeviceInfo.optString(key));
-        }
-        JSONObject currentMeshInfo = jsonObject.optJSONObject("currentMesh");
-        Iterator<String> it1 = currentMeshInfo.keys();
-        ConcurrentHashMap<String, String> currentMesh = new ConcurrentHashMap<String, String>();
-        while (it1.hasNext()) {
-            String key = (String) it1.next();
-            currentMesh.put(key, currentMeshInfo.optString(key));
-        }
-        int newMeshID = jsonObject.optInt("newMeshID");
-        changeMeshNameCallback = callback;
-        GizWifiSDK.sharedInstance().changeDeviceMesh(deviceInfo, currentMesh, newMeshID);
+//        JSONObject jsonObject = readable2JsonObject(readableMap);
+//        JSONObject meshDeviceInfo = jsonObject.optJSONObject("meshDeviceInfo");
+//        Iterator<String> it = meshDeviceInfo.keys();
+//        ConcurrentHashMap<String, String> deviceInfo = new ConcurrentHashMap<String, String>();
+//        while (it.hasNext()) {
+//            String key = (String) it.next();
+//            deviceInfo.put(key, meshDeviceInfo.optString(key));
+//        }
+//        JSONObject currentMeshInfo = jsonObject.optJSONObject("currentMesh");
+//        Iterator<String> it1 = currentMeshInfo.keys();
+//        ConcurrentHashMap<String, String> currentMesh = new ConcurrentHashMap<String, String>();
+//        while (it1.hasNext()) {
+//            String key = (String) it1.next();
+//            currentMesh.put(key, currentMeshInfo.optString(key));
+//        }
+//        int newMeshID = jsonObject.optInt("newMeshID");
+//        changeMeshNameCallback = callback;
+//        GizWifiSDK.sharedInstance().changeDeviceMesh(deviceInfo, currentMesh, newMeshID);
     }
 
     @ReactMethod
     public void setUserMeseName(ReadableMap readableMap, Callback callback) {
-        JSONObject jsonObject = readable2JsonObject(readableMap);
-        Log.e("setUserMeshName",jsonObject.toString());
-        String meshName = jsonObject.optString("meshName");
-        String password = jsonObject.optString("password");
-        JSONObject uuidInfo = jsonObject.optJSONObject("uuidInfo");
-        String meshLTKstr = jsonObject.optString("meshLTK");
-        if (meshName == null || password == null || uuidInfo == null || meshLTKstr == null) {
-            try {
-                JSONObject result = new JSONObject();
-                result.put("errorCode",
-                        GizWifiErrorCode.GIZ_SDK_PARAM_INVALID.getResult());
-                result.put("msg", GizWifiErrorCode.GIZ_SDK_PARAM_INVALID.name());
-                sendResultEvent(callback,null,result);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return;
-        }
-        Iterator<String> it = uuidInfo.keys();
-        ConcurrentHashMap<String, String> uuid = new ConcurrentHashMap<String, String>();
-        while (it.hasNext()) {
-            String key = (String) it.next();
-            uuid.put(key, uuidInfo.optString(key));
-        }
-        if (meshLTKstr == null || meshLTKstr.length() % 2 != 0)
-            return;
-        byte[] meshLTK = new byte[meshLTKstr.length() / 2];
-        for (int i = 0; i < meshLTK.length; i++) {
-            meshLTK[i] = (byte) Integer.parseInt(meshLTKstr.substring(i * 2, (i + 1) * 2), 16);
-        }
-        int meshVerdor = jsonObject.optInt("meshVerdor");
-        GizWifiSDK.sharedInstance().setUserMeshName(meshName, password, uuid, meshLTK, meshVerdor == 1 ? GizMeshVendor.GizMeshTelink : GizMeshVendor.GizMeshMayi);
-        callback.invoke(null, null);
+//        JSONObject jsonObject = readable2JsonObject(readableMap);
+//        Log.e("setUserMeshName",jsonObject.toString());
+//        String meshName = jsonObject.optString("meshName");
+//        String password = jsonObject.optString("password");
+//        JSONObject uuidInfo = jsonObject.optJSONObject("uuidInfo");
+//        String meshLTKstr = jsonObject.optString("meshLTK");
+//        if (meshName == null || password == null || uuidInfo == null || meshLTKstr == null) {
+//            try {
+//                JSONObject result = new JSONObject();
+//                result.put("errorCode",
+//                        GizWifiErrorCode.GIZ_SDK_PARAM_INVALID.getResult());
+//                result.put("msg", GizWifiErrorCode.GIZ_SDK_PARAM_INVALID.name());
+//                sendResultEvent(callback,null,result);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            return;
+//        }
+//        Iterator<String> it = uuidInfo.keys();
+//        ConcurrentHashMap<String, String> uuid = new ConcurrentHashMap<String, String>();
+//        while (it.hasNext()) {
+//            String key = (String) it.next();
+//            uuid.put(key, uuidInfo.optString(key));
+//        }
+//        if (meshLTKstr == null || meshLTKstr.length() % 2 != 0)
+//            return;
+//        byte[] meshLTK = new byte[meshLTKstr.length() / 2];
+//        for (int i = 0; i < meshLTK.length; i++) {
+//            meshLTK[i] = (byte) Integer.parseInt(meshLTKstr.substring(i * 2, (i + 1) * 2), 16);
+//        }
+//        int meshVerdor = jsonObject.optInt("meshVerdor");
+//        GizWifiSDK.sharedInstance().setUserMeshName(meshName, password, uuid, meshLTK, meshVerdor == 1 ? GizMeshVendor.GizMeshTelink : GizMeshVendor.GizMeshMayi);
+//        callback.invoke(null, null);
     }
 
     @ReactMethod
     public void searchMeshDevice(ReadableMap readableMap, Callback callback) {
-        JSONObject jsonObject = readable2JsonObject(readableMap);
-        String meshName = jsonObject.optString("meshName");
-        discoverMeshDevicesCallback = callback;
-        GizWifiSDK.sharedInstance().searchMeshDevice(meshName);
+//        JSONObject jsonObject = readable2JsonObject(readableMap);
+//        String meshName = jsonObject.optString("meshName");
+//        discoverMeshDevicesCallback = callback;
+//        GizWifiSDK.sharedInstance().searchMeshDevice(meshName);
     }
 
-     @ReactMethod
+    @ReactMethod
     public void getDeviceLog(ReadableMap readableMap) {
-        JSONObject jsonObject = readable2JsonObject(readableMap);
-        String softApSSID = jsonObject.optString("softAPSSIDPrefix");
-        GizWifiSDK.sharedInstance().getDeviceLog(softApSSID);
+//        JSONObject jsonObject = readable2JsonObject(readableMap);
+//        String softApSSID = jsonObject.optString("softAPSSIDPrefix");
+//        GizWifiSDK.sharedInstance().getDeviceLog(softApSSID);
     }
 
     @ReactMethod
