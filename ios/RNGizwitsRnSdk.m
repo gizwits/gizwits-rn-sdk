@@ -274,6 +274,27 @@ RCT_EXPORT_METHOD(deviceSafetyUnbind:(id)info result:(RCTResponseSenderBlock)res
   [self.callBackManager addResult:result type:GizWifiRnResultTypeDeviceSafetyUnbind identity:nil repeatable:NO];
 }
 
+
+RCT_EXPORT_METHOD(channelIDBind:(id)info result:(RCTResponseSenderBlock)result){
+    NSDictionary *dict = [info dictionaryObject];
+    if (!dict) {
+        return;
+    }
+    NSString *token = [dict stringValueForKey:@"token" defaultValue:@""];
+    NSString *channelID = [dict stringValueForKey:@"channelId" defaultValue:@""];
+    BOOL isBind = [dict boolValueForKey:@"isBind" defaultValue:YES];
+    if(isBind){
+        NSString *alias = [dict stringValueForKey:@"alias" defaultValue:@""];
+        GizPushType pushType = getPushTypeFromInteger([dict integerValueForKey:@"pushType" defaultValue:0]);
+        [[GizWifiSDK sharedInstance] channelIDBind:token channelID:channelID alias:alias pushType:pushType];
+    }else{
+        [[GizWifiSDK sharedInstance] channelIDUnBind:token channelID:channelID];
+    }
+    
+    [self.callBackManager addResult:result type:GizWifiRnResultTypeBindChannel identity:nil repeatable:NO];
+
+}
+
 RCT_EXPORT_METHOD(searchMeshDevice:(id)info result:(RCTResponseSenderBlock)result){
 //  NSDictionary *dict = [info dictionaryObject];
 //  if (!dict) {
@@ -566,6 +587,40 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
   }
   
   [self.callBackManager callBackWithType:GizWifiRnResultTypeSetDeviceOnboardingDeploy identity:nil resultDict:dataDict errorDict:errDict];
+}
+
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didChannelIDBind:(NSError *)result
+{
+    NSDictionary *dataDict = nil;
+    NSDictionary *errDict = nil;
+    
+    if (result.code == GIZ_SDK_SUCCESS) {
+        dataDict = [NSMutableDictionary dictionary];
+        [dataDict setValue:0 forKey:@"errorCode"];
+        [dataDict setValue:@"GIZ_SDK_SUCCESS" forKey:@"msg"];
+    } else{
+        errDict = [NSDictionary makeErrorDictFromError:result];
+    }
+    
+    [self.callBackManager callBackWithType:GizWifiRnResultTypeBindChannel identity:nil resultDict:dataDict errorDict:errDict];
+    
+}
+
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didChannelIDUnBind:(NSError *)result
+{
+    NSDictionary *dataDict = nil;
+    NSDictionary *errDict = nil;
+    
+    if (result.code == GIZ_SDK_SUCCESS) {
+        dataDict = [NSMutableDictionary dictionary];
+        [dataDict setValue:0 forKey:@"errorCode"];
+        [dataDict setValue:@"GIZ_SDK_SUCCESS" forKey:@"msg"];
+    } else{
+        errDict = [NSDictionary makeErrorDictFromError:result];
+    }
+    
+    [self.callBackManager callBackWithType:GizWifiRnResultTypeBindChannel identity:nil resultDict:dataDict errorDict:errDict];
+    
 }
 
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didBindDevice:(NSError *)result did:(NSString *)did{

@@ -158,6 +158,20 @@ for (id <GizWifiSDKDelegate>delegate in self.mDelegates) { \
     GIZ_SDK_DELEGATE_CALLBACK_END()
 }
 
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didChannelIDUnBind:(NSError *)result
+{
+    GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:didChannelIDUnBind:))
+    [delegate wifiSDK:wifiSDK didChannelIDUnBind:result];
+    GIZ_SDK_DELEGATE_CALLBACK_END()
+}
+
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didChannelIDBind:(NSError *)result
+{
+    GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:didChannelIDBind:))
+    [delegate wifiSDK:wifiSDK didChannelIDBind:result];
+    GIZ_SDK_DELEGATE_CALLBACK_END()
+}
+
 //- (void)wifiSDK:(GizWifiSDK *)wifiSDK didAddDevicesToGroup:(NSArray<GizWifiDevice *> *)successMeshDevice result:(NSError *)result{
 //    GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:didAddDevicesToGroup:result:))
 //    [delegate wifiSDK:wifiSDK didAddDevicesToGroup:successMeshDevice result:result];

@@ -26,12 +26,14 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
   GizWifiRnResultTypeBindRemoteDevice,
   GizWifiRnResultTypeReceiveDeviceLogNoti,
   GizWifiRnResultTypeUnBindDevice,
+  GizWifiRnResultTypeBindChannel,
   //device
   GizWifiRnResultTypeSetSubscribe,
   GizWifiRnResultTypeDeviceStatusNoti,
   GizWifiRnResultTypeMeshDeviceListNoti,
   GizWifiRnResultTypeGetDeviceStatus,
   GizWifiRnResultTypeWrite,
+
 };
 
 @interface GizWifiRnCallBackManager : NSObject

@@ -24,6 +24,7 @@ import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizAdapterType;
 import com.gizwits.gizwifisdk.enumration.GizEventType;
 import com.gizwits.gizwifisdk.enumration.GizMeshVendor;
+import com.gizwits.gizwifisdk.enumration.GizPushType;
 import com.gizwits.gizwifisdk.enumration.GizWifiConfigureMode;
 import com.gizwits.gizwifisdk.enumration.GizWifiDeviceNetStatus;
 import com.gizwits.gizwifisdk.enumration.GizWifiDeviceType;
@@ -59,6 +60,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     private Callback changeMeshNameCallback;
     private Callback discoverMeshDevicesCallback;
     private Callback unbindDeviceCallback;
+    private Callback cbChannelIDBindCallback;
     private List<Callback> setOnboardingCallback=new ArrayList<>();
     private List<Callback> bindRemoteDeviceCallback = new ArrayList<>();
 
@@ -250,6 +252,42 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                 e.printStackTrace();
             }
 
+        }
+
+        @Override
+        public void didChannelIDBind(GizWifiErrorCode result) {
+            super.didChannelIDBind(result);
+            try {
+                JSONObject jsonResult = new JSONObject();
+                jsonResult.put("errorCode", result.getResult());
+                jsonResult.put("msg", result.name());
+
+                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                    sendResultEvent(cbChannelIDBindCallback, jsonResult, null);
+                } else {
+                    sendResultEvent(cbChannelIDBindCallback, null,jsonResult);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void didChannelIDUnBind(GizWifiErrorCode result) {
+            super.didChannelIDUnBind(result);
+            try {
+                JSONObject jsonResult = new JSONObject();
+                jsonResult.put("errorCode", result.getResult());
+                jsonResult.put("msg", result.name());
+
+                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                    sendResultEvent(cbChannelIDBindCallback, jsonResult, null);
+                } else {
+                    sendResultEvent(cbChannelIDBindCallback, null,jsonResult);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -974,6 +1012,37 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     public void disableLan(ReadableMap args) {
         boolean isDisabled = args.getBoolean("isDisableLan");
         GizWifiSDK.sharedInstance().disableLAN(isDisabled);
+    }
+
+    public void channelIDBind(ReadableMap readableMap, Callback callback)
+    {
+        JSONObject args = readable2JsonObject(readableMap);
+        String token = args.optString("token");
+        String channelID = args.optString("channelId");
+        boolean isBind = args.optBoolean("isBind");
+        if(isBind) {
+            int pushType = args.optInt("pushType");
+            String alias = args.optString("alias");
+            GizPushType gizPushType = GizPushType.GizPushJiGuang;
+            switch (pushType) {
+                case 0:
+                    gizPushType = GizPushType.GizPushBaiDu;
+                    break;
+                case 1:
+                    gizPushType = GizPushType.GizPushJiGuang;
+                    break;
+                case 2:
+                    gizPushType = GizPushType.GizPushAWS;
+                    break;
+                case 3:
+                    gizPushType = GizPushType.GizPushXinGe;
+                    break;
+            }
+            cbChannelIDBindCallback = callback;
+            GizWifiSDK.sharedInstance().channelIDBind(token, channelID, alias, gizPushType);
+        }else{
+            GizWifiSDK.sharedInstance().channelIDUnBind(token,channelID);
+        }
     }
 
 
