@@ -176,7 +176,7 @@ GizPushType getPushTypeFromInteger(NSInteger integerValue)
         case 2:
             return GizPushAWS;
         case 3:
-            return GizPushXinGe
+            return GizPushXinGe;
         default:
             break;
     }
