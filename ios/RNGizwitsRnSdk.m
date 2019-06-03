@@ -613,7 +613,7 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
     
     if (result.code == GIZ_SDK_SUCCESS) {
         dataDict = [NSMutableDictionary dictionary];
-        [dataDict setValue:0 forKey:@"errorCode"];
+        [dataDict setValue:@(0) forKey:@"errorCode"];
         [dataDict setValue:@"GIZ_SDK_SUCCESS" forKey:@"msg"];
     } else{
         errDict = [NSDictionary makeErrorDictFromError:result];
