@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.gizwitssdk;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
