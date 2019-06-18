@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.gizwitssdk;
 
 import com.gizwits.gizwifisdk.api.GizWifiCentralControlDevice;
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
