@@ -1,5 +1,5 @@
 
-package com.reactlibrary;
+package com.gizwitssdk;
 
 import android.os.Environment;
 import android.text.TextUtils;
