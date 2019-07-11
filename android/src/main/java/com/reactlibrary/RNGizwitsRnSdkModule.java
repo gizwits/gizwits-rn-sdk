@@ -2,7 +2,6 @@
 package com.reactlibrary;
 
 import android.os.Environment;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
