@@ -44,9 +44,7 @@ dependencies {
     compile files('libs/easylink2.0.jar')
     compile files('libs/easylinkv3-0.2.6.jar')
     compile files('libs/libForEElink.jar')
-    compile files('libs/LSFSK_1.0.jar')
     compile files('libs/ltlink2.jar')
     compile files('libs/OneShotConfig.jar')
-    compile files('libs/simpleconfigwizardlib.jar')
 
 }
