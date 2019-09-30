@@ -1012,6 +1012,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         GizWifiSDK.sharedInstance().disableLAN(isDisabled);
     }
 
+    @ReactMethod
     public void channelIDBind(ReadableMap readableMap, Callback callback)
     {
         JSONObject args = readable2JsonObject(readableMap);
@@ -1042,6 +1043,16 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             GizWifiSDK.sharedInstance().channelIDUnBind(token,channelID);
         }
     }
+
+    @ReactMethod
+    public void userLoginAnonymous()
+    {
+        GizWifiSDK.sharedInstance().userLoginAnonymous();
+    }
+
+
+
+
 
 
     public void callbackNofitication(JSONObject params) {

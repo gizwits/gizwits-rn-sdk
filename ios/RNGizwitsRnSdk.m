@@ -169,6 +169,10 @@ RCT_EXPORT_METHOD(stopDeviceOnboarding){
   [[GizWifiSDK sharedInstance] stopDeviceOnboarding];
 }
 
+RCT_EXPORT_METHOD(userLoginAnonymous){
+    [[GizWifiSDK sharedInstance] userLoginAnonymous];
+}
+
 RCT_EXPORT_METHOD(userFeedback:(id)info){
   NSDictionary *dict = [info dictionaryObject];
   if (!dict) {
