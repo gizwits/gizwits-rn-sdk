@@ -166,6 +166,23 @@ GizUserAccountType getUserAccountTypeFromInteger(NSInteger integerValue) {
     return -1;
 }
 
+GizPushType getPushTypeFromInteger(NSInteger integerValue)
+{
+    switch (integerValue) {
+        case 0:
+            return GizPushBaiDu;
+        case 1:
+            return GizPushJiGuang;
+        case 2:
+            return GizPushAWS;
+        case 3:
+            return GizPushXinGe;
+        default:
+            break;
+    }
+    return -1;
+}
+
 GizWifiDeviceNetStatus getDeviceNetStatus(NSInteger integerValue) {
     /**
      GizDeviceOffline       = 0

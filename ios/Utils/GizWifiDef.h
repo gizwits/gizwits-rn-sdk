@@ -14,3 +14,4 @@ GizThirdAccountType getThirdAccountTypeFromInteger(NSInteger integerValue);
 GizUserGenderType getUserGenderTypeFromInteger(NSInteger integerValue);
 GizUserAccountType getUserAccountTypeFromInteger(NSInteger integerValue);
 GizWifiDeviceNetStatus getDeviceNetStatus(NSInteger integerValue);
+GizPushType getPushTypeFromInteger(NSInteger integerValue);
