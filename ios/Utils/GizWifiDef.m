@@ -12,6 +12,10 @@ GizWifiConfigureMode getConfigModeFromInteger(NSInteger integerValue) {
             return GizWifiAirLink;
         case 2:
             return GizWifiAirLinkMulti;
+        case 3:
+            return GizWifiBleLink;
+        case 4:
+            return GizWifiBleLinkMulti;
         default:
             break;
     }

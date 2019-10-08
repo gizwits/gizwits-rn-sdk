@@ -821,6 +821,12 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             case 2:
                 GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiAirLinkMulti, null, timeout, types, isBind);
                 break;
+            case 3:
+                GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiBleLink, softAPSSIDPrefix, timeout, types, isBind);
+                break;
+            case 4:
+                GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiBleLinkMulti, softAPSSIDPrefix, timeout, types, isBind);
+                break;
         }
     }
 
