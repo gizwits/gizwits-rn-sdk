@@ -24,12 +24,12 @@ GizWifiConfigureMode getConfigModeFromInteger(NSInteger integerValue) {
 
 GizMeshVerdor getMeshVerdorFromInteger(NSInteger integerValue) {
     /**
-     GizMeshMayi      = 0
+     GizMeshJingXun      = 0
      GizMeshTelink     = 1
      */
     switch (integerValue) {
         case 0:
-            return GizMeshMayi;
+            return GizMeshJingXun;
         case 1:
             return GizMeshTelink;
         default:
