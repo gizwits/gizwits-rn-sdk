@@ -102,6 +102,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                         sendResultEvent(startWithAppIdCallback, null, result);
                     }
                 }
+                GizWifiSDK.sharedInstance().setRN(true);
 
             } catch (JSONException e) {
                 e.printStackTrace();
