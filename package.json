@@ -1,8 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.12.5-beta",
-
-  "description": "增加蓝牙配网",
+  "version": "2.12.6-beta",
+  "description": "增加ios app2dev",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
