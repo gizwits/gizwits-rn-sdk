@@ -55,6 +55,9 @@ extern NSString * _Null_unspecified XPGWifiDeviceHardwareProductKey DEPRECATED_M
  **/
 - (void)device:(GizWifiDevice * _Nonnull)device didReceiveAttrStatus:(NSError * _Nonnull)result attrStatus:(NSDictionary * _Nullable)attrStatus adapterAttrStatus:(NSDictionary * _Nullable)adapterAttrStatus withSN:(NSNumber * _Nullable)sn;
 
+// 同didReceiveAttrStatus 只是用来区分app2dev
+- (void)device:(GizWifiDevice * _Nonnull)device didReceiveAppToDevAttrStatus:(NSError * _Nonnull)result attrStatus:(NSDictionary * _Nullable)attrStatus adapterAttrStatus:(NSDictionary * _Nullable)adapterAttrStatus withSN:(NSNumber * _Nullable)sn;
+
 /**
  设置设备绑定信息的回调
  @param device 修改备注和别名的设备对象

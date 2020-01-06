@@ -103,13 +103,17 @@ RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
 
 #pragma mark - noti
 - (NSArray<NSString *> *)supportedEvents{
-  return @[GizDeviceStatusNotifications];
+  return @[GizDeviceStatusNotifications,GizDeviceAppToDevNotifications];
 }
 
 - (void)notiWithType:(GizWifiRnResultType)type result:(NSDictionary *)result{
   switch (type) {
     case GizWifiRnResultTypeDeviceStatusNoti:{
       [self sendEventWithName:GizDeviceStatusNotifications body:result];
+    }
+      break;
+    case GizWifiRnResultTypeAppToDevNoti:{
+      [self sendEventWithName:GizDeviceAppToDevNotifications body:result];
     }
       break;
     default:
@@ -131,6 +135,19 @@ RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
   [self.callBackManager callBackWithType:GizWifiRnResultTypeSetSubscribe identity:device.did resultDict:dataDict errorDict:errDict];
 }
 
+- (void)device:(GizWifiDevice * _Nonnull)device didReceiveAppToDevAttrStatus:(NSError * _Nonnull)result attrStatus:(NSDictionary * _Nullable)attrStatus adapterAttrStatus:(NSDictionary * _Nullable)adapterAttrStatus withSN:(NSNumber * _Nullable)sn{
+   NSMutableDictionary *dataDict = nil;
+   NSDictionary *errDict = nil;
+   NSDictionary *deviceDict = [NSDictionary makeDictFromDeviceWithProperties:device];
+   if (result.code == GIZ_SDK_SUCCESS) {
+     dataDict = [self dataFromDevice:deviceDict attrStatus:attrStatus withSN:sn];
+     if (!dataDict) { return; }
+   } else {
+     errDict = [NSDictionary makeErrorCodeFromError:result device:deviceDict];
+   }
+  [self notiWithType:GizWifiRnResultTypeAppToDevNoti result:errDict ? : dataDict];
+}
+
 - (void)device:(GizWifiDevice *)device didReceiveData:(NSError *)result data:(NSDictionary *)dataMap withSN:(NSNumber *)sn {
   if (result.code == GIZ_SDK_SUCCESS) {
     [self.callBackManager callBackWithType:GizWifiRnResultTypeWrite identity:[NSString stringWithFormat:@"%@+%ld", device.did, [sn integerValue]] resultDict:@[[NSNull null], [NSDictionary makeErrorDictFromResultCode:result.code]]];
@@ -142,48 +159,8 @@ RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
   NSDictionary *errDict = nil;
   NSDictionary *deviceDict = [NSDictionary makeDictFromDeviceWithProperties:device];
   if (result.code == GIZ_SDK_SUCCESS) {
-    if (!dataMap) { return; }
-    NSMutableDictionary *tmpDataDict = [[dataMap dictValueForKey:@"data" defaultValue:nil] mutableCopy];
-    NSDictionary *alerts = [dataMap dictValueForKey:@"alerts" defaultValue:nil];
-    NSDictionary *faults = [dataMap dictValueForKey:@"faults" defaultValue:nil];
-    NSData *binary = [dataMap valueForKey:@"binary"];
-    NSArray *binaryArr = nil;
-    if (binary) {
-      binaryArr = [tmpDataDict byteArrayForData:binary];
-    }
-    
-    // 转换tmpDataDict的二进制
-    for (NSString *key in tmpDataDict.allKeys) {
-      id value = tmpDataDict[key];
-      if ([value isKindOfClass:[NSData class]]) {
-        NSArray* arr = [tmpDataDict byteArrayForData: value];
-        [tmpDataDict setValue:arr forKey:key];
-      }
-    }
-    
-    dataDict = [NSMutableDictionary dictionary];
-    [dataDict setValue:deviceDict forKey:@"device"];
-    [dataDict setValue:sn forKey:@"sn"];
-    [dataDict setValue:tmpDataDict forKey:@"data"];
-    [dataDict setValue:alerts forKey:@"alerts"];
-    [dataDict setValue:faults forKey:@"faults"];
-    [dataDict setValue:binaryArr forKey:@"binary"];
-    
-    NSMutableDictionary *statusDict = [NSMutableDictionary dictionary];
-    NSMutableArray *alertsArray = [NSMutableArray array];
-    NSMutableArray *faultsArray = [NSMutableArray array];
-    for (NSString *key in alerts.allKeys) {
-      [alertsArray addObject:@{key: alerts[key]}];
-    }
-    for (NSString *key in faults.allKeys) {
-      [faultsArray addObject:@{key: faults[key]}];
-    }
-    [statusDict setValue:@{@"cmd": @4, @"entity0": tmpDataDict, @"version": @4} forKey:@"data"];
-    [statusDict setValue:alertsArray forKey:@"alerts"];
-    [statusDict setValue:faultsArray forKey:@"faults"];
-    [statusDict setValue:binaryArr forKey:@"binary"];
-    
-    [dataDict setValue:statusDict forKey:@"status"];
+    dataDict = [self dataFromDevice:deviceDict attrStatus:dataMap withSN:sn];
+    if (!dataDict) { return; }
   } else {
     errDict = [NSDictionary makeErrorCodeFromError:result device:deviceDict];
   }
@@ -202,6 +179,55 @@ RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
     [GizWifiDeviceCache addDelegate:self];
   }
   return _callBackManager;
+}
+
+#pragma mark - private
+-(NSMutableDictionary*)dataFromDevice:(NSDictionary*)deviceDict attrStatus:(NSDictionary*)attrStatus withSN:(NSNumber * _Nullable)sn{
+   NSMutableDictionary *dataDict = nil;
+   if (attrStatus) {
+     NSMutableDictionary *tmpDataDict = [[attrStatus dictValueForKey:@"data" defaultValue:nil] mutableCopy];
+     NSDictionary *alerts = [attrStatus dictValueForKey:@"alerts" defaultValue:nil];
+     NSDictionary *faults = [attrStatus dictValueForKey:@"faults" defaultValue:nil];
+     NSData *binary = [attrStatus valueForKey:@"binary"];
+     NSArray *binaryArr = nil;
+     if (binary) {
+       binaryArr = [tmpDataDict byteArrayForData:binary];
+     }
+     
+     // 转换tmpDataDict的二进制
+     for (NSString *key in tmpDataDict.allKeys) {
+       id value = tmpDataDict[key];
+       if ([value isKindOfClass:[NSData class]]) {
+         NSArray* arr = [tmpDataDict byteArrayForData: value];
+         [tmpDataDict setValue:arr forKey:key];
+       }
+     }
+     
+     dataDict = [NSMutableDictionary dictionary];
+     [dataDict setValue:deviceDict forKey:@"device"];
+     [dataDict setValue:sn forKey:@"sn"];
+     [dataDict setValue:tmpDataDict forKey:@"data"];
+     [dataDict setValue:alerts forKey:@"alerts"];
+     [dataDict setValue:faults forKey:@"faults"];
+     [dataDict setValue:binaryArr forKey:@"binary"];
+     
+     NSMutableDictionary *statusDict = [NSMutableDictionary dictionary];
+     NSMutableArray *alertsArray = [NSMutableArray array];
+     NSMutableArray *faultsArray = [NSMutableArray array];
+     for (NSString *key in alerts.allKeys) {
+       [alertsArray addObject:@{key: alerts[key]}];
+     }
+     for (NSString *key in faults.allKeys) {
+       [faultsArray addObject:@{key: faults[key]}];
+     }
+     [statusDict setValue:@{@"cmd": @4, @"entity0": tmpDataDict, @"version": @4} forKey:@"data"];
+     [statusDict setValue:alertsArray forKey:@"alerts"];
+     [statusDict setValue:faultsArray forKey:@"faults"];
+     [statusDict setValue:binaryArr forKey:@"binary"];
+     
+     [dataDict setValue:statusDict forKey:@"status"];
+   }
+  return dataDict;
 }
 
 @end
