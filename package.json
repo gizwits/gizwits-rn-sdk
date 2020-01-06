@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.12.3-beta",
+  "version": "2.12.5-beta",
 
   "description": "增加蓝牙配网",
   "main": "index.js",
