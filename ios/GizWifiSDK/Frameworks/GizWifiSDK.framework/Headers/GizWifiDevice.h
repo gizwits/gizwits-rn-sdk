@@ -191,6 +191,18 @@ extern NSString * _Null_unspecified XPGWifiDeviceHardwareProductKey DEPRECATED_M
  */
 @property (assign, nonatomic, readonly) BOOL isProductDefined;
 /**
+ BOOL类型。低功耗
+ */
+@property (assign, nonatomic, readonly) BOOL isLowPower;
+/**
+ number state_last_timestamp 最后活跃时间
+ */
+@property (assign, nonatomic, readonly) int stateLastTimestamp;
+/**
+ number sleep_duration 休眠时常
+ */
+@property (assign, nonatomic, readonly) int sleepDuration;
+/**
  NSDictionary类型。缓存最新的设备状态
  */
 @property (strong, nonatomic, readonly) NSDictionary <NSString *, id>* _Nullable attrStatus;

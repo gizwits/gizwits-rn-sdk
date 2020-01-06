@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.12.6-beta",
-  "description": "增加ios app2dev",
+  "version": "2.12.8-beta",
+  "description": "增加低功耗字段",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
