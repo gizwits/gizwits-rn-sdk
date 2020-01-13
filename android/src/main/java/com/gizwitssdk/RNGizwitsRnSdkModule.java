@@ -192,6 +192,9 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("isSubscribed", device.isSubscribed());
                     deviceobj.put("productAdapterUi", device.getProductUI());
                     deviceobj.put("productKeyAdapter", device.getProductKeyAdapter());
+                    deviceobj.put("isLowPower",device.isLowPower());
+                    deviceobj.put("stateLastTimestamp",device.getStateLastTimestamp());
+                    deviceobj.put("sleepDuration",device.getSleepDuration());
                     int type = 0;
                     if (device.getProductType() == GizWifiDeviceType.GizDeviceCenterControl) {
                         type = 1;
