@@ -49,7 +49,13 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
         @Override
         public void didReceiveAttrStatus(GizWifiErrorCode result, GizWifiDevice device, ConcurrentHashMap<String, Object> attrStatus, ConcurrentHashMap<String, Object> adapterAttrStatus, int sn) {
             super.didReceiveAttrStatus(result, device, attrStatus, adapterAttrStatus, sn);
-            receiveData(result, device, attrStatus, adapterAttrStatus, sn);
+            receiveData(result, device, attrStatus, adapterAttrStatus, sn, false);
+        }
+
+        @Override
+        public void didReceiveAppToDevAttrStatus(GizWifiErrorCode result, GizWifiDevice device, ConcurrentHashMap<String, Object> attrStatus, ConcurrentHashMap<String, Object> adapterAttrStatus, int sn) {
+            super.didReceiveAppToDevAttrStatus(result, device, attrStatus, adapterAttrStatus, sn);
+            receiveData(result, device, attrStatus, adapterAttrStatus, sn, true);
         }
 
         @Override
@@ -240,7 +246,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
     private void receiveData(GizWifiErrorCode result,
                              GizWifiDevice device,
-                             ConcurrentHashMap<String, Object> dataMap, ConcurrentHashMap<String, Object> adapterAttrStatus, int sn) {
+                             ConcurrentHashMap<String, Object> dataMap, ConcurrentHashMap<String, Object> adapterAttrStatus, int sn, boolean isAppToDev) {
         boolean isConnected = false;
         boolean isOnline = false;
         int netStatus = 0;
@@ -393,7 +399,11 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 //                        resultJson.put("isConnected", isConnected); // 用于兼容
 //                        resultJson.put("isOnline", isOnline); // 用于兼容
                 resultJson.put("netStatus", netStatus);
-                callbackDeviceStatus(resultJson);
+                if (isAppToDev) {
+                    callbackAppToDevDeviceStatus(resultJson);
+                } else {
+                    callbackDeviceStatus(resultJson);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -548,6 +558,13 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("GizDeviceStatusNotifications", writableMap);
+    }
+
+    public void callbackAppToDevDeviceStatus(JSONObject params) {
+        WritableMap writableMap = jsonObject2WriteableMap(params);
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("GizDeviceAppToDevNotifications", writableMap);
     }
 
 

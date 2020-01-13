@@ -195,6 +195,10 @@ extern NSString * _Null_unspecified XPGWifiDeviceHardwareProductKey DEPRECATED_M
  */
 @property (assign, nonatomic, readonly) BOOL isLowPower;
 /**
+ BOOL类型。是否休眠
+ */
+@property (assign, nonatomic, readonly) BOOL isDormant;
+/**
  number state_last_timestamp 最后活跃时间
  */
 @property (assign, nonatomic, readonly) int stateLastTimestamp;
