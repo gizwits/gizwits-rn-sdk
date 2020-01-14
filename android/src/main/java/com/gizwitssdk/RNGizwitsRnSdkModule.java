@@ -193,6 +193,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("productAdapterUi", device.getProductUI());
                     deviceobj.put("productKeyAdapter", device.getProductKeyAdapter());
                     deviceobj.put("isLowPower",device.isLowPower());
+                    deviceobj.put("isDormant",device.isDormant());
                     deviceobj.put("stateLastTimestamp",device.getStateLastTimestamp());
                     deviceobj.put("sleepDuration",device.getSleepDuration());
                     int type = 0;
