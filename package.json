@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.12.18-beta",
+  "version": "2.12.20-beta",
   "description": "日志脱敏，低功耗才订阅app2dev",
   "main": "index.js",
   "scripts": {
