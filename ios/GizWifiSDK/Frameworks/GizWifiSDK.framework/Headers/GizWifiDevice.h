@@ -55,7 +55,22 @@ extern NSString * _Null_unspecified XPGWifiDeviceHardwareProductKey DEPRECATED_M
  **/
 - (void)device:(GizWifiDevice * _Nonnull)device didReceiveAttrStatus:(NSError * _Nonnull)result attrStatus:(NSDictionary * _Nullable)attrStatus adapterAttrStatus:(NSDictionary * _Nullable)adapterAttrStatus withSN:(NSNumber * _Nullable)sn;
 
-// 同didReceiveAttrStatus 只是用来区分app2dev
+/**
+接收非本机发出的设备控制指令（仅支持低功耗设备）
+@param device 接收控制指令的设备对象
+@param result 详细见 GizWifiErrorCode 枚举定义。result.code 为 GIZ_SDK_SUCCESS 表示成功，其他为失败。失败时，dataMap为空字典
+@param attrStatus 设备上报的状态，字典格式：
+{
+"data": [value],  // value 为 NSDictionary 类型，内容为设备状态键值对，[数据点标识名：数据点值]，数据点值的类型与 site 上的定义一致
+"alerts": [value],  // value 为 NSDictionary 类型，内容为设备报警键值对，[数据点标识名：数据点值]，数据点值的类型与 site 上的定义一致
+"faults": [value],  // value 为 NSDictionary 类型，内容为设备故障键值对，[数据点标识名：数据点值]，数据点值的类型与 site 上的定义一致
+"binary": [value],  // value 为 NSData 类型，内容为二进制数据，专指没有在 site 上定义数据点的需要透传的数据
+}
+@param adapterAttrStatus 设备上报的适配状态，字典格式同attrStatus
+@param sn 序号为0
+@note 接收的控制指令数据，当 SDK 遇到无法解析的数据时，会作为透传数据处理，此时错误码为 GIZ_SDK_SUCCESS
+@see GizWifiErrorCode
+**/
 - (void)device:(GizWifiDevice * _Nonnull)device didReceiveAppToDevAttrStatus:(NSError * _Nonnull)result attrStatus:(NSDictionary * _Nullable)attrStatus adapterAttrStatus:(NSDictionary * _Nullable)adapterAttrStatus withSN:(NSNumber * _Nullable)sn;
 
 /**
