@@ -24,8 +24,8 @@ GizMeshVerdor getMeshVerdorFromInteger(NSInteger integerValue) {
      GizMeshTelink     = 1
      */
     switch (integerValue) {
-        case 0:
-            return GizMeshMayi;
+        // case 0:
+        //     return GizMeshMayi;
         case 1:
             return GizMeshTelink;
         default:
