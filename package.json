@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.12.31-beta",
-  "description": "修正配网后低功耗状态显示不正确的问题",
+  "version": "2.12.32-beta",
+  "description": "低功耗禁用02查询",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
