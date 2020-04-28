@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.12.35-beta",
+  "version": "2.12.37",
   "description": "update disable lowpower lan",
   "main": "index.js",
   "scripts": {
