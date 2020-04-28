@@ -176,6 +176,10 @@
   [mdict setValue:device.productAdapterUI forKey:@"productAdapterUi"];
   [mdict setValue:device.productKeyAdapter forKey:@"productKeyAdapter"];
   [mdict setValue:device.rootDevice==nil?@"":device.rootDevice.did forKey:@"rootDeviceId"];
+  [mdict setValue:@(device.isLowPower) forKey:@"isLowPower"];
+  [mdict setValue:@(device.isDormant) forKey:@"isDormant"];
+  [mdict setValue:@(device.stateLastTimestamp) forKey:@"stateLastTimestamp"];
+  [mdict setValue:@(device.sleepDuration) forKey:@"sleepDuration"];
   //    }
   return [mdict copy];
 }

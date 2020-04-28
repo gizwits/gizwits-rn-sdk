@@ -437,6 +437,13 @@
  */
 + (NSString * _Nonnull)getVersion;
 
+
+/**
+获取 手机的唯一标志码
+*/
++ (NSString * _Nullable)getPhoneID;
+
+
 /**
  使用委托获取对应事件。GizWifiSDK 对应的回调接口在 GizWifiSDKDelegate 定义。需要用到哪个接口，回调即可
  */
