@@ -102,6 +102,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                         sendResultEvent(startWithAppIdCallback, null, result);
                     }
                 }
+                GizWifiSDK.sharedInstance().setRN(true);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -191,6 +192,10 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("isSubscribed", device.isSubscribed());
                     deviceobj.put("productAdapterUi", device.getProductUI());
                     deviceobj.put("productKeyAdapter", device.getProductKeyAdapter());
+                    deviceobj.put("isLowPower",device.isLowPower());
+                    deviceobj.put("isDormant",device.isDormant());
+                    deviceobj.put("stateLastTimestamp",device.getStateLastTimestamp());
+                    deviceobj.put("sleepDuration",device.getSleepDuration());
                     int type = 0;
                     if (device.getProductType() == GizWifiDeviceType.GizDeviceCenterControl) {
                         type = 1;
@@ -313,6 +318,10 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("rootDeviceId", device.getRootDevice() == null ? "" : device.getRootDevice().getDid());
                     deviceobj.put("isProductDefined", device.isProductDefined());
                     deviceobj.put("isSubscribed", device.isSubscribed());
+                    deviceobj.put("isLowPower",device.isLowPower());
+                    deviceobj.put("isDormant",device.isDormant());
+                    deviceobj.put("stateLastTimestamp",device.getStateLastTimestamp());
+                    deviceobj.put("sleepDuration",device.getSleepDuration());
                     int type = 0;
                     if (device.getProductType() == GizWifiDeviceType.GizDeviceCenterControl) {
                         type = 1;
@@ -820,6 +829,12 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                 break;
             case 2:
                 GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiAirLinkMulti, null, timeout, types, isBind);
+                break;
+            case 3:
+                GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiBleLink, softAPSSIDPrefix, timeout, types, isBind);
+                break;
+            case 4:
+                GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiBleLinkMulti, softAPSSIDPrefix, timeout, types, isBind);
                 break;
         }
     }

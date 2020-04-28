@@ -104,6 +104,14 @@ static GizWifiDeviceCache *sharedInstance = nil;
     }
 }
 
+-(void)device:(GizWifiDevice *)device didReceiveAppToDevAttrStatus:(NSError *)result attrStatus:(NSDictionary *)attrStatus adapterAttrStatus:(NSDictionary *)adapterAttrStatus withSN:(NSNumber *)sn{
+  for (id <GizWifiDeviceDelegate>delegate in self.mDelegates) {
+         if ([delegate respondsToSelector:@selector(device:didReceiveAppToDevAttrStatus:attrStatus:adapterAttrStatus:withSN:)]) {
+             [delegate device:device didReceiveAppToDevAttrStatus:result attrStatus:attrStatus adapterAttrStatus:adapterAttrStatus withSN:sn];
+         }
+     }
+}
+
 - (void)device:(GizWifiDevice *)device didSetCustomInfo:(NSError *)result {
     for (id <GizWifiDeviceDelegate>delegate in self.mDelegates) {
         if ([delegate respondsToSelector:@selector(device:didSetCustomInfo:)]) {
