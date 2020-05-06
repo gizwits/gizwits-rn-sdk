@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.12.37",
-  "description": "update disable lowpower lan",
+  "version": "2.16.1",
+  "description": "ser2cli_res 取消限制",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
