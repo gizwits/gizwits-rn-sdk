@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.16.2",
-  "description": "禁用低功耗小循环包",
+  "version": "2.16.3",
+  "description": "修复解小循环包的问题",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
