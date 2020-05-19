@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.16.5",
+  "version": "2.16.6",
   "description": "取消netstatus切换的日志，会导致卡住线程",
   "main": "index.js",
   "scripts": {
