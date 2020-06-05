@@ -54,6 +54,26 @@ RCT_EXPORT_METHOD(setSubscribe:(id)info result:(RCTResponseSenderBlock)result) {
   [device setSubscribe:productSecret subscribed:subscribed];
 }
 
+RCT_EXPORT_METHOD(setSubscribeNotGetDeviceStatus:(id)info result:(RCTResponseSenderBlock)result) {
+  NSDictionary *dict = [info dictionaryObject];
+  if (!dict) {
+    [self.callBackManager callbackParamInvalid:result];
+    return;
+  }
+  NSDictionary *deviceDict = [dict dictValueForKey:@"device" defaultValue:dict];
+  NSString *mac = [deviceDict stringValueForKey:@"mac" defaultValue:@""];
+  NSString *did = [deviceDict stringValueForKey:@"did" defaultValue:@""];
+  GizWifiDevice *device = [GizWifiDeviceCache cachedDeviceWithMacAddress:mac did:did];
+  BOOL subscribed = [dict boolValueForKey:@"subscribed" defaultValue:NO];
+  if (!device) {
+    NSDictionary *errDict = [NSDictionary makeErrorDictFromResultCode:GizWifiError_DEVICE_IS_INVALID];
+    [self.callBackManager callBackError:errDict result:result];
+    return;
+  }
+  [self.callBackManager addResult:result type:GizWifiRnResultTypeSetSubscribe identity:device.did repeatable:YES];
+  [device setSubscribe:subscribed autoGetDeviceStatus:FALSE];
+}
+
 //getDeviceStatus
 RCT_EXPORT_METHOD(getDeviceStatus:(id)info result:(RCTResponseSenderBlock)result) {
   NSDictionary *dict = [info dictionaryObject];
