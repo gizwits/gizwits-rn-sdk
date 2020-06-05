@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.16.5",
-  "description": "取消netstatus切换的日志，会导致卡住线程",
+  "version": "2.20.0",
+  "description": "增加订阅不查询接口，修正安卓订阅接口",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
