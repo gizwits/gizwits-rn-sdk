@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.20.0",
-  "description": "增加订阅不查询接口，修正安卓订阅接口",
+  "version": "2.20.2",
+  "description": "释放buf",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
