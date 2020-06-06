@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.20.2",
-  "description": "释放buf",
+  "version": "2.20.4",
+  "description": "破坏更新，现在状态改变不会上报设备列表",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
