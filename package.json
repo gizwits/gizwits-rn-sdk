@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.20.5",
+  "version": "2.20.6",
   "description": "如果socket的包长度过大，放弃",
   "main": "index.js",
   "scripts": {
