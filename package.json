@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.20.8",
+  "version": "2.20.9",
   "description": "didUpdateNetStatus ios 增加",
   "main": "index.js",
   "scripts": {
