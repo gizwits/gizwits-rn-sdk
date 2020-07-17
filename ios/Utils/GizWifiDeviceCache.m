@@ -121,7 +121,7 @@ static GizWifiDeviceCache *sharedInstance = nil;
 }
 
 - (void)device:(GizWifiDevice *)device didUpdateNetStatus:(GizWifiDeviceNetStatus)netStatus {
-    for (id <GizWifiCentralControlDeviceDelegate>delegate in self.mDelegates) {
+    for (id <GizWifiDeviceDelegate>delegate in self.mDelegates) {
         if ([delegate respondsToSelector:@selector(device:didUpdateNetStatus:)]) {
             [delegate device:device didUpdateNetStatus:netStatus];
         }

@@ -168,6 +168,16 @@ RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
   [self notiWithType:GizWifiRnResultTypeAppToDevNoti result:errDict ? : dataDict];
 }
 
+- (void)device:(GizWifiDevice *)device didUpdateNetStatus:(GizWifiDeviceNetStatus)netStatus{
+    NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
+    
+    NSDictionary *deviceDict = [NSDictionary makeDictFromDeviceWithProperties:device];
+    [dataDict setValue:deviceDict forKey:@"device"];
+    [dataDict setValue:@(netStatus) forKey:@"netStatus"];
+    
+    [self notiWithType:GizWifiRnResultTypeDeviceStatusNoti result:dataDict];
+}
+
 - (void)device:(GizWifiDevice *)device didReceiveData:(NSError *)result data:(NSDictionary *)dataMap withSN:(NSNumber *)sn {
   if (result.code == GIZ_SDK_SUCCESS) {
     [self.callBackManager callBackWithType:GizWifiRnResultTypeWrite identity:[NSString stringWithFormat:@"%@+%ld", device.did, [sn integerValue]] resultDict:@[[NSNull null], [NSDictionary makeErrorDictFromResultCode:result.code]]];
