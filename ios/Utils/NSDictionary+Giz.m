@@ -180,6 +180,8 @@
   [mdict setValue:@(device.isDormant) forKey:@"isDormant"];
   [mdict setValue:@(device.stateLastTimestamp) forKey:@"stateLastTimestamp"];
   [mdict setValue:@(device.sleepDuration) forKey:@"sleepDuration"];
+  [mdict setValue:device.deviceModuleFirmwareVer forKey:@"deviceModuleFirmwareVer"];
+  [mdict setValue:device.deviceMcuFirmwareVer forKey:@"deviceMcuFirmwareVer"];
   //    }
   return [mdict copy];
 }
