@@ -227,6 +227,8 @@ extern NSString * _Null_unspecified XPGWifiDeviceHardwareProductKey DEPRECATED_M
 @property (strong, nonatomic, readonly) NSDictionary <NSString *, id>* _Nullable attrStatus;
 @property (strong, nonatomic, readonly) NSString * _Nullable deviceModuleFirmwareVer;
 @property (strong, nonatomic, readonly) NSString * _Nullable deviceMcuFirmwareVer;
+@property (strong, nonatomic, readonly) NSString * _Nullable deviceModuleHardVer;
+@property (strong, nonatomic, readonly) NSString * _Nullable deviceMcuHardVer;
 @property (strong, nonatomic, readonly) NSString * _Nullable productUI;
 @property (strong, nonatomic, readonly) NSString * _Nullable productKeyAdapter;
 @property (strong, nonatomic, readonly) NSString * _Nullable productAdapterUI;

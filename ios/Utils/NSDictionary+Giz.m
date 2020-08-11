@@ -182,6 +182,8 @@
   [mdict setValue:@(device.sleepDuration) forKey:@"sleepDuration"];
   [mdict setValue:device.deviceModuleFirmwareVer forKey:@"deviceModuleFirmwareVer"];
   [mdict setValue:device.deviceMcuFirmwareVer forKey:@"deviceMcuFirmwareVer"];
+  [mdict setValue:device.deviceModuleHardVer forKey:@"deviceModuleHardVer"];
+  [mdict setValue:device.deviceMcuHardVer forKey:@"deviceMcuHardVer"];
   //    }
   return [mdict copy];
 }

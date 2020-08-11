@@ -198,6 +198,8 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("sleepDuration",device.getSleepDuration());
                     deviceobj.put("deviceModuleFirmwareVer",device.getDeviceModuleFirmwareVer());
                     deviceobj.put("deviceMcuFirmwareVer",device.getDeviceMcuFirmwareVer());
+                    deviceobj.put("deviceModuleHardVer",device.getDeviceModuleHardVer());
+                    deviceobj.put("deviceMcuHardVer",device.getDeviceMcuHardVer());
                     
                     int type = 0;
                     if (device.getProductType() == GizWifiDeviceType.GizDeviceCenterControl) {
