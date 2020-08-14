@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.21.1",
-  "description": "增加固件版本号",
+  "version": "2.21.3",
+  "description": "增加硬件版本号",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
