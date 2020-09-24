@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.21.3",
+  "version": "2.22.0-beta",
   "description": "增加硬件版本号",
   "main": "index.js",
   "scripts": {
