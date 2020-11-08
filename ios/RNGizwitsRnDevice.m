@@ -145,7 +145,7 @@ RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
 - (void)device:(GizWifiDevice *)device didSetSubscribe:(NSError *)result isSubscribed:(BOOL)isSubscribed {
   NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
   NSDictionary *errDict = nil;
-  NSDictionary *deviceDict = [NSDictionary makeDictFromDeviceWithProperties:device];
+  NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
   if (result.code == GIZ_SDK_SUCCESS) {
     [dataDict setValue:deviceDict forKey:@"device"];
     [dataDict setValue:@(isSubscribed) forKey:@"isSubscribed"];
@@ -158,7 +158,7 @@ RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
 - (void)device:(GizWifiDevice * _Nonnull)device didReceiveAppToDevAttrStatus:(NSError * _Nonnull)result attrStatus:(NSDictionary * _Nullable)attrStatus adapterAttrStatus:(NSDictionary * _Nullable)adapterAttrStatus withSN:(NSNumber * _Nullable)sn{
    NSMutableDictionary *dataDict = nil;
    NSDictionary *errDict = nil;
-   NSDictionary *deviceDict = [NSDictionary makeDictFromDeviceWithProperties:device];
+   NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
    if (result.code == GIZ_SDK_SUCCESS) {
      dataDict = [self dataFromDevice:deviceDict attrStatus:attrStatus withSN:sn];
      if (!dataDict) { return; }
@@ -171,7 +171,7 @@ RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
 - (void)device:(GizWifiDevice *)device didUpdateNetStatus:(GizWifiDeviceNetStatus)netStatus{
     NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
     
-    NSDictionary *deviceDict = [NSDictionary makeDictFromDeviceWithProperties:device];
+    NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
     [dataDict setValue:deviceDict forKey:@"device"];
     [dataDict setValue:@(netStatus) forKey:@"netStatus"];
     
@@ -187,7 +187,7 @@ RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
   
   NSMutableDictionary *dataDict = nil;
   NSDictionary *errDict = nil;
-  NSDictionary *deviceDict = [NSDictionary makeDictFromDeviceWithProperties:device];
+  NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
   if (result.code == GIZ_SDK_SUCCESS) {
     dataDict = [self dataFromDevice:deviceDict attrStatus:dataMap withSN:sn];
     if (!dataDict) { return; }

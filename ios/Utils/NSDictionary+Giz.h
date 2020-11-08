@@ -17,6 +17,8 @@
 
 + (NSMutableDictionary *)makeMutableDictFromDevice:(GizWifiDevice *)device;
 + (NSDictionary *)makeDictFromDeviceWithProperties:(GizWifiDevice *)device;
++ (NSDictionary *)makeDictFromLiteDeviceWithProperties:(GizWifiDevice *)device;
+
 + (NSDictionary *)makeErrorDictFromError:(NSError *)error;
 + (NSDictionary *)makeErrorDictFromResultCode:(NSInteger)resultCode;
 + (NSDictionary *)makeErrorCodeFromError:(NSError *)error device:(NSDictionary *)device;

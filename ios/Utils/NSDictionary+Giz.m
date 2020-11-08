@@ -160,21 +160,21 @@
   [mdict setValue:device.passcode forKey:@"passcode"];
   [mdict setValue:device.productKey forKey:@"productKey"];
   [mdict setValue:device.productName forKey:@"productName"];
-  [mdict setValue:device.ipAddress forKey:@"ip"];
-  [mdict setValue:@(productType) forKey:@"type"];
-  [mdict setValue:@(device.isConnected) forKey:@"isConnected"];
+  // [mdict setValue:device.ipAddress forKey:@"ip"];
+  // [mdict setValue:@(productType) forKey:@"type"];
+  // [mdict setValue:@(device.isConnected) forKey:@"isConnected"];
   [mdict setValue:@(device.isOnline) forKey:@"isOnline"];
   [mdict setValue:device.remark forKey:@"remark"];
   [mdict setValue:device.alias forKey:@"alias"];
   [mdict setValue:@(netStatus) forKey:@"netStatus"];
   [mdict setValue:@(device.isLAN) forKey:@"isLAN"];
   [mdict setValue:@(device.isBind) forKey:@"isBind"];
-  [mdict setValue:@(device.isDisabled) forKey:@"isDisabled"];
-  [mdict setValue:@(device.isProductDefined) forKey:@"isProductDefined"];
+  // [mdict setValue:@(device.isDisabled) forKey:@"isDisabled"];
+  // [mdict setValue:@(device.isProductDefined) forKey:@"isProductDefined"];
   [mdict setValue:@(device.isSubscribed) forKey:@"isSubscribed"];
-  [mdict setValue:@(device.netType) forKey:@"netType"];
-  [mdict setValue:device.productAdapterUI forKey:@"productAdapterUi"];
-  [mdict setValue:device.productKeyAdapter forKey:@"productKeyAdapter"];
+  // [mdict setValue:@(device.netType) forKey:@"netType"];
+  // [mdict setValue:device.productAdapterUI forKey:@"productAdapterUi"];
+  // [mdict setValue:device.productKeyAdapter forKey:@"productKeyAdapter"];
   [mdict setValue:device.rootDevice==nil?@"":device.rootDevice.did forKey:@"rootDeviceId"];
   [mdict setValue:@(device.isLowPower) forKey:@"isLowPower"];
   [mdict setValue:@(device.isDormant) forKey:@"isDormant"];
@@ -184,6 +184,19 @@
   [mdict setValue:device.deviceMcuFirmwareVer forKey:@"deviceMcuFirmwareVer"];
   [mdict setValue:device.deviceModuleHardVer forKey:@"deviceModuleHardVer"];
   [mdict setValue:device.deviceMcuHardVer forKey:@"deviceMcuHardVer"];
+  //    }
+  return [mdict copy];
+}
+
++ (NSDictionary *)makeDictFromLiteDeviceWithProperties:(GizWifiDevice *)device {
+  NSMutableDictionary *mdict = [self makeMutableDictFromDevice:device];
+  NSInteger netStatus = getDeviceNetStatus(device.netStatus);
+  // 普通设备其他属性
+  [mdict setValue:device.macAddress forKey:@"mac"];
+  [mdict setValue:device.did forKey:@"did"];
+  [mdict setValue:device.productKey forKey:@"productKey"];
+  [mdict setValue:@(netStatus) forKey:@"netStatus"];
+  [mdict setValue:@(device.isSubscribed) forKey:@"isSubscribed"];
   //    }
   return [mdict copy];
 }
