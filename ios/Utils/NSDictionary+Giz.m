@@ -161,7 +161,7 @@
   [mdict setValue:device.productKey forKey:@"productKey"];
   [mdict setValue:device.productName forKey:@"productName"];
   // [mdict setValue:device.ipAddress forKey:@"ip"];
-  // [mdict setValue:@(productType) forKey:@"type"];
+  [mdict setValue:@(productType) forKey:@"type"];
   // [mdict setValue:@(device.isConnected) forKey:@"isConnected"];
   [mdict setValue:@(device.isOnline) forKey:@"isOnline"];
   [mdict setValue:device.remark forKey:@"remark"];

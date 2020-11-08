@@ -400,28 +400,28 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                     deviceobj.put("mac", device.getMacAddress());
                     deviceobj.put("did", device.getDid());
                     deviceobj.put("productKey", device.getProductKey());
-                    deviceobj.put("productName", device.getProductName());
-                    deviceobj.put("ip", device.getIPAddress());
-                    deviceobj.put("passcode", device.getPasscode());
-                    deviceobj.put("isConnected", device.isConnected());
-                    deviceobj.put("isOnline", device.isOnline());
-                    deviceobj.put("isLAN", device.isLAN());
-                    deviceobj.put("isDisabled", device.isDisabled());
-                    deviceobj.put("remark", device.getRemark());
-                    deviceobj.put("alias", device.getAlias());
-                    deviceobj.put("isBind", device.isBind());
-                    deviceobj.put("rootDeviceId", device.getRootDevice() == null ? "" : device.getRootDevice().getDid());
-                    deviceobj.put("isProductDefined", device.isProductDefined());
+                    // deviceobj.put("productName", device.getProductName());
+                    // deviceobj.put("ip", device.getIPAddress());
+                    // deviceobj.put("passcode", device.getPasscode());
+                    // deviceobj.put("isConnected", device.isConnected());
+                    // deviceobj.put("isOnline", device.isOnline());
+                    // deviceobj.put("isLAN", device.isLAN());
+                    // deviceobj.put("isDisabled", device.isDisabled());
+                    // deviceobj.put("remark", device.getRemark());
+                    // deviceobj.put("alias", device.getAlias());
+                    // deviceobj.put("isBind", device.isBind());
+                    // deviceobj.put("rootDeviceId", device.getRootDevice() == null ? "" : device.getRootDevice().getDid());
+                    // deviceobj.put("isProductDefined", device.isProductDefined());
                     deviceobj.put("isSubscribed", device.isSubscribed());
-                    deviceobj.put("isLowPower",device.isLowPower());
-                    deviceobj.put("isDormant",device.isDormant());
-                    deviceobj.put("stateLastTimestamp",device.getStateLastTimestamp());
-                    deviceobj.put("sleepDuration",device.getSleepDuration());
+                    // deviceobj.put("isLowPower",device.isLowPower());
+                    // deviceobj.put("isDormant",device.isDormant());
+                    // deviceobj.put("stateLastTimestamp",device.getStateLastTimestamp());
+                    // deviceobj.put("sleepDuration",device.getSleepDuration());
                     int type = 0;
                     if (device.getProductType() == GizWifiDeviceType.GizDeviceCenterControl) {
                         type = 1;
                     }
-                    deviceobj.put("type", type);
+                    // deviceobj.put("type", type);
 
 //                            isConnected = device.isConnected();
 //                            isOnline = device.isOnline();
