@@ -98,11 +98,11 @@
 		</data>
 		<key>Headers/GizWifiDefinitions.h</key>
 		<data>
-		mgFqY2oPQ8ZHpsDb4CveWGH+u0s=
+		erEE29TfmX+JkjArtWbd40BbvlY=
 		</data>
 		<key>Headers/GizWifiDevice.h</key>
 		<data>
-		NIBz/g1ez9t182t/YHV3drYjAIg=
+		mYufthTMZRPY/b8ZdiGhoX6QQyg=
 		</data>
 		<key>Headers/GizWifiSDK.h</key>
 		<data>
@@ -114,11 +114,15 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		PoveU1NzPoHUnUZWyzGJTa4+ilU=
+		zT2AKFhqh1OjKq6OrJ/yUkLLfqc=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
 		Y/HRHWtjMwvnDO+CIJuhhfbkngg=
+		</data>
+		<key>timezoneName.json</key>
+		<data>
+		iMixiZ8lvO6Kmvwi/RFfEy/GXc4=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -380,22 +384,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mgFqY2oPQ8ZHpsDb4CveWGH+u0s=
+			erEE29TfmX+JkjArtWbd40BbvlY=
 			</data>
 			<key>hash2</key>
 			<data>
-			H2lbw68ikHsyRrn4UQY2oD+A3YLywfz0P5Qtlfg6ahE=
+			2YFpIHkNKR8j7/477DqdijtPmnlKUWedO3r4aaNCMHo=
 			</data>
 		</dict>
 		<key>Headers/GizWifiDevice.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			NIBz/g1ez9t182t/YHV3drYjAIg=
+			mYufthTMZRPY/b8ZdiGhoX6QQyg=
 			</data>
 			<key>hash2</key>
 			<data>
-			d6KZDXHwXbNasi9tuVC6CxUjH0xp+NJFhGmDIth80+I=
+			ht+V+S19wJG0h/qlsUExtuGJvi2WwIMhnirlKbnkhFc=
 			</data>
 		</dict>
 		<key>Headers/GizWifiSDK.h</key>
@@ -429,6 +433,17 @@
 			<key>hash2</key>
 			<data>
 			5ELXufwn4NDBJs5T9Q8jaPTCUdgCVx4pBE6nOcyZJJ8=
+			</data>
+		</dict>
+		<key>timezoneName.json</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			iMixiZ8lvO6Kmvwi/RFfEy/GXc4=
+			</data>
+			<key>hash2</key>
+			<data>
+			CpaRQo4FV8lAk2lp2b1I+Uhg/LamfPWz/8su0e36aEQ=
 			</data>
 		</dict>
 	</dict>

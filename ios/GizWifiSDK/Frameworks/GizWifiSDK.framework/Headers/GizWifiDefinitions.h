@@ -665,6 +665,8 @@ typedef NS_ENUM(NSInteger, GizWifiGAgentType) {
     GizGAgentMxchipAWS = 13,
     /** 汉枫v8模组 */
     GizGAgentHFV8 = 14,
+    /** 乐鑫模组广播模式 */
+    GizGAgentESPBroadcast = 15,
 };
 
 /**
