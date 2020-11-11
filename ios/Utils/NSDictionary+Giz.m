@@ -157,7 +157,7 @@
   NSInteger productType = getDeviceTypeFromEnum(device.productType);
   [mdict setValue:device.macAddress forKey:@"mac"];
   [mdict setValue:device.did forKey:@"did"];
-  [mdict setValue:device.passcode forKey:@"passcode"];
+//  [mdict setValue:device.passcode forKey:@"passcode"];
   [mdict setValue:device.productKey forKey:@"productKey"];
   [mdict setValue:device.productName forKey:@"productName"];
   // [mdict setValue:device.ipAddress forKey:@"ip"];
@@ -165,7 +165,7 @@
   // [mdict setValue:@(device.isConnected) forKey:@"isConnected"];
   [mdict setValue:@(device.isOnline) forKey:@"isOnline"];
   [mdict setValue:device.remark forKey:@"remark"];
-  [mdict setValue:device.alias forKey:@"alias"];
+//  [mdict setValue:device.alias forKey:@"alias"];
   [mdict setValue:@(netStatus) forKey:@"netStatus"];
   [mdict setValue:@(device.isLAN) forKey:@"isLAN"];
   [mdict setValue:@(device.isBind) forKey:@"isBind"];
@@ -176,10 +176,13 @@
   // [mdict setValue:device.productAdapterUI forKey:@"productAdapterUi"];
   // [mdict setValue:device.productKeyAdapter forKey:@"productKeyAdapter"];
   [mdict setValue:device.rootDevice==nil?@"":device.rootDevice.did forKey:@"rootDeviceId"];
-  [mdict setValue:@(device.isLowPower) forKey:@"isLowPower"];
-  [mdict setValue:@(device.isDormant) forKey:@"isDormant"];
-  [mdict setValue:@(device.stateLastTimestamp) forKey:@"stateLastTimestamp"];
-  [mdict setValue:@(device.sleepDuration) forKey:@"sleepDuration"];
+    if (device.isLowPower) {
+        [mdict setValue:@(device.isLowPower) forKey:@"isLowPower"];
+        [mdict setValue:@(device.isDormant) forKey:@"isDormant"];
+        [mdict setValue:@(device.stateLastTimestamp) forKey:@"stateLastTimestamp"];
+        [mdict setValue:@(device.sleepDuration) forKey:@"sleepDuration"];
+    }
+  
   [mdict setValue:device.deviceModuleFirmwareVer forKey:@"deviceModuleFirmwareVer"];
   [mdict setValue:device.deviceMcuFirmwareVer forKey:@"deviceMcuFirmwareVer"];
   [mdict setValue:device.deviceModuleHardVer forKey:@"deviceModuleHardVer"];

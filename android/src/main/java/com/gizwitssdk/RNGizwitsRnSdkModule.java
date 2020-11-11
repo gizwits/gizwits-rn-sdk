@@ -175,13 +175,13 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("productKey", device.getProductKey());
                     deviceobj.put("productName", device.getProductName());
                     // deviceobj.put("ip", device.getIPAddress());
-                    deviceobj.put("passcode", device.getPasscode());
+                    // deviceobj.put("passcode", device.getPasscode());
                     // deviceobj.put("isConnected", device.isConnected());
                     deviceobj.put("isOnline", device.isOnline());
                     deviceobj.put("isLAN", device.isLAN());
                     // deviceobj.put("isDisabled", device.isDisabled());
                     deviceobj.put("remark", device.getRemark());
-                    deviceobj.put("alias", device.getAlias());
+                    // deviceobj.put("alias", device.getAlias());
                     deviceobj.put("isBind", device.isBind());
                     // deviceobj.put("netType", device.getNetType());
                     if(device instanceof GizLiteGWSubDevice) {
@@ -192,10 +192,12 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("isSubscribed", device.isSubscribed());
                     // deviceobj.put("productAdapterUi", device.getProductUI());
                     // deviceobj.put("productKeyAdapter", device.getProductKeyAdapter());
-                    deviceobj.put("isLowPower",device.isLowPower());
-                    deviceobj.put("isDormant",device.isDormant());
-                    deviceobj.put("stateLastTimestamp",device.getStateLastTimestamp());
-                    deviceobj.put("sleepDuration",device.getSleepDuration());
+                    if (device.isLowPower()) {
+                        deviceobj.put("isLowPower",device.isLowPower());
+                        deviceobj.put("isDormant",device.isDormant());
+                        deviceobj.put("stateLastTimestamp",device.getStateLastTimestamp());
+                        deviceobj.put("sleepDuration",device.getSleepDuration());
+                    }
                     deviceobj.put("deviceModuleFirmwareVer",device.getDeviceModuleFirmwareVer());
                     deviceobj.put("deviceMcuFirmwareVer",device.getDeviceMcuFirmwareVer());
                     deviceobj.put("deviceModuleHardVer",device.getDeviceModuleHardVer());

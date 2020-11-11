@@ -378,7 +378,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
                     }
 
-                    resultJson.put("status", status);
+                    // resultJson.put("status", status);
                 }
 
                 // 状态上报回调，只在成功时回调就可以了
