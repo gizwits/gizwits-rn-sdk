@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.22.3-beta",
-  "description": "精简设备对象返回",
+  "version": "2.22.4-beta",
+  "description": "更新2.16.2_standard",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
