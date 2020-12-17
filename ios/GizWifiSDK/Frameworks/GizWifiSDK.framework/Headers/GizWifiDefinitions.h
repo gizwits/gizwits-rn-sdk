@@ -1004,7 +1004,9 @@ typedef NS_ENUM(NSInteger, GizAdapterType) {
     GizAdapterDataPointMap = 1,
     GizAdapterDataPointFunc = 2,
     /** 支持通过脚本进行协议转换 */
-    GizAdapterDataPointScript = 3
+    GizAdapterDataPointScript = 3,
+    /** 支持蓝牙wifi双通道 */
+    GizAdapterWifiBle = 4,
 };
 
 typedef NS_ENUM(NSInteger, GizLocalMeshType) {

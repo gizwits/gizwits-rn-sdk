@@ -6,6 +6,7 @@
 #import <GizWifiSDK/GizWifiDefinitions.h>
 #import <GizWifiSDK/GizWifiDevice.h>
 #import <GizWifiSDK/GizLiteGWSubDevice.h>
+#import <GizWifiSDK/GizWifiBleDevice.h>
 #import "GizWifiDef.h"
 
 @implementation NSDictionary (Giz)
@@ -152,6 +153,10 @@
       // [mdict setValue:@0 forKey:@"type"];
       // [mdict setValue:subDevice.productKey forKey:@"productKey"];
       // [mdict setValue:subDevice.productName forKey:@"productName"];
+  } else if ([device isMemberOfClass:[GizWifiBleDevice class]]) {
+      GizWifiBleDevice *subDevice = (GizWifiBleDevice *)device;
+      // 子设备其他属性
+      [mdict setValue:@(subDevice.isBlueLocal) forKey:@"isBlueLocal"];
   }
   // 普通设备其他属性
   NSInteger productType = getDeviceTypeFromEnum(device.productType);
@@ -215,6 +220,13 @@
   NSMutableDictionary *mdict = [NSMutableDictionary dictionary];
   [mdict setValue:@(resultCode) forKey:@"errorCode"];
   [mdict setValue:[self defaultErrorMessage:resultCode] forKey:@"msg"];
+  return [mdict copy];
+}
+
++ (NSDictionary *)makeErrorDictFromResultCode:(NSInteger)resultCode device:(NSDictionary *)device {
+  NSMutableDictionary *mdict = [NSMutableDictionary dictionary];
+  [mdict setValue:@(resultCode) forKey:@"errorCode"];
+  [mdict setValue:device forKey:@"device"];
   return [mdict copy];
 }
 

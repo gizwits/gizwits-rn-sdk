@@ -121,6 +121,37 @@ RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
   }
 }
 
+RCT_EXPORT_METHOD(connectBle:(id)info result:(RCTResponseSenderBlock)result) {
+  NSDictionary *dict = [info dictionaryObject];
+  if (!dict) {
+    [self.callBackManager callbackParamInvalid:result];
+    return;
+  }
+  NSDictionary *deviceDict = [dict dictValueForKey:@"device" defaultValue:dict];
+  NSString *mac = [deviceDict stringValueForKey:@"mac" defaultValue:@""];
+  NSString *did = [deviceDict stringValueForKey:@"did" defaultValue:@""];
+  __block GizWifiBleDevice *device = [GizWifiDeviceCache cachedDeviceWithMacAddress:mac did:did];
+  if (!device) {
+    NSDictionary *errDict = [NSDictionary makeErrorDictFromResultCode:GizWifiError_DEVICE_IS_INVALID];
+    [self.callBackManager callBackError:errDict result:result];
+    return;
+  } 
+
+  [self.callBackManager addResult:result type:GizWifiRnResultTypeConnectBle identity:device.did repeatable:YES];
+  [device connectBle:^(GizWifiErrorCode errorCode) {
+    NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
+    NSDictionary *errDict = nil;
+    NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
+    if (errorCode == GIZ_SDK_SUCCESS) {
+      [dataDict setValue:deviceDict forKey:@"device"];
+    } else {
+      errDict = [NSDictionary makeErrorDictFromResultCode:errorCode device:deviceDict];
+    }
+    [self.callBackManager callBackWithType:GizWifiRnResultTypeConnectBle identity:device.did resultDict:dataDict errorDict:errDict];
+  }];
+}
+
+
 #pragma mark - noti
 - (NSArray<NSString *> *)supportedEvents{
   return @[GizDeviceStatusNotifications,GizDeviceAppToDevNotifications];

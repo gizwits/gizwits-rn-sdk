@@ -19,6 +19,7 @@
 #import <GizWifiSDK/GizDeviceJointActionCenter.h>
 #import <GizWifiSDK/GizUserInfo.h>
 #import <GizWifiSDK/GizLiteGWSubDevice.h>
+#import <GizWifiSDK/GizWifiBleDevice.h>
 
 @class GizWifiSDK;
 @class GizLiteGWSubDevice;

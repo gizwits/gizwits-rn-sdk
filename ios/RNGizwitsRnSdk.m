@@ -48,12 +48,19 @@ RCT_EXPORT_METHOD(startWithAppID:(id)configInfo result:(RCTResponseSenderBlock)r
   NSArray *specialProductKeys = [dict arrayValueForKey:@"specialProductKeys" defaultValue:nil];
   NSArray *specialProductKeySecrets = [dict arrayValueForKey:@"specialProductKeySecrets" defaultValue:nil];
   BOOL autoSetDeviceDomain = [dict boolValueForKey:@"autoSetDeviceDomain" defaultValue:NO];
-  
+  NSArray *specialUsingAdapter = [dict arrayValueForKey:@"specialUsingAdapter" defaultValue:nil];
+  BOOL isUsingAdapter = NO;
+  if (specialUsingAdapter.count == specialProductKeys.count) {
+    isUsingAdapter = YES;
+  }
   if (specialProductKeySecrets.count > 0) {
     if (specialProductKeys.count == specialProductKeySecrets.count) {
       NSMutableArray *productInfoArray = [[NSMutableArray alloc] init];
       [specialProductKeys enumerateObjectsUsingBlock:^(NSString*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSDictionary *tmpDic = @{@"productKey":obj,@"productSecret":specialProductKeySecrets[idx]};
+        NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithDictionary:@{@"productKey":obj,@"productSecret":specialProductKeySecrets[idx]}];
+        if (isUsingAdapter) {
+          [tmpDic addObject:@{@"usingAdapter":specialUsingAdapter[idx]}];
+        }
         [productInfoArray addObject:tmpDic];
       }];
       [GizWifiSDK startWithAppInfo:@{@"appId":appid,@"appSecret":appSecret} productInfo:productInfoArray cloudServiceInfo:cloudServiceInfo autoSetDeviceDomain:autoSetDeviceDomain];
