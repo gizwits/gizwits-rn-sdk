@@ -16,6 +16,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.gizwits.gizwifisdk.api.GizWifiBinary;
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
+import com.gizwits.gizwifisdk.api.GizWifiBleDevice;
 import com.gizwits.gizwifisdk.enumration.GizWifiDeviceNetStatus;
 import com.gizwits.gizwifisdk.enumration.GizWifiDeviceType;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
@@ -40,8 +41,8 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
     private Map<String,Callback> getDeviceStatusCallback= new HashMap<String, Callback>();
     private  Map<String,Callback> writeCallback= new HashMap<String, Callback>();
+    private  Callback connectBleCallback;
     Map<String, Callback> subscribeCallbacks = new HashMap<String, Callback>();
-
 
     private final ReactApplicationContext reactContext;
 
@@ -110,6 +111,27 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                     sendResultEvent(subscribeCallbacks.get(device.getMacAddress()), null, jsonResult);
                 }
                 subscribeCallbacks.remove(device.getMacAddress());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void didConnectBle(GizWifiErrorCode result, GizWifiDevice device) {
+            if (connectBleCallback == null) {
+                SDKLog.d("moduleContext is null");
+                return;
+            }
+            try {
+                JSONObject jsonResult = new JSONObject();
+                JSONObject deviceobj = new JSONObject();
+                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                    sendResultEvent(connectBleCallback, jsonResult, null);
+                } else {
+                    jsonResult.put("errorCode", result.getResult());
+                    jsonResult.put("msg", result.name());
+                    sendResultEvent(connectBleCallback, null, jsonResult);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -278,6 +300,36 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    public void connectBle(ReadableMap readableMap, Callback callback) {
+        JSONObject args = readable2JsonObject(readableMap);
+        JSONObject result = new JSONObject();
+        JSONObject deviceobj = args.optJSONObject("device");
+        try {
+            String mac = deviceobj.optString("mac");
+            String did = deviceobj.optString("did");
+            result.put("device", deviceobj);
+
+            GizWifiDevice device = RNGizwitsDeviceCache.getInstance()
+                    .findDeviceByMac(mac, did);
+            
+            if (device == null) {
+                result.put("errorCode",
+                        GizWifiErrorCode.GIZ_SDK_DEVICE_DID_INVALID.getResult());
+                result.put("msg", GizWifiErrorCode.GIZ_SDK_DEVICE_DID_INVALID.name());
+                SDKLog.d("result = " + result);
+                sendResultEvent(callback, null, result);
+            } else {
+                connectBleCallback = callback;
+                if (device instanceof GizWifiBleDevice) {
+                    ((GizWifiBleDevice)device).connectBle();
+                }
+                
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void receiveData(GizWifiErrorCode result,
                              GizWifiDevice device,
@@ -401,7 +453,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                     deviceobj.put("did", device.getDid());
                     deviceobj.put("productKey", device.getProductKey());
                     // deviceobj.put("productName", device.getProductName());
-                    // deviceobj.put("ip", device.getIPAddress());
+                    deviceobj.put("ip", device.getIPAddress());
                     // deviceobj.put("passcode", device.getPasscode());
                     // deviceobj.put("isConnected", device.isConnected());
                     // deviceobj.put("isOnline", device.isOnline());

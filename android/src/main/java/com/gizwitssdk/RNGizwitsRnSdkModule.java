@@ -18,6 +18,7 @@ import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.gizwits.gizwifisdk.api.GizLiteGWSubDevice;
+import com.gizwits.gizwifisdk.api.GizWifiBleDevice;
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizAdapterType;
@@ -174,7 +175,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("did", device.getDid());
                     deviceobj.put("productKey", device.getProductKey());
                     deviceobj.put("productName", device.getProductName());
-                    // deviceobj.put("ip", device.getIPAddress());
+                    deviceobj.put("ip", device.getIPAddress());
                     // deviceobj.put("passcode", device.getPasscode());
                     // deviceobj.put("isConnected", device.isConnected());
                     deviceobj.put("isOnline", device.isOnline());
@@ -186,6 +187,9 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     // deviceobj.put("netType", device.getNetType());
                     if(device instanceof GizLiteGWSubDevice) {
                         deviceobj.put("meshID",((GizLiteGWSubDevice)device).getMeshId());
+                    }
+                    if(device instanceof GizWifiBleDevice){
+                        deviceobj.put("isBlueLocal", ((GizWifiBleDevice)device).isBlueLocal());
                     }
                     deviceobj.put("rootDeviceId", device.getRootDevice() == null ? "" : device.getRootDevice().getDid());
                     // deviceobj.put("isProductDefined", device.isProductDefined());
@@ -614,6 +618,8 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                                 type = GizAdapterType.GizAdapterDataPointMap;
                             } else if ("GizAdapterDataPointFunc".equals(typeStr)) {
                                 type = GizAdapterType.GizAdapterDataPointFunc;
+                            } else if ("GizAdapterWifiBle".equals(typeStr)) {
+                                type = GizAdapterType.GizAdapterWifiBle;
                             }
                             product.put("usingAdapter", type.ordinal() + "");
                         }
