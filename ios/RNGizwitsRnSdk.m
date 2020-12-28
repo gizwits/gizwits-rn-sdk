@@ -106,6 +106,16 @@ RCT_EXPORT_METHOD(getVersion:(RCTResponseSenderBlock)result){
   }
 }
 
+RCT_EXPORT_METHOD(getBoundBleDevice:(RCTResponseSenderBlock)result){
+  NSArray *bleDevices = [self getBoundBleDevice];
+  if (!bleDevices) {
+      bleDevices = [NSArray array];
+  }
+  if (result) {
+    result(@[[NSNull null], bleDevices]);
+  }
+}
+
 RCT_EXPORT_METHOD(setDeviceOnboardingDeploy:(id)info result:(RCTResponseSenderBlock)result){
   NSDictionary *dict = [info dictionaryObject];
   if (!dict) {
@@ -283,6 +293,16 @@ RCT_EXPORT_METHOD(deviceSafetyUnbind:(id)info result:(RCTResponseSenderBlock)res
   }
   [GizWifiSDK deviceSafetyUnbind:devices];
   [self.callBackManager addResult:result type:GizWifiRnResultTypeDeviceSafetyUnbind identity:nil repeatable:NO];
+}
+
+RCT_EXPORT_METHOD(registerBleDevice:(id)info result:(RCTResponseSenderBlock)result){
+  NSDictionary *dict = [info dictionaryObject];
+  if (!dict) {
+    return;
+  }
+  NSString *mac = [dict stringValueForKey:@"mac" defaultValue:@""];
+  [[GizWifiSDK sharedInstance] registerBleDevice:mac];
+  [self.callBackManager addResult:result type:GizWifiRnResultTypeRegisterBleDevice identity:nil repeatable:NO];
 }
 
 
@@ -566,6 +586,18 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
   [dataDict setValue:failedDevices forKey:@"fail"];
   [dataDict setValue:successDevices forKey:@"success"];
   [self.callBackManager callBackWithType:GizWifiRnResultTypeDeviceSafetyRegister identity:nil resultDict:dataDict errorDict:errDict];
+}
+
+- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didRegisterBleDevice:(NSError * _Nullable)result mac:(NSString * _Nullable)mac productKey:(NSString * _Nullable)productKey {
+  NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
+  NSDictionary *errDict = nil;
+  if (result.code == GIZ_SDK_SUCCESS) {
+    [dataDict setValue:mac forKey:@"mac"];
+    [dataDict setValue:productKey forKey:@"productKey"];
+  } else{
+    errDict = [NSDictionary makeErrorDictFromError:result];
+  }
+  [self.callBackManager callBackWithType:GizWifiRnResultTypeRegisterBleDevice identity:nil resultDict:dataDict errorDict:errDict];
 }
 
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didGetCurrentCloudService:(NSError *)result cloudServiceInfo:(NSDictionary<NSString *,NSString *> *)cloudServiceInfo{

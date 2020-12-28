@@ -19,6 +19,7 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
   GizWifiRnResultTypeGetCurrentCloudService,
   GizWifiRnResultTypeDeviceSafetyRegister,
   GizWifiRnResultTypeDeviceSafetyUnbind,
+  GizWifiRnResultTypeRegisterBleDevice,
   GizWifiRnResultTypeGetVersione,
   GizWifiRnResultTypeChangeDeviceMesh,
   GizWifiRnResultTypeaAddMeshGroup,
