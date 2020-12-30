@@ -59,7 +59,7 @@ RCT_EXPORT_METHOD(startWithAppID:(id)configInfo result:(RCTResponseSenderBlock)r
       [specialProductKeys enumerateObjectsUsingBlock:^(NSString*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithDictionary:@{@"productKey":obj,@"productSecret":specialProductKeySecrets[idx]}];
         if (isUsingAdapter) {
-          [tmpDic addObject:@{@"usingAdapter":specialUsingAdapter[idx]}];
+          [tmpDic setValue:specialUsingAdapter[idx] forKey:@"usingAdapter"]
         }
         [productInfoArray addObject:tmpDic];
       }];
@@ -107,7 +107,7 @@ RCT_EXPORT_METHOD(getVersion:(RCTResponseSenderBlock)result){
 }
 
 RCT_EXPORT_METHOD(getBoundBleDevice:(RCTResponseSenderBlock)result){
-  NSArray *bleDevices = [self getBoundBleDevice];
+  NSArray *bleDevices = [[GizWifiSDK sharedInstance] getBoundBleDevice];
   if (!bleDevices) {
       bleDevices = [NSArray array];
   }
