@@ -59,7 +59,7 @@ RCT_EXPORT_METHOD(startWithAppID:(id)configInfo result:(RCTResponseSenderBlock)r
       [specialProductKeys enumerateObjectsUsingBlock:^(NSString*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithDictionary:@{@"productKey":obj,@"productSecret":specialProductKeySecrets[idx]}];
         if (isUsingAdapter) {
-          [tmpDic setValue:specialUsingAdapter[idx] forKey:@"usingAdapter"]
+          [tmpDic setValue:specialUsingAdapter[idx] forKey:@"usingAdapter"];
         }
         [productInfoArray addObject:tmpDic];
       }];
