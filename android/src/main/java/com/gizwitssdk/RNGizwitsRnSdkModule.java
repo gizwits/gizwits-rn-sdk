@@ -60,6 +60,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     private Callback discoverMeshDevicesCallback;
     private Callback unbindDeviceCallback;
     private Callback cbChannelIDBindCallback;
+    private Callback registBleDeviceCallback;
     private List<Callback> setOnboardingCallback=new ArrayList<>();
     private List<Callback> bindRemoteDeviceCallback = new ArrayList<>();
 
@@ -129,6 +130,26 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+
+        @Override
+        public void didRegistBleDevice(GizWifiErrorCode result, String mac, String productKey) {
+            super.didRegistBleDevice(result,mac,productKey);
+            try {
+                JSONObject jsonResult = new JSONObject();
+                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                    jsonResult.put("mac",mac);
+                    jsonResult.put("productKey",productKey);
+                    sendResultEvent(registBleDeviceCallback, jsonResult, null);
+                } else {
+                    jsonResult.put("errorCode", result.getResult());
+                    jsonResult.put("msg", result.name());
+                    sendResultEvent(registBleDeviceCallback, null,jsonResult);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
 
 //        @Override
@@ -1078,10 +1099,36 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         GizWifiSDK.sharedInstance().userLoginAnonymous();
     }
 
+    @ReactMethod
+    public void getBoundBleDevice(Callback callback) {
+        if (callback == null) {
+            SDKLog.d("CallBackContext is null");
+            return;
+        }
 
+        List<ConcurrentHashMap<String,String>> bleDeviceList = GizWifiSDK.sharedInstance().getBoundBleDevice();
+        JSONArray data = new JSONArray();
+        try {
+            for(int i=0;i<bleDeviceList.size();i++)
+            {
+                JSONObject json = new JSONObject();
+                json.put("mac",bleDeviceList.get(i).get("mac"));
+                json.put("productKey",bleDeviceList.get(i).get("productKey"));
+                data.put(json);
+            }
+            sendResultEvent(callback, data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
-
-
+    @ReactMethod
+    public void registerBleDevice(ReadableMap readableMap, Callback callback) {
+        JSONObject args = readable2JsonObject(readableMap);
+        registBleDeviceCallback = callback;
+        String mac = args.optString("mac");
+        GizWifiSDK.sharedInstance().registerBleDevice(mac);
+    }
 
     public void callbackNofitication(JSONObject params) {
         WritableMap writableMap = jsonObject2WriteableMap(params);
@@ -1182,6 +1229,20 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
 
         }
 
+    }
+
+    private void sendResultEvent(Callback callbackContext, JSONArray dataDict) {
+        if (callbackContext == null) {
+            return;
+        }
+        try {
+            if (dataDict != null) {
+                WritableArray successMap = jsonArray2WriteableArray(dataDict);
+                callbackContext.invoke(null, successMap);
+            } 
+        } catch (Exception e) {
+
+        }
     }
 
 
