@@ -48,12 +48,19 @@ RCT_EXPORT_METHOD(startWithAppID:(id)configInfo result:(RCTResponseSenderBlock)r
   NSArray *specialProductKeys = [dict arrayValueForKey:@"specialProductKeys" defaultValue:nil];
   NSArray *specialProductKeySecrets = [dict arrayValueForKey:@"specialProductKeySecrets" defaultValue:nil];
   BOOL autoSetDeviceDomain = [dict boolValueForKey:@"autoSetDeviceDomain" defaultValue:NO];
-  
+  NSArray *specialUsingAdapter = [dict arrayValueForKey:@"specialUsingAdapter" defaultValue:nil];
+  BOOL isUsingAdapter = NO;
+  if (specialUsingAdapter.count == specialProductKeys.count) {
+    isUsingAdapter = YES;
+  }
   if (specialProductKeySecrets.count > 0) {
     if (specialProductKeys.count == specialProductKeySecrets.count) {
       NSMutableArray *productInfoArray = [[NSMutableArray alloc] init];
       [specialProductKeys enumerateObjectsUsingBlock:^(NSString*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSDictionary *tmpDic = @{@"productKey":obj,@"productSecret":specialProductKeySecrets[idx]};
+        NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithDictionary:@{@"productKey":obj,@"productSecret":specialProductKeySecrets[idx]}];
+        if (isUsingAdapter) {
+          [tmpDic setValue:specialUsingAdapter[idx] forKey:@"usingAdapter"];
+        }
         [productInfoArray addObject:tmpDic];
       }];
       [GizWifiSDK startWithAppInfo:@{@"appId":appid,@"appSecret":appSecret} productInfo:productInfoArray cloudServiceInfo:cloudServiceInfo autoSetDeviceDomain:autoSetDeviceDomain];
@@ -96,6 +103,16 @@ RCT_EXPORT_METHOD(getVersion:(RCTResponseSenderBlock)result){
   NSString *version = [NSString stringWithFormat:@"%@-%@", [GizWifiSDK getVersion], SDK_MODULE_VERSION];
   if (result) {
     result(@[[NSNull null], version]);
+  }
+}
+
+RCT_EXPORT_METHOD(getBoundBleDevice:(RCTResponseSenderBlock)result){
+  NSArray *bleDevices = [[GizWifiSDK sharedInstance] getBoundBleDevice];
+  if (!bleDevices) {
+      bleDevices = [NSArray array];
+  }
+  if (result) {
+    result(@[[NSNull null], bleDevices]);
   }
 }
 
@@ -276,6 +293,16 @@ RCT_EXPORT_METHOD(deviceSafetyUnbind:(id)info result:(RCTResponseSenderBlock)res
   }
   [GizWifiSDK deviceSafetyUnbind:devices];
   [self.callBackManager addResult:result type:GizWifiRnResultTypeDeviceSafetyUnbind identity:nil repeatable:NO];
+}
+
+RCT_EXPORT_METHOD(registerBleDevice:(id)info result:(RCTResponseSenderBlock)result){
+  NSDictionary *dict = [info dictionaryObject];
+  if (!dict) {
+    return;
+  }
+  NSString *mac = [dict stringValueForKey:@"mac" defaultValue:@""];
+  [[GizWifiSDK sharedInstance] registerBleDevice:mac];
+  [self.callBackManager addResult:result type:GizWifiRnResultTypeRegisterBleDevice identity:nil repeatable:NO];
 }
 
 
@@ -559,6 +586,18 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
   [dataDict setValue:failedDevices forKey:@"fail"];
   [dataDict setValue:successDevices forKey:@"success"];
   [self.callBackManager callBackWithType:GizWifiRnResultTypeDeviceSafetyRegister identity:nil resultDict:dataDict errorDict:errDict];
+}
+
+- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didRegisterBleDevice:(NSError * _Nullable)result mac:(NSString * _Nullable)mac productKey:(NSString * _Nullable)productKey {
+  NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
+  NSDictionary *errDict = nil;
+  if (result.code == GIZ_SDK_SUCCESS) {
+    [dataDict setValue:mac forKey:@"mac"];
+    [dataDict setValue:productKey forKey:@"productKey"];
+  } else{
+    errDict = [NSDictionary makeErrorDictFromError:result];
+  }
+  [self.callBackManager callBackWithType:GizWifiRnResultTypeRegisterBleDevice identity:nil resultDict:dataDict errorDict:errDict];
 }
 
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didGetCurrentCloudService:(NSError *)result cloudServiceInfo:(NSDictionary<NSString *,NSString *> *)cloudServiceInfo{
