@@ -15,6 +15,7 @@
 // 缓存取出
 + (GizWifiDevice *)cachedDeviceWithMacAddress:(NSString *)macAddress did:(NSString *)did;
 + (GizWifiCentralControlDevice *)cachedCentralControlDeviceWithMacAddress:(NSString *)macAddress did:(NSString *)did;
++ (void)device:(GizWifiDevice *)device didUpdateNetStatus:(GizWifiDeviceNetStatus)netStatus;
 //+ (GizWifiSubDevice *)cachedSubDeviceWithMacAddress:(NSString *)macAddress did:(NSString *)did subDid:(NSString *)subDid;
 //+ (GizWifiSubDevice *)cachedSubDeviceWithDid:(NSString *)did subDid:(NSString *)subDid;
 

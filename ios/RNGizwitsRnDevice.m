@@ -130,7 +130,7 @@ RCT_EXPORT_METHOD(connectBle:(id)info result:(RCTResponseSenderBlock)result) {
   NSDictionary *deviceDict = [dict dictValueForKey:@"device" defaultValue:dict];
   NSString *mac = [deviceDict stringValueForKey:@"mac" defaultValue:@""];
   NSString *did = [deviceDict stringValueForKey:@"did" defaultValue:@""];
-  __block GizWifiBleDevice *device = [GizWifiDeviceCache cachedDeviceWithMacAddress:mac did:did];
+  __block GizWifiBleDevice *device = (GizWifiBleDevice *)[GizWifiDeviceCache cachedDeviceWithMacAddress:mac did:did];
   if (!device) {
     NSDictionary *errDict = [NSDictionary makeErrorDictFromResultCode:GizWifiError_DEVICE_IS_INVALID];
     [self.callBackManager callBackError:errDict result:result];
