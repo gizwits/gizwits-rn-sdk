@@ -78,6 +78,10 @@ static GizWifiDeviceCache *sharedInstance = nil;
     return nil;
 }
 
++ (void)device:(GizWifiDevice *)device didUpdateNetStatus:(GizWifiDeviceNetStatus)netStatus {
+    [[self sharedInstance] device:device didUpdateNetStatus:netStatus];
+}
+
 #pragma mark - device delegate
 
 - (void)device:(GizWifiDevice *)device didSetSubscribe:(NSError *)result isSubscribed:(BOOL)isSubscribed {

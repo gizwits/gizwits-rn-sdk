@@ -172,6 +172,12 @@ for (id <GizWifiSDKDelegate>delegate in self.mDelegates) { \
     GIZ_SDK_DELEGATE_CALLBACK_END()
 }
 
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didRegisterBleDevice:(NSError *)result mac:(NSString *)mac productKey:(NSString *)productKey {
+    GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:didRegisterBleDevice:mac:productKey:))
+    [delegate wifiSDK:wifiSDK didRegisterBleDevice:result mac:mac productKey:productKey];
+    GIZ_SDK_DELEGATE_CALLBACK_END()
+}
+
 //- (void)wifiSDK:(GizWifiSDK *)wifiSDK didAddDevicesToGroup:(NSArray<GizWifiDevice *> *)successMeshDevice result:(NSError *)result{
 //    GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:didAddDevicesToGroup:result:))
 //    [delegate wifiSDK:wifiSDK didAddDevicesToGroup:successMeshDevice result:result];
