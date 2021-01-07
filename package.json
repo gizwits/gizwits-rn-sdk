@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.22.6",
-  "description": "安卓兼容获取绝对路径",
+  "version": "2.22.7",
+  "description": "修正红米崩溃问题",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
