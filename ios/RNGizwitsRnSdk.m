@@ -425,10 +425,10 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
 
 #pragma mark - noti
 - (NSArray<NSString *> *)supportedEvents{
-    return @[GizDeviceListNotifications, GizMeshDeviceListNotifications, GizDeviceLogNotifications];
+    return @[GizDeviceListNotifications, GizMeshDeviceListNotifications, GizDeviceLogNotifications, GizBleDeviceListNotifications];
 }
 
-- (void)notiWithType:(GizWifiRnResultType)type result:(NSDictionary *)result{
+- (void)notiWithType:(GizWifiRnResultType)type result:(id)result{
 
     switch (type) {
         case GizWifiRnResultTypeDeviceListNoti:{
@@ -438,8 +438,13 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
         case GizWifiRnResultTypeMeshDeviceListNoti:{
             [self sendEventWithName:GizMeshDeviceListNotifications body:result];
         }
+            break;
         case GizWifiRnResultTypeReceiveDeviceLogNoti:{
             [self sendEventWithName:GizDeviceLogNotifications body:result];
+        }
+            break;
+        case GizWifiRnResultTypeBleDeviceListNoti:{
+            [self sendEventWithName:GizBleDeviceListNotifications body:result];
         }
             break;
         default:
@@ -619,6 +624,16 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
         errDict = [NSDictionary makeErrorDictFromError:result];
     }
     [self.callBackManager callBackWithType:GizWifiRnResultTypeRegisterBleDevice identity:nil resultDict:dataDict errorDict:errDict];
+}
+
+- (void)wifiSDK:(GizWifiSDK *)wifiSDK didDiscoverBleDevice:(NSError *)result deviceList:(NSArray<NSDictionary *> *)deviceList {
+    NSArray *bleDevices = [[GizWifiSDK sharedInstance] getBoundBleDevice];
+    if (!bleDevices) {
+        bleDevices = [NSArray array];
+    }
+
+    //noti
+    [self notiWithType:GizWifiRnResultTypeBleDeviceListNoti result:@[[NSNull null], bleDevices]];
 }
 
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didGetCurrentCloudService:(NSError *)result cloudServiceInfo:(NSDictionary<NSString *,NSString *> *)cloudServiceInfo{
