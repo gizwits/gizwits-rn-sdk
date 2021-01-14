@@ -406,6 +406,23 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             }
         }
 
+        public void didDiscoverBleDevice(GizWifiErrorCode result,List<ConcurrentHashMap<String, String>> deviceList)
+        {
+            JSONArray data = new JSONArray();
+            try {
+                for(int i=0;i<deviceList.size();i++)
+                {
+                    JSONObject json = new JSONObject();
+                    json.put("mac",deviceList.get(i).get("mac"));
+                    json.put("productKey",deviceList.get(i).get("productKey"));
+                    data.put(json);
+                }
+                callbackBleDeviceNofitication(data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         @Override
         public void didDeviceSafetyRegister(List<ConcurrentHashMap<String, String>> successDevices, List<ConcurrentHashMap<String, Object>> failedDevices) {
             super.didDeviceSafetyRegister(successDevices, failedDevices);
@@ -1143,6 +1160,13 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("GizMeshDeviceListNotifications", writableMap);
+    }
+    public void callbackBleDeviceNofitication(JSONArray params) {
+        Log.e("bleDevice",params.toString());
+        WritableArray writableMap = jsonArray2WriteableArray(params);
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("GizBleDeviceListNotifications", writableMap);
     }
     public void callbackDeviceLogNofitication(JSONObject params) {
         Log.e("meshDevice", params.toString());
