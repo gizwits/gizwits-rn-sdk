@@ -304,14 +304,6 @@
 - (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didDeviceSafetyRegister:(NSArray * _Nullable)successDevices failedDevices:(NSArray * _Nullable)failedDevices;
 
 /**
- 注册蓝牙设备回调接口。
- @param result 注册成功或失败，详细见 GizWifiErrorCode 枚举定义。GIZ_SDK_SUCCESS 表示全部注册成功，其他为失败
- @param mac 注册成功的设备mac，NSString类型， 失败为nil
- @param productKey 册成功的设备产品类型标识，NSString类型， 失败为nil
- */
-- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didRegisterBleDevice:(NSError * _Nullable)result mac:(NSString * _Nullable)mac productKey:(NSString * _Nullable)productKey;
-
-/**
  设备安全解绑回调接口。同时解绑多个设备时，若全部解绑成功则回调参数为nil
  @param failedDevices 解绑失败的设备，NSDictionary数组，nil表示全部解绑成功。字典格式如下：
  [{device:xxx, errorCode:xxx},  ...]
@@ -321,6 +313,22 @@
  @see GizWifiErrorCode
  */
 - (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didDeviceSafetyUnbind:(NSArray * _Nullable)failedDevices;
+
+/**
+ 注册蓝牙设备回调接口。
+ @param result 注册成功或失败，详细见 GizWifiErrorCode 枚举定义。GIZ_SDK_SUCCESS 表示全部注册成功，其他为失败
+ @param mac 注册成功的设备mac，NSString类型， 失败为nil
+ @param productKey 册成功的设备产品类型标识，NSString类型， 失败为nil
+ */
+- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didRegisterBleDevice:(NSError * _Nullable)result mac:(NSString * _Nullable)mac productKey:(NSString * _Nullable)productKey;
+
+/**
+ 发现新的双通道设备或者双通道设备消失会触发当前回调
+ @param result 详细见 GizWifiErrorCode 枚举定义。GIZ_SDK_SUCCESS
+ @param deviceList 返回最新的双通道设备列表
+ */
+- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didDiscoverBleDevice:(NSError * _Nullable)result deviceList:(NSArray <NSDictionary *> * _Nullable)deviceList;
+
 
 /**
  注销用户回调
@@ -590,9 +598,11 @@
 @property (strong, nonatomic, readonly) NSArray <GizWifiDevice *>* _Nullable deviceList;
 
 /**
- NSArray类型，为 NSDictionary 数组, 格式：{"mac": xxx, "productKey": xxx}。返回当前附近的蓝牙设备列表
+ 获取本地缓存的双通道设备，并且触发双通道设备搜索
+ return NSArray类型，为 NSDictionary 数组, 格式：{"mac": xxx, "productKey": xxx}。返回缓存的双通道设备
+ @see 对应的回调接口：[GizWifiSDKDelegate wifiSDK:didDiscoverBleDevice:deviceList:]
  */
-@property (strong, nonatomic, readonly) NSArray <NSDictionary *>* _Nullable getBoundBleDevice;
+- (NSArray <NSDictionary *>* _Nullable)getBoundBleDevice;
 
 /**
  获取绑定设备列表。在不同的网络环境下，有不同的处理：
