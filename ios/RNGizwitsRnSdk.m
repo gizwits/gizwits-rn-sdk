@@ -627,13 +627,12 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
 }
 
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didDiscoverBleDevice:(NSError *)result deviceList:(NSArray<NSDictionary *> *)deviceList {
-    NSArray *bleDevices = [[GizWifiSDK sharedInstance] getBoundBleDevice];
-    if (!bleDevices) {
-        bleDevices = [NSArray array];
+    if (!deviceList) {
+        deviceList = [NSArray array];
     }
 
     //noti
-    [self notiWithType:GizWifiRnResultTypeBleDeviceListNoti result:@[[NSNull null], bleDevices]];
+    [self notiWithType:GizWifiRnResultTypeBleDeviceListNoti result:@[[NSNull null], deviceList]];
 }
 
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didGetCurrentCloudService:(NSError *)result cloudServiceInfo:(NSDictionary<NSString *,NSString *> *)cloudServiceInfo{
