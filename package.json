@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.22.7-beta-2",
+  "version": "2.22.7-beta-4",
   "description": "更新蓝牙sdk",
   "main": "index.js",
   "scripts": {

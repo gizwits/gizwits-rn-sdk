@@ -9,6 +9,7 @@
 #define GizMeshDeviceListNotifications @"GizMeshDeviceListNotifications"
 #define GizDeviceLogNotifications @"GizDeviceLogNotifications"
 #define GizDeviceAppToDevNotifications @"GizDeviceAppToDevNotifications"
+#define GizBleDeviceListNotifications      @"GizBleDeviceListNotifications"
 
 typedef void (^RCTResponseSenderBlock)(NSArray *response);
 
@@ -29,6 +30,7 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
   GizWifiRnResultTypeReceiveDeviceLogNoti,
   GizWifiRnResultTypeUnBindDevice,
   GizWifiRnResultTypeBindChannel,
+  GizWifiRnResultTypeBleDeviceListNoti,
   //device
   GizWifiRnResultTypeSetSubscribe,
   GizWifiRnResultTypeConnectBle,
