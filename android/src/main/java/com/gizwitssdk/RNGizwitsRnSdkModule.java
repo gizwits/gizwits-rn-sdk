@@ -588,7 +588,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             JSONArray specialUsingAdapter = null;
 
             boolean autoSetDeviceDomain = false;
-            Callback = callback;
+            startWithAppIdCallback = callback;
             if (!args.isNull("cloudServiceInfo")) {
                 cloudServiceInfo = args.optJSONObject("cloudServiceInfo");
             }
