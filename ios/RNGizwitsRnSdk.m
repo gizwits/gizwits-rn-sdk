@@ -632,7 +632,7 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
     }
 
     //noti
-    [self notiWithType:GizWifiRnResultTypeBleDeviceListNoti result:@[[NSNull null], deviceList]];
+    [self notiWithType:GizWifiRnResultTypeBleDeviceListNoti result:deviceList];
 }
 
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didGetCurrentCloudService:(NSError *)result cloudServiceInfo:(NSDictionary<NSString *,NSString *> *)cloudServiceInfo{
