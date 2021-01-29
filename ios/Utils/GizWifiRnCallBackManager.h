@@ -6,14 +6,17 @@
 @class GizWifiRnResult;
 #define GizDeviceListNotifications @"GizDeviceListNotifications"
 #define GizDeviceStatusNotifications @"GizDeviceStatusNotifications"
-#define GizMeshDeviceListNotifications @"GizMeshDeviceListNotifications"
 #define GizDeviceLogNotifications @"GizDeviceLogNotifications"
 #define GizDeviceAppToDevNotifications @"GizDeviceAppToDevNotifications"
 
 typedef void (^RCTResponseSenderBlock)(NSArray *response);
 
 typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
-  GizWifiRnResultTypeAppStart = 1,
+    GizWifiRnResultTypeAppStart = 1,
+    GizWifiRnResultTypeSetDeviceOnboardingDeploy,
+    GizWifiRnResultTypeSetDeviceOnboarding,
+    
+
   GizWifiRnResultTypeDeviceListNoti,
   GizWifiRnResultTypeGetBoundDevices,
   GizWifiRnResultTypeGetCurrentCloudService,
@@ -24,7 +27,6 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
   GizWifiRnResultTypeChangeDeviceMesh,
   GizWifiRnResultTypeaAddMeshGroup,
   GizWifiRnResultTypeRestoreDeviceFactorySetting,
-  GizWifiRnResultTypeSetDeviceOnboardingDeploy,
   GizWifiRnResultTypeBindRemoteDevice,
   GizWifiRnResultTypeReceiveDeviceLogNoti,
   GizWifiRnResultTypeUnBindDevice,
@@ -43,6 +45,8 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
 @interface GizWifiRnCallBackManager : NSObject
 @property (nonatomic, strong) NSMutableArray *callbacks;
 //call backs
++ (void)callBackWithResultDict:(NSDictionary *)resultDict result:(RCTResponseSenderBlock)result;
+
 - (void)callBackWithType:(GizWifiRnResultType)type identity:(NSString *)identity resultDict:(NSArray *)resultDict;
 - (void)callBackWithType:(GizWifiRnResultType)type identity:(NSString *)identity resultDict:(NSDictionary *)resultDict errorDict:(NSDictionary *)errorDict;
 - (void)callbackParamInvalid:(RCTResponseSenderBlock)result;

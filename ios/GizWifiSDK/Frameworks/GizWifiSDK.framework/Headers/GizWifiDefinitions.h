@@ -9,21 +9,8 @@
 #ifndef GizWifiSDK_GizWifiDefinitions_h
 #define GizWifiSDK_GizWifiDefinitions_h
 
-/*
- 升级SDK兼容定义
- @note 仅为A1的APP无缝过渡升级使用。全新开发APP的过程中，请不要使用XPG开头的定义，以免以后升级SDK时遇到麻烦 */
-#define XPGWifiSDK GizWifiSDK
-#define XPGWifiSDKDelegate GizWifiSDKDelegate
-#define XPGWifiDevice GizWifiDevice
-#define XPGWifiDeviceDelegate GizWifiDeviceDelegate
-#define XPGWifiCentralControlDevice GizWifiCentralControlDevice
-#define XPGWifiCentralControlDeviceDelegate GizWifiCentralControlDeviceDelegate
-#define XPGWifiSubDevice GizWifiSubDevice
-#define XPGWifiGroup GizWifiGroup
-#define XPGWifiGroupDelegate GizWifiGroupDelegate
-#define XPGWifiBinary GizWifiBinary
-#define XPGUserInfo GizUserInfo
-#define XPGWifiSSID GizWifiSSID
+#define APPAPI_CONFIG_KEY     @"appApi"
+#define PUSHAPI_CONFIG_KEY     @"push"
 
 /**
  @brief 这里会定义 APP 能够用到的错误码枚举定义
@@ -114,8 +101,6 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     GIZ_SDK_SUBDEVICE_DID_INVALID = 8026,
     /** 设备passcode无效 */
     GIZ_SDK_DEVICE_PASSCODE_INVALID = 8027,
-    /** 不是中控设备 */
-    GIZ_SDK_DEVICE_NOT_CENTERCONTROL = 8028,
     /** 设备未订阅 */
     GIZ_SDK_DEVICE_NOT_SUBSCRIBED = 8029,
     /** 设备未响应 */
@@ -170,7 +155,9 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     GIZ_SDK_NO_AVAILABLE_DEVICE_TO_GET_DEVICE_LOG = 8062,
     /** 正在获取设备日志 */
     GIZ_SDK_IS_GETTING_DEVICE_LOG = 8063,
-    
+    /** 查找不到该设备 */
+    GIZ_SDK_CANNOT_FIND_DEVICE = 8064,
+
     /** HTTP服务不支持此API */
     GIZ_SDK_HTTP_SERVER_NOT_SUPPORT_API = 8095,
     /** http应答格式错误 */
@@ -200,72 +187,7 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     GIZ_SDK_JSON_UNFORMAT_FAILED = 8107,
     /** Json拷贝失败 */
     GIZ_SDK_JSON_DUPLICATE_FAILED = 8108,
-    
-    /** 定时任务创建失败 */
-    GIZ_SDK_SCHEDULER_CREATE_FAILED = 8120,
-    /** 定时任务删除失败 */
-    GIZ_SDK_SCHEDULER_DELETE_FAILED = 8121,
-    /** 定时任务信息编辑失败 */
-    GIZ_SDK_SCHEDULER_EDIT_FAILED = 8122,
-    /** 定时任务列表更新失败 */
-    GIZ_SDK_SCHEDULER_LIST_UPDATE_FAILED = 8123,
-    /** 定时任务的执行内容编辑失败 */
-    GIZ_SDK_SCHEDULER_TASK_EDIT_FAILED = 8124,
-    /** 定时任务的执行列表更新失败 */
-    GIZ_SDK_SCHEDULER_TASK_LIST_UPDATE_FAILED = 8125,
-    /** 定时任务ID无效 */
-    GIZ_SDK_SCHEDULER_ID_INVALID = 8126,
-    /** 定时任务开启或关闭失败 */
-    GIZ_SDK_SCHEDULER_ENABLE_DISABLE_FAILED = 8127,
-    /** 定时任务状态更新失败 */
-    GIZ_SDK_SCHEDULER_STATUS_UPDATE_FAILED = 8128,
-    
-    /** 添加子设备失败 */
-    GIZ_SDK_SUBDEVICE_ADD_FAILED = 8140,
-    /** 删除子设备失败 */
-    GIZ_SDK_SUBDEVICE_DELETE_FAILED = 8141,
-    /** 子设备列表更新失败 */
-    GIZ_SDK_SUBDEVICE_LIST_UPDATE_FAILED = 8142,
-    
-    /** 组ID无效 */
-    GIZ_SDK_GROUP_ID_INVALID = 8150,
-    /** 组类型无效 */
-    GIZ_SDK_GROUP_PRODUCTKEY_INVALID = 8151,
-    /** 组设备删除失败 */
-    GIZ_SDK_GROUP_FAILED_DELETE_DEVICE = 8152,
-    /** 组设备添加失败 */
-    GIZ_SDK_GROUP_FAILED_ADD_DEVICE = 8153,
-    /** 组设备获取失败 */
-    GIZ_SDK_GROUP_GET_DEVICE_FAILED = 8154,
-    /** 创建组失败 */
-    GIZ_SDK_GROUP_CREATE_FAILED = 8155,
-    /** 删除组失败 */
-    GIZ_SDK_GROUP_DELETE_FAILED = 8156,
-    /** 编辑组失败 */
-    GIZ_SDK_GROUP_EDIT_FAILED = 8157,
-    /** 组列表更新失败 */
-    GIZ_SDK_GROUP_LIST_UPDATE_FAILED = 8158,
-    /** 组操作失败 */
-    GIZ_SDK_GROUP_COMMAND_WRITE_FAILED = 8159,
-    
-    /** 创建场景失败 */
-    GIZ_SDK_SCENE_CREATE_FAILED = 8170,
-    /** 删除场景失败 */
-    GIZ_SDK_SCENE_DELETE_FAILED = 8171,
-    /** 编辑场景失败 */
-    GIZ_SDK_SCENE_EDIT_FAILED = 8172,
-    /** 场景列表更新失败 */
-    GIZ_SDK_SCENE_LIST_UPDATE_FAILED = 8173,
-    /** 场景项列表编辑失败 */
-    GIZ_SDK_SCENE_ITEM_LIST_EDIT_FAILED = 8174,
-    /** 场景项列表更新失败 */
-    GIZ_SDK_SCENE_ITEM_LIST_UPDATE_FAILED = 8175,
-    /** 场景ID无效 */
-    GIZ_SDK_SCENE_ID_INVALID = 8176,
-    /** 场景执行失败 */
-    GIZ_SDK_SCENE_RUN_FAILED = 8177,
-    /** 场景状态更新失败 */
-    GIZ_SDK_SCENE_STATUS_UPDATE_FAILED = 8178,
+
 
     /** 配置文件还未下载 */
     GIZ_SDK_DATAPOINT_NOT_DOWNLOAD = 8201,
@@ -273,50 +195,6 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     GIZ_SDK_DATAPOINT_SERVICE_UNAVAILABLE = 8202,
     /** 配置文件解析失败 */
     GIZ_SDK_DATAPOINT_PARSE_FAILED = 8203,
-    
-    /** 创建联动失败 */
-    GIZ_SDK_JOINT_ACTION_CREATE_FAILED = 8221,
-    /** 删除联动失败 */
-    GIZ_SDK_JOINT_ACTION_DELETE_FAILED = 8222,
-    /** 不支持的联动版本 */
-    GIZ_SDK_JOINT_ACTION_VER_UNSUPPORTED = 8223,
-    /** 联动条件组合无效 */
-    GIZ_SDK_JOINT_ACTION_CONDITION_COMBI_INVALID = 8224,
-    /** 联动条件运算符无效 */
-    GIZ_SDK_JOINT_ACTION_CONDITION_OPERATOR_INVALID = 8225,
-    /** 联动结果类型无效 */
-    GIZ_SDK_JOINT_ACTION_RESULT_TYPE_INVALID = 8226,
-    /** 必须设置联动规则 */
-    GIZ_SDK_PARAM_JOINT_ACTION_REQUIRE_RULE = 8227,
-    /** 必须设置联动条件 */
-    GIZ_SDK_PARAM_JOINT_ACTION_REQUIRE_CONDITION = 8228,
-    /** 必须设置联动条件中的设备 */
-    GIZ_SDK_PARAM_JOINT_ACTION_CONDITION_REQUIRE_DEVICE = 8229,
-    /** 必须设置联动条件中的动作 */
-    GIZ_SDK_PARAM_JOINT_ACTION_CONDITION_REQUIRE_DATA = 8230,
-    /** 联动条件中的设备只能设置一个 */
-    GIZ_SDK_PARAM_JOINT_ACTION_CONDITION_DATA_ONLY_SUPPORT_ONE = 8231,
-    /** 联动条件中的设备动作无效 */
-    GIZ_SDK_PARAM_JOINT_ACTION_CONDITION_DATA_INVALID = 8232,
-    /** 必须设置联动的期望结果 */
-    GIZ_SDK_PARAM_JOINT_ACTION_REQUIRE_RESULT = 8233,
-    /** 必须设置联动要触发的动作 */
-    GIZ_SDK_PARAM_JOINT_ACTION_RESULT_REQUIRE_DATA = 8234,
-    /** 必须设置触发联动动作的设备 */
-    GIZ_SDK_PARAM_JOINT_ACTION_RESULT_REQUIRE_DEVICE = 8235,
-    /** 必须设置触发联动动作的组 */
-    GIZ_SDK_PARAM_JOINT_ACTION_RESULT_REQUIRE_GROUP = 8236,
-    /** 必须设置触发联动的场景 */
-    GIZ_SDK_PARAM_JOINT_ACTION_RESULT_REQUIRE_SCENE = 8237,
-    /** 必须设置触发联动的定时任务 */
-    GIZ_SDK_PARAM_JOINT_ACTION_RESULT_REQUIRE_SCHEDULER = 8238,
-    
-    
-    
-    /** 管理者设备必须是一个网关 */
-    GIZ_SDK_PARAM_GATEWAY_OWNER_REQUIRED = 8248,
-    /** 没有指定管理者设备 */
-    GIZ_SDK_PARAM_NO_DEVICE_OWNER = 8249,
     
     /** 产品类型不在指定范围内 */
     GIZ_SDK_PRODUCTKEY_NOT_IN_SPECIFY = 8250,
@@ -610,6 +488,12 @@ typedef NS_ENUM(NSInteger, GizLogPrintLevel) {
     
     /** 输出调试日志 */
     GizLogPrintII,
+
+    /** 输出警告日志 */
+    GizLogPrintIII,
+
+    /** 输出警示日志 */
+    GizLogPrintIV,
     
     /** 输出数据日志 */
     GizLogPrintAll
@@ -666,39 +550,7 @@ typedef NS_ENUM(NSInteger, GizWifiGAgentType) {
     /** 汉枫v8模组 */
     GizGAgentHFV8 = 14,
     /** 乐鑫模组广播模式 */
-    GizGAgentESPBroadcast = 15,
-};
-
-/**
- @brief GizUserAccountType枚举，描述SDK支持的用户（非第三方）账号类型
- */
-typedef NS_ENUM(NSInteger, GizUserAccountType) {
-    /** 普通用户 */
-    GizUserNormal = 0,
-    /** 手机用户 */
-    GizUserPhone = 1,
-    /** 电子邮箱用户 */
-    GizUserEmail = 2,
-    /** 其他用户类型（包括匿名用户） */
-    GizUserOther = 3,
-};
-
-/**
- @brief GizThirdAccountType枚举，描述SDK支持的第三方账号类型
- */
-typedef NS_ENUM(NSInteger, GizThirdAccountType) {
-    /** 百度账号 */
-    GizThirdBAIDU = 0,
-    /** 新浪账号 */
-    GizThirdSINA = 1,
-    /** QQ 账号 */
-    GizThirdQQ = 2,
-    /** 微信帐号 */
-    GizThirdWeChat = 3,
-    /** Facebook账号 */
-    GizThirdFacebook = 4,
-    /** Twitter账号 */
-    GizThirdTwitter = 5,
+    GizGAgentESPBroadcast = 15
 };
 
 /**
@@ -711,7 +563,9 @@ typedef NS_ENUM(NSInteger, GizEventType) {
     GizEventDevice = 1,
     /** M2M异常事件 */
     GizEventM2MService = 2,
+    /** OpenAPI异常事件 */
     GizEventOpenAPIService = 3,
+    /** Product异常事件 */
     GizEventProductService = 4,
     /** Token失效事件 */
     GizEventToken = 5
@@ -723,8 +577,6 @@ typedef NS_ENUM(NSInteger, GizEventType) {
 typedef NS_ENUM(NSInteger, GizWifiDeviceType) {
     /** 普通设备 */
     GizDeviceNormal = 0,
-    /** 中控设备 */
-    GizDeviceCenterControl = 1,
     /** 子设备 */
     GizDeviceSub = 2,
 };
@@ -757,15 +609,65 @@ typedef NS_ENUM(NSInteger, GizWifiDeviceNetStatus) {
 };
 
 /**
- @brief 性别类型
+ @brief 固件类型
+ */
+typedef NS_ENUM(NSInteger, GizOTAFirmwareType) {
+    /** 设备的模组固件 */
+    GizOTAFirmareModule = 0,
+    /** 设备mcu固件 */
+    GizOTAFirmareMcu = 1,
+};
+
+/**
+ @brief GizUserAccountType枚举，描述SDK支持的用户（非第三方）账号类型
+ */
+typedef NS_ENUM(NSInteger, GizUserAccountType) {
+    /** 普通用户 */
+    GizUserNormal = 0,
+    /** 手机用户 */
+    GizUserPhone = 1,
+    /** 电子邮箱用户 */
+    GizUserEmail = 2,
+    /** 其他用户类型（包括匿名用户） */
+    GizUserOther = 3,
+};
+
+
+
+/**
+ 性别类型
  */
 typedef NS_ENUM(NSInteger, GizUserGenderType) {
-    /** 男 */
-    GizUserGenderMale = 0,
-    /** 女 */
-    GizUserGenderFemale = 1,
-    /** 其他 */
-    GizUserGenderUnknown = 2,
+    /**男*/
+    GizUserGenderMale = 1,
+    
+    /**女*/
+    GizUserGenderFemale = 2,
+    
+    /**未知*/
+    GizUserGenderUnknown = 3,
+};
+
+/**
+ @brief GizThirdAccountType枚举，描述SDK支持的第三方账号类型
+ */
+typedef NS_ENUM(NSInteger, GizThirdAccountType) {
+    /** 百度账号 */
+    GizThirdBAIDU = 0,
+    /** 新浪账号 */
+    GizThirdSINA = 1,
+    /** QQ 账号 */
+    GizThirdQQ = 2,
+    /** 微信帐号 */
+    GizThirdWeChat = 3,
+    /** Facebook账号 */
+    GizThirdFacebook = 4,
+    /** Twitter账号 */
+    GizThirdTwitter = 5,
+    /** Google账号 */
+    GizThirdGoogle = 6,
+    /** Amazon账号 */
+    GizThirdAmazon = 7,
 };
 
 /**
@@ -781,331 +683,5 @@ typedef NS_ENUM(NSInteger, GizPushType) {
     /** 信鸽推送 */
     GizPushXinGe = 3
 };
-
-/**
- @brief 定时按周重复
- */
-typedef NS_ENUM(NSInteger, GizScheduleWeekday) {
-    /** 星期日 */
-    GizScheduleSunday = 0,
-    /** 星期一 */
-    GizScheduleMonday = 1,
-    /** 星期二 */
-    GizScheduleTuesday = 2,
-    /** 星期三 */
-    GizScheduleWednesday = 3,
-    /** 星期四 */
-    GizScheduleThursday = 4,
-    /** 星期五 */
-    GizScheduleFriday = 5,
-    /** 星期六 */
-    GizScheduleSaturday = 6
-};
-
-/**
- @brief 定时任务重复策略
- */
-typedef NS_ENUM(NSInteger, GizScheduleRepeatRule) {
-    /** 不管什么情况都重复 */
-    GizScheduleRepeatAll = 0,
-    /** 仅失败重复 */
-    GizScheduleRepeatFailed = 1,
-};
-
-/**
- @brief 定时任务执行状态
- */
-typedef NS_ENUM(NSInteger, GizScheduleStatus) {
-    /** 成功 */
-    GizScheduleSucceed = 0,
-    /** 失败 */
-    GizScheduleFailed = 1,
-    /** 无状态 */
-    GizScheduleNotDone = 2,
-};
-
-/**
- @brief 分享类型
- */
-typedef NS_ENUM(NSInteger, GizDeviceSharingType) {
-    /** 自己发出的分享邀请 */
-    GizDeviceSharingByMe = 0,
-    /** 分享给自己的邀请 */
-    GizDeviceSharingToMe = 1,
-};
-
-/**
- @brief 分享方式
- */
-typedef NS_ENUM(NSInteger, GizDeviceSharingWay) {
-    /** 账号分享 */
-    GizDeviceSharingByNormal = 0,
-    /** 二维码分享 */
-    GizDeviceSharingByQRCode = 1,
-};
-
-/**
- @brief 分享状态
- */
-typedef NS_ENUM(NSInteger, GizDeviceSharingStatus) {
-    /** 未接受 */
-    GizDeviceSharingNotAccepted = 0,
-    /** 已接受 */
-    GizDeviceSharingAccepted = 1,
-    /** 已拒绝 */
-    GizDeviceSharingRefused = 2,
-    /** 已取消 */
-    GizDeviceSharingCancelled = 3,
-};
-
-/**
- @brief 消息类型
- */
-typedef NS_ENUM(NSInteger, GizMessageType) {
-    /** 系统消息 */
-    GizMessageSystem = 0,
-    /** 分享消息 */
-    GizMessageSharing = 1,
-};
-
-/**
- @brief 消息状态
- */
-typedef NS_ENUM(NSInteger, GizMessageStatus) {
-    /** 未读消息 */
-    GizMessageUnread = 0,
-    /** 已读消息 */
-    GizMessageRead = 1,
-    /** 已删除消息 */
-    GizMessageDeleted = 2,
-};
-
-/**
- @brief 场景执行状态
- */
-typedef NS_ENUM(NSInteger, GizDeviceSceneStatus) {
-    /** 取消 */
-    GizDeviceSceneCancel = 0,
-    /** 启动 */
-    GizDeviceSceneStart = 1,
-    /** 结束 */
-    GizDeviceSceneDone = 2,
-};
-
-/**
- @brief 设备分享的用户角色
- */
-typedef NS_ENUM(NSInteger, GizDeviceSharingUserRole) {
-    /** 普通绑定用户 */
-    GizDeviceSharingNormal = 0,
-    /** 潜在Owner用户 */
-    GizDeviceSharingSpecial = 1,
-    /** Owner用户 */
-    GizDeviceSharingOwner = 2,
-    /** Guest用户 */
-    GizDeviceSharingGuest = 3,
-};
-
-/**
- @brief 场景项类型
- */
-typedef NS_ENUM(NSInteger, GizSceneItemType) {
-    /* 设备场景项 */
-    GizSceneItemDevice = 0,
-    /* 组场景项 */
-    GizSceneItemGroup = 1,
-    /* 延时场景项 */
-    GizSceneItemDelay = 2,
-};
-
-/**
- @brief 定时任务类型
- */
-typedef NS_ENUM(NSInteger, GizSchedulerType) {
-    /** 延时任务 */
-    GizSchedulerDelay = 0,
-    /** 一次性定时任务 */
-    GizSchedulerOneTime = 1,
-    /** 按周重复定时任务 */
-    GizSchedulerWeekRepeat = 2,
-    /** 按天重复定时任务 */
-    GizSchedulerDayRepeat = 3,
-};
-
-/**
- @brief 定时任务项类型
- */
-typedef NS_ENUM(NSInteger, GizSchedulerTaskType) {
-    /** 设备任务项 */
-    GizSchedulerTaskDevice = 0,
-    /** 组任务项 */
-    GizSchedulerTaskGroup = 1,
-    /** 场景任务项 */
-    GizSchedulerTaskScene = 2,
-};
-
-/**
- @brief 联动规则类型
- */
-typedef NS_ENUM(NSInteger, GizLogicalOperator) {
-    /** 与 */
-    GizLogicalAnd = 0,
-    /** 或 */
-    GizLogicalOr = 1,
-};
-
-/**
- @brief 联动条件
- */
-typedef NS_ENUM(NSInteger, GizConditionOperator) {
-    /** 相等 */
-    GizConditionEqual = 0,
-    /** 小于 */
-    GizConditionLessThan = 1,
-    /** 大于 */
-    GizConditionMoreThan = 2,
-    /** 小于等于 */
-    GizConditionLessThanOrEqual = 3,
-    /** 大于等于 */
-    GizConditionMoreThanOrEqual = 4,
-    /** 不相等 */
-    GizConditionNotEqual = 5,
-};
-
-/**
- @brief 联动规则项类型
- */
-typedef NS_ENUM(NSInteger, GizJointActionRuleEventType) {
-    /** 设备事件 */
-    GizJointActionRuleEventDevice = 0,
-    /** 组事件 */
-    GizJointActionRuleEventGroup = 1,
-    /** 场景事件 */
-    GizJointActionRuleEventScene = 2,
-    /** 定时任务事件 */
-    GizJointActionRuleEventScheduler = 3,
-};
-
-/**
- @brief 固件类型
- */
-typedef NS_ENUM(NSInteger, GizOTAFirmwareType) {
-    /** 设备的模组固件 */
-    GizOTAFirmareModule = 0,
-    /** 设备mcu固件 */
-    GizOTAFirmareMcu = 1,
-};
-
-/**
- @brief 产品适配类型
- */
-typedef NS_ENUM(NSInteger, GizAdapterType) {
-    GizAdapterNon = 0,
-    GizAdapterDataPointMap = 1,
-    GizAdapterDataPointFunc = 2,
-    /** 支持通过脚本进行协议转换 */
-    GizAdapterDataPointScript = 3,
-    /** 支持蓝牙wifi双通道 */
-    GizAdapterWifiBle = 4,
-};
-
-typedef NS_ENUM(NSInteger, GizLocalMeshType) {
-    /** 不支持蓝牙本地控制 */
-    GizLocalMeshUnSupport = 0,
-    /** 支持蓝牙本地控制的子设备productKey */
-    GizLocalMeshSub = 1,
-    /** 子设备支持蓝牙本地控制的网关productKey */
-    GizLocalMeshGateway = 2 
-};
-
-/**
- @brief mesh设备厂商
- */
-typedef NS_ENUM(NSInteger, GizMeshVerdor) {
-    GizMeshTelink = 0, //泰凌微
-    GizMeshJingXun = 1 // 晶讯
-};
-
-/** @deprecated 此枚举定义已废弃，不再提供支持。请使用替代定义：GizWifiErrorCode */
-typedef NS_ENUM(NSInteger, XPGWifiErrorCode) {
-    XPGWifiError_NONE = 0,
-    XPGWifiError_GENERAL = -1,
-    XPGWifiError_NOT_IMPLEMENTED = -2,
-    XPGWifiError_PACKET_DATALEN = -4,
-    XPGWifiError_CONNECTION_ID = -5,
-    XPGWifiError_CONNECTION_CLOSED = -7,
-    XPGWifiError_PACKET_CHECKSUM = -8,
-    XPGWifiError_LOGIN_VERIFY_FAILED = -9,
-    XPGWifiError_NOT_LOGINED = -10,
-    XPGWifiError_NOT_CONNECTED = -11,
-    XPGWifiError_MQTT_FAIL = -12,
-    XPGWifiError_DISCOVERY_MISMATCH = -13,
-    XPGWifiError_SET_SOCK_OPT = -14,
-    XPGWifiError_THREAD_CREATE = -15,
-    XPGWifiError_CONNECTION_POOL_FULLED = -17,
-    XPGWifiError_NULL_CLIENT_ID = -18,
-    XPGWifiError_CONNECTION_ERROR = -19,
-    XPGWifiError_INVALID_PARAM = -20,
-    XPGWifiError_CONNECT_TIMEOUT = -21,
-    XPGWifiError_INVALID_VERSION = -22,
-    XPGWifiError_INSUFFIENT_MEM = -23,
-    XPGWifiError_THREAD_BUSY = -24,
-    XPGWifiError_HTTP_FAIL = -25,
-    XPGWifiError_GET_PASSCODE_FAIL = -26,
-    XPGWifiError_DNS_FAILED = -27,
-    XPGWifiError_UDP_PORT_BIND_FAILED = -30,
-    XPGWifiError_CONFIGURE_SSID_NOT_MATCHED = -39,
-    XPGWifiError_CONFIGURE_TIMEOUT = -40,
-    XPGWifiError_CONFIGURE_SENDFAILED = -41,
-    XPGWifiError_NOT_IN_SOFTAPMODE = -42,
-    XPGWifiError_UNRECOGNIZED_DATA = -43,
-    XPGWifiError_CONNECTION_NO_GATEWAY = -44,
-    XPGWifiError_CONNECTION_REFUSED = -45,
-    XPGWifiError_IS_RUNNING = -46,
-    XPGWifiError_UNSUPPORTED_API = -47,
-    XPGWifiError_RAW_DATA_TRANSMIT = -48,
-    XPGWifiError_START_SDK_FAILED = -49,
-} DEPRECATED_MSG_ATTRIBUTE("No longer supported.") NS_SWIFT_UNAVAILABLE("");
-/** @deprecated 此枚举定义已废弃，不再提供支持。请使用替代定义：GizUserAccountType */
-typedef NS_ENUM(NSInteger, XPGUserAccountType) {
-    XPGUserAccountTypeNormal = 0,
-    XPGUserAccountTypePhone = 1,
-    XPGUserAccountTypeEmail = 2
-} DEPRECATED_MSG_ATTRIBUTE("No longer supported.") NS_SWIFT_UNAVAILABLE("");
-/** @deprecated 此枚举定义已废弃，不再提供支持。请使用替代定义：GizUserGenderType */
-typedef NS_ENUM(NSInteger, XPGUserGenderType) {
-    Male = 0,
-    Female = 1,
-    Unknown = 2,
-} DEPRECATED_MSG_ATTRIBUTE("No longer supported.") NS_SWIFT_UNAVAILABLE("");
-/** @deprecated 此枚举定义已废弃，不再提供支持。请使用替代定义：GizWifiConfigureMode */
-typedef NS_ENUM(NSInteger, XPGConfigureMode) {
-    XPGWifiSDKSoftAPMode = 1,
-    XPGWifiSDKAirLinkMode = 2,
-} DEPRECATED_MSG_ATTRIBUTE("No longer supported.") NS_SWIFT_UNAVAILABLE("");
-/** @deprecated 此枚举定义已废弃，不再提供支持。请使用替代定义：GizWifiGAgentType */
-typedef NS_ENUM(NSInteger, XPGWifiGAgentType) {
-    XPGWifiGAgentTypeMXCHIP = 0,
-    XPGWifiGAgentTypeHF = 1,
-    XPGWifiGAgentTypeRTK = 2,
-    XPGWifiGAgentTypeWM = 3,
-    XPGWifiGAgentTypeESP = 4,
-    XPGWifiGAgentTypeQCA = 5,
-    XPGWifiGAgentTypeTI = 6,
-    XPGWifiGAgentTypeFSK = 7,
-    XPGWifiGAgentTypeMXCHIP3 = 8,
-    XPGWifiGAgentTypeBL = 9,
-} DEPRECATED_MSG_ATTRIBUTE("No longer supported.") NS_SWIFT_UNAVAILABLE("");
-/** @deprecated 此枚举定义已废弃，不再提供支持。请使用替代定义：GizThirdAccountType */
-typedef NS_ENUM(NSInteger, XPGWifiThirdAccountType) {
-    XPGWifiThirdAccountTypeBAIDU = 0,
-    XPGWifiThirdAccountTypeSINA,
-    XPGWifiThirdAccountTypeQQ,
-} DEPRECATED_MSG_ATTRIBUTE("No longer supported.") NS_SWIFT_UNAVAILABLE("");
-/** @deprecated 此枚举定义已废弃，不再提供支持。请使用替代定义：GizWifiDeviceType */
-typedef NS_ENUM(NSInteger, XPGWifiDeviceType) {
-    XPGWifiDeviceTypeNormal = 0,
-    XPGWifiDeviceTypeCenterControl,
-} DEPRECATED_MSG_ATTRIBUTE("No longer supported.") NS_SWIFT_UNAVAILABLE("");
 
 #endif

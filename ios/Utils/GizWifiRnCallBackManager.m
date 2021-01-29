@@ -10,6 +10,12 @@
 @implementation GizWifiRnCallBackManager
 #pragma mark - set callbacks
 
++ (void)callBackWithResultDict:(NSDictionary *)resultDict result:(RCTResponseSenderBlock)result {
+    if (result) {
+        result(@[[NSNull null], resultDict]);
+    }
+}
+
 - (void)callBackWithType:(GizWifiRnResultType)type identity:(NSString *)identity resultDict:(NSArray *)resultDict{
   dispatch_async(dispatch_get_main_queue(), ^{
     GizWifiRnResult *r = [self haveCallBack:type identity:identity];

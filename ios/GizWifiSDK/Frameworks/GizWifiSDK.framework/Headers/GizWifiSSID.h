@@ -25,7 +25,4 @@
  */
 @property (assign, nonatomic, readonly) NSInteger rssi;
 
-/** @deprecated 此变量已废弃，不再提供支持。替代变量为 ssid */
-@property (strong, nonatomic, readonly) NSString * _Null_unspecified name DEPRECATED_MSG_ATTRIBUTE("Please use ssid instead") NS_SWIFT_UNAVAILABLE("");
-
 @end

@@ -4,121 +4,101 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/GizDeviceGroup.h</key>
+		<key>Headers/BaseResult.h</key>
 		<data>
-		FFPFtILz5LY8F2gC3qH/Imj7iaU=
+		arfiVPaxsDCIHZek8ap8OSJM9eM=
 		</data>
-		<key>Headers/GizDeviceGroupCenter.h</key>
+		<key>Headers/GizBaseModel.h</key>
 		<data>
-		KxjIriOwqjFTqjM74W3A4bKcc5Q=
+		rWlrvFqdh8Lbp7jH4nFGYfB+NO0=
 		</data>
-		<key>Headers/GizDeviceJointAction.h</key>
+		<key>Headers/GizClassInfo.h</key>
 		<data>
-		0oHX3jU8dMl+X0dBNAAbfMSiA38=
-		</data>
-		<key>Headers/GizDeviceJointActionCenter.h</key>
-		<data>
-		kbSqITvICtdP10R/9WvOxRnjKAc=
-		</data>
-		<key>Headers/GizDeviceJointActionRule.h</key>
-		<data>
-		BlKYlPv/HXCZe62vvQ51FKuwivg=
-		</data>
-		<key>Headers/GizDeviceJointActionRuleCondition.h</key>
-		<data>
-		KQOQLlnSeFTlZvpj63iHTJ/vaqQ=
-		</data>
-		<key>Headers/GizDeviceJointActionRuleResultEvent.h</key>
-		<data>
-		w5iDf74+FKKDKbZAZ9KrJrscKkA=
+		ZfEVHErjk0nnZSvAcTNMCX3zeEE=
 		</data>
 		<key>Headers/GizDeviceOTA.h</key>
 		<data>
-		e12MebykpKbFyv+b3gwL//Eq+7o=
+		MIYOaWYCi2iIoWrg0y6xvGZIOGg=
 		</data>
-		<key>Headers/GizDeviceScene.h</key>
+		<key>Headers/GizError.h</key>
 		<data>
-		va+2+En6VauUWFplHYh3veddkq4=
+		MK0AIcIpKCV28pVXre/SPOGGUUY=
 		</data>
-		<key>Headers/GizDeviceSceneCenter.h</key>
+		<key>Headers/GizJSONMode.h</key>
 		<data>
-		GansFbbYg6x70oqZXsHclkOciy8=
+		guyXxriht7V0aKxikAWC2I4uGr4=
 		</data>
-		<key>Headers/GizDeviceSceneItem.h</key>
+		<key>Headers/GizLanguage.h</key>
 		<data>
-		osLPb9AZzN/x00hf4xPHd8JQuzM=
-		</data>
-		<key>Headers/GizDeviceScheduler.h</key>
-		<data>
-		UaLF7E5qjV06cfGbb1sK6Q71EJI=
-		</data>
-		<key>Headers/GizDeviceSchedulerCenter.h</key>
-		<data>
-		sPNaAIKaPdLIlzv9expM3BitUjc=
-		</data>
-		<key>Headers/GizDeviceSchedulerGateWay.h</key>
-		<data>
-		CDI+XYklEpsCCM966LbTrxvZJ7g=
-		</data>
-		<key>Headers/GizDeviceSchedulerSuper.h</key>
-		<data>
-		Vux4/AV3jpVvMOtbSsXa6ZMBQ/0=
-		</data>
-		<key>Headers/GizDeviceSchedulerTask.h</key>
-		<data>
-		F3a6nuueKywS5aP1Y4cvNeJZrB0=
-		</data>
-		<key>Headers/GizDeviceSharing.h</key>
-		<data>
-		3oKHdsf4O44T/pt4w4DdnbeOWZ0=
-		</data>
-		<key>Headers/GizDeviceSharingInfo.h</key>
-		<data>
-		0AipiadQYMAq2P/AQdi+m7FkI1w=
+		aF4XSlCXQeK5RHoq6U9Qv9YpmQU=
 		</data>
 		<key>Headers/GizLiteGWSubDevice.h</key>
 		<data>
 		HbOTFIknyFLawejgI89mbcm6peE=
 		</data>
-		<key>Headers/GizMessage.h</key>
+		<key>Headers/GizOpenApiUser.h</key>
 		<data>
-		YoKAo15Dq4cxlUP7HHtyIFb5e+I=
+		CKaU7ELjOSLf4jXa27KTvOeFM1w=
 		</data>
-		<key>Headers/GizUserInfo.h</key>
+		<key>Headers/GizSDKClientLog.h</key>
 		<data>
-		W70OAjUM/VgthRTgfOB7zNAFnoQ=
+		7O9MecthAFpAl3w97058APDZQa4=
 		</data>
-		<key>Headers/GizWifiBinary.h</key>
+		<key>Headers/GizSDKUtil.h</key>
 		<data>
-		jbp7UOsd7TZ2CPFdLpeqXNcBavI=
+		6HH2N5Owt4b6Nq3LaVd4Src8jSQ=
 		</data>
-		<key>Headers/GizWifiBleDevice.h</key>
+		<key>Headers/GizScheduler.h</key>
 		<data>
-		K4vpeTREUr1Aayyl0O6GjyV7lBU=
+		qRODFmF8waHOedZCZcreijtkPtw=
 		</data>
-		<key>Headers/GizWifiCentralControlDevice.h</key>
+		<key>Headers/GizSchedulerManager.h</key>
 		<data>
-		KNmc7qlL+zKFOgro5elN14uTRcg=
+		ToBkuF4vW09ZaJHnn6PjPsnoIOE=
+		</data>
+		<key>Headers/GizTool.h</key>
+		<data>
+		sz0VTGSTjfcFrYphoCVn3PPYGCE=
+		</data>
+		<key>Headers/GizUserTerm.h</key>
+		<data>
+		T3f4mI+0qeUwvd68pc92f8U/7QM=
 		</data>
 		<key>Headers/GizWifiDefinitions.h</key>
 		<data>
-		MYY1Hz+ciuJmIYZmAXWGSb4NuJ0=
+		bubhYkk6MFpO3IBgnUBZ7U/ipeo=
 		</data>
 		<key>Headers/GizWifiDevice.h</key>
 		<data>
-		mYufthTMZRPY/b8ZdiGhoX6QQyg=
+		x2LoFKtHp37wFlTNJEZpTjP7/A4=
 		</data>
 		<key>Headers/GizWifiSDK.h</key>
 		<data>
-		QXVV1xm98HIMQXHDVlJJSCxt+DE=
+		q0YlfutebLFMIVnJX3n7mDYNFqU=
 		</data>
 		<key>Headers/GizWifiSSID.h</key>
 		<data>
-		mFJcSwqKeA8tMyqPVTNZXkLyfPo=
+		EtoP4EM0zSNEUvcLZWYW6FTiN40=
+		</data>
+		<key>Headers/NSObject+GizJSONModel.h</key>
+		<data>
+		2QKGFUxYhLUnO2T8D/JcjAyK6Vw=
+		</data>
+		<key>Headers/OpenApiLoginResult.h</key>
+		<data>
+		jvd8hNM+tvfmHj8aR4YSqKtRrnw=
+		</data>
+		<key>Headers/OpenApiResult.h</key>
+		<data>
+		ZkgP7TbBx90w8jXOiGiHrp/XjIg=
+		</data>
+		<key>Headers/ServerManager.h</key>
+		<data>
+		BcQcdNvV6Lt6H8zayFjd3AkSZ9U=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		SORAVEW00/dOOGEasfnPJGSM1ss=
+		f2rs+9aVczRs1g+Vm4ZTnQ5szYM=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -131,202 +111,81 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/GizDeviceGroup.h</key>
+		<key>Headers/BaseResult.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			FFPFtILz5LY8F2gC3qH/Imj7iaU=
+			arfiVPaxsDCIHZek8ap8OSJM9eM=
 			</data>
 			<key>hash2</key>
 			<data>
-			vm6q/ye4z1ZFKcvZwwMDCN+XrFBTMPw9IdBDZI3andU=
+			BKWd5eSSV21ZZ9GIuC52BvJ2p3iqkehDYsBvQ0x51wE=
 			</data>
 		</dict>
-		<key>Headers/GizDeviceGroupCenter.h</key>
+		<key>Headers/GizBaseModel.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			KxjIriOwqjFTqjM74W3A4bKcc5Q=
+			rWlrvFqdh8Lbp7jH4nFGYfB+NO0=
 			</data>
 			<key>hash2</key>
 			<data>
-			4sijzdO+SMu6+Rpm+rHFCxz9jl2uhyfykbHZw2QVcno=
+			0Lq29TEUvxdhHB4DNt7qMTmmDjQdYmEUN2wEWac+3+s=
 			</data>
 		</dict>
-		<key>Headers/GizDeviceJointAction.h</key>
+		<key>Headers/GizClassInfo.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			0oHX3jU8dMl+X0dBNAAbfMSiA38=
+			ZfEVHErjk0nnZSvAcTNMCX3zeEE=
 			</data>
 			<key>hash2</key>
 			<data>
-			ryK+lFwvvgPV38/mACPcRueudc4ACVh3DMtGgxm9VS4=
-			</data>
-		</dict>
-		<key>Headers/GizDeviceJointActionCenter.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			kbSqITvICtdP10R/9WvOxRnjKAc=
-			</data>
-			<key>hash2</key>
-			<data>
-			VUEig8Q7S6rHW/4RMpQCLdB/5M1TT3gfTO2Hxq6dII8=
-			</data>
-		</dict>
-		<key>Headers/GizDeviceJointActionRule.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			BlKYlPv/HXCZe62vvQ51FKuwivg=
-			</data>
-			<key>hash2</key>
-			<data>
-			oj7zASY0oIy2YJWMuOPMiP4iWqdFfFqo/irwzqeEM9g=
-			</data>
-		</dict>
-		<key>Headers/GizDeviceJointActionRuleCondition.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			KQOQLlnSeFTlZvpj63iHTJ/vaqQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			CdcVqxNGfbeS0Vx/Pb2mx9MIbED8ocfFs/C7R5pb1SM=
-			</data>
-		</dict>
-		<key>Headers/GizDeviceJointActionRuleResultEvent.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			w5iDf74+FKKDKbZAZ9KrJrscKkA=
-			</data>
-			<key>hash2</key>
-			<data>
-			IbF84Tqe2xvh4125lbaspC7lVY7ntyQSkOWqXFrpY7g=
+			+GARHf9ImoD5NatHNTrVTIeOvP/ljVqbdNlb2nqpVuQ=
 			</data>
 		</dict>
 		<key>Headers/GizDeviceOTA.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			e12MebykpKbFyv+b3gwL//Eq+7o=
+			MIYOaWYCi2iIoWrg0y6xvGZIOGg=
 			</data>
 			<key>hash2</key>
 			<data>
-			AyR6CvNue/tESrz9XwsclQC6AGKaHZByiPB8XaQ132U=
+			tZ86d9bYORSJKvMVCXRb+5amsyTaY9PvnY5njGmhpds=
 			</data>
 		</dict>
-		<key>Headers/GizDeviceScene.h</key>
+		<key>Headers/GizError.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			va+2+En6VauUWFplHYh3veddkq4=
+			MK0AIcIpKCV28pVXre/SPOGGUUY=
 			</data>
 			<key>hash2</key>
 			<data>
-			/02XAV2Qmw8l6COqQlOZ8TPQdathUL2DzO3iTn8gjWA=
+			jW4j7J+/HVPeUVMBAneJ/5X/uGnfLEgE2Qy2ZLLajMg=
 			</data>
 		</dict>
-		<key>Headers/GizDeviceSceneCenter.h</key>
+		<key>Headers/GizJSONMode.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			GansFbbYg6x70oqZXsHclkOciy8=
+			guyXxriht7V0aKxikAWC2I4uGr4=
 			</data>
 			<key>hash2</key>
 			<data>
-			JOKu31I9d9PmCPvTEA6+uSsBH2ZO0/B01L8yOIm+QO8=
+			vpRzQvmcDnLDmBFIVktLb8IF7/+l71CSVLiX9d0WqK4=
 			</data>
 		</dict>
-		<key>Headers/GizDeviceSceneItem.h</key>
+		<key>Headers/GizLanguage.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			osLPb9AZzN/x00hf4xPHd8JQuzM=
+			aF4XSlCXQeK5RHoq6U9Qv9YpmQU=
 			</data>
 			<key>hash2</key>
 			<data>
-			q7fWmJTF+CU895mZJ9dDgZTr0cSAgSENZ3R7ntvlkf0=
-			</data>
-		</dict>
-		<key>Headers/GizDeviceScheduler.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			UaLF7E5qjV06cfGbb1sK6Q71EJI=
-			</data>
-			<key>hash2</key>
-			<data>
-			5cLAs7GYktbFq4Sy9EZxz17RHwdspHg7JKhuGfZm8bM=
-			</data>
-		</dict>
-		<key>Headers/GizDeviceSchedulerCenter.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			sPNaAIKaPdLIlzv9expM3BitUjc=
-			</data>
-			<key>hash2</key>
-			<data>
-			ccw5EL89xF3QqmkLjJIn+D5rvGwachFsKUMYYVr40Z0=
-			</data>
-		</dict>
-		<key>Headers/GizDeviceSchedulerGateWay.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			CDI+XYklEpsCCM966LbTrxvZJ7g=
-			</data>
-			<key>hash2</key>
-			<data>
-			LLOX/glmZYAQcG/x9wH5k/2sedEfQbzE0cDyXoP5MyA=
-			</data>
-		</dict>
-		<key>Headers/GizDeviceSchedulerSuper.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Vux4/AV3jpVvMOtbSsXa6ZMBQ/0=
-			</data>
-			<key>hash2</key>
-			<data>
-			Jaz0EMQpG2U/WFxGwskoTAXwM/qO9GQduWC3ietLwRI=
-			</data>
-		</dict>
-		<key>Headers/GizDeviceSchedulerTask.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			F3a6nuueKywS5aP1Y4cvNeJZrB0=
-			</data>
-			<key>hash2</key>
-			<data>
-			BblSTl32uyWSO/t/mhwrb+SJYB/Jof10NU8B9RMZ/R0=
-			</data>
-		</dict>
-		<key>Headers/GizDeviceSharing.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			3oKHdsf4O44T/pt4w4DdnbeOWZ0=
-			</data>
-			<key>hash2</key>
-			<data>
-			YMsBnvBOk/uFOyGLBDfydKQ7zMUf5IBIIW9gd98MI1w=
-			</data>
-		</dict>
-		<key>Headers/GizDeviceSharingInfo.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			0AipiadQYMAq2P/AQdi+m7FkI1w=
-			</data>
-			<key>hash2</key>
-			<data>
-			O8ZCak2tcVTmdZzMEuUdZoHFH9eXuNNRynxQ2qgWISo=
+			hixknw0gD/t9+u82SuQgbU+XfhIYIxY9xk3Ts7XTcnw=
 			</data>
 		</dict>
 		<key>Headers/GizLiteGWSubDevice.h</key>
@@ -340,103 +199,169 @@
 			KbxrhsCEDosRue4agtDn0j71F+B2ItKmMltPJ075Qlg=
 			</data>
 		</dict>
-		<key>Headers/GizMessage.h</key>
+		<key>Headers/GizOpenApiUser.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			YoKAo15Dq4cxlUP7HHtyIFb5e+I=
+			CKaU7ELjOSLf4jXa27KTvOeFM1w=
 			</data>
 			<key>hash2</key>
 			<data>
-			vmRSmsfDNJzFKOOvsP8Vf+A0eD5Bx24o/wLOjPb0/sM=
+			du6C7Kz0X1P+31fPN2vXcTKPIngoyz/7iQ6aGxQQwIU=
 			</data>
 		</dict>
-		<key>Headers/GizUserInfo.h</key>
+		<key>Headers/GizSDKClientLog.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			W70OAjUM/VgthRTgfOB7zNAFnoQ=
+			7O9MecthAFpAl3w97058APDZQa4=
 			</data>
 			<key>hash2</key>
 			<data>
-			QdbdIkmQzKvCCgV2oXd7Hh9jFlmFHXYp9bLAML2dqqo=
+			kpN83PA9eUyLwuFGHxKZxh+gtby8xgnAt63m/3DKWv0=
 			</data>
 		</dict>
-		<key>Headers/GizWifiBinary.h</key>
+		<key>Headers/GizSDKUtil.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			jbp7UOsd7TZ2CPFdLpeqXNcBavI=
+			6HH2N5Owt4b6Nq3LaVd4Src8jSQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			4yIwinAu72FuV+hNKjQsW9twEelscAhNN9wrZDSaa0A=
+			7pJdxOTaFAHECetsdNgSMmkhozfTKySt00cojGyJQrE=
 			</data>
 		</dict>
-		<key>Headers/GizWifiBleDevice.h</key>
+		<key>Headers/GizScheduler.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			K4vpeTREUr1Aayyl0O6GjyV7lBU=
+			qRODFmF8waHOedZCZcreijtkPtw=
 			</data>
 			<key>hash2</key>
 			<data>
-			XUxKARRBYdxuD9PoA/heiUOb8aqxqW9TKPVD2CEQzXE=
+			VtRdq6ce5KD1YVWT979OA0p3dEqKKiQ3sL6F3kWs0Zc=
 			</data>
 		</dict>
-		<key>Headers/GizWifiCentralControlDevice.h</key>
+		<key>Headers/GizSchedulerManager.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			KNmc7qlL+zKFOgro5elN14uTRcg=
+			ToBkuF4vW09ZaJHnn6PjPsnoIOE=
 			</data>
 			<key>hash2</key>
 			<data>
-			Q+v4rkEF483jaexAO5aUnpp6s0TS2w3ZZb5DBkYeMEw=
+			Mm4lQY+Z5gDfhLPgm6L8wx7Hi2uUewG8M++ld+ZVUVA=
+			</data>
+		</dict>
+		<key>Headers/GizTool.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			sz0VTGSTjfcFrYphoCVn3PPYGCE=
+			</data>
+			<key>hash2</key>
+			<data>
+			gUMpnQnQkJk4Br4UgMQSUu10RIITuBjTz766fYxz4Xg=
+			</data>
+		</dict>
+		<key>Headers/GizUserTerm.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			T3f4mI+0qeUwvd68pc92f8U/7QM=
+			</data>
+			<key>hash2</key>
+			<data>
+			tbOAcklB3u/bybBusczWU6QQrAtn47qfUE47Mo5pTdE=
 			</data>
 		</dict>
 		<key>Headers/GizWifiDefinitions.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			MYY1Hz+ciuJmIYZmAXWGSb4NuJ0=
+			bubhYkk6MFpO3IBgnUBZ7U/ipeo=
 			</data>
 			<key>hash2</key>
 			<data>
-			xlqyZpBHyxCAyYCWCHy0TpJLAgQ/YmBUDib6C5FYxhU=
+			be62O6QPx+OrpRxn+gHBJFqkcKzhzeGtLCCVuo3j2Ds=
 			</data>
 		</dict>
 		<key>Headers/GizWifiDevice.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			mYufthTMZRPY/b8ZdiGhoX6QQyg=
+			x2LoFKtHp37wFlTNJEZpTjP7/A4=
 			</data>
 			<key>hash2</key>
 			<data>
-			ht+V+S19wJG0h/qlsUExtuGJvi2WwIMhnirlKbnkhFc=
+			IoXc1WWvJwe7Nvg4QPpOyKcpB2MdOWx3lYp9ad9kzMk=
 			</data>
 		</dict>
 		<key>Headers/GizWifiSDK.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			QXVV1xm98HIMQXHDVlJJSCxt+DE=
+			q0YlfutebLFMIVnJX3n7mDYNFqU=
 			</data>
 			<key>hash2</key>
 			<data>
-			PSL+8cP9UxIlELifp25uJy/OZeTbm0XzVasaQFBqP7o=
+			w0sKS6E9oujw/UwoGldVarPScsZJDpItQIeui0CmrTs=
 			</data>
 		</dict>
 		<key>Headers/GizWifiSSID.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			mFJcSwqKeA8tMyqPVTNZXkLyfPo=
+			EtoP4EM0zSNEUvcLZWYW6FTiN40=
 			</data>
 			<key>hash2</key>
 			<data>
-			LhBCceB7B+K3/u7qJiwTXdFz1lNFtYKhsGaNHoC79WI=
+			4K/HzTRtN5JWZaFJb6Qp0aIqeNFkhgKA2ThP0UNynUo=
+			</data>
+		</dict>
+		<key>Headers/NSObject+GizJSONModel.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			2QKGFUxYhLUnO2T8D/JcjAyK6Vw=
+			</data>
+			<key>hash2</key>
+			<data>
+			z+JgGbmlrUWbltjuclqbeX+3O9pwjoS+AvzmOf7W/QA=
+			</data>
+		</dict>
+		<key>Headers/OpenApiLoginResult.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			jvd8hNM+tvfmHj8aR4YSqKtRrnw=
+			</data>
+			<key>hash2</key>
+			<data>
+			FEViz2EPzePBHoUhPoZ86sqvm7pEIUTaR2p/UBiry58=
+			</data>
+		</dict>
+		<key>Headers/OpenApiResult.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZkgP7TbBx90w8jXOiGiHrp/XjIg=
+			</data>
+			<key>hash2</key>
+			<data>
+			X06DGd0E9mobekaEC2FOO1qLXtF+cDOXM7pQHmdyRn4=
+			</data>
+		</dict>
+		<key>Headers/ServerManager.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			BcQcdNvV6Lt6H8zayFjd3AkSZ9U=
+			</data>
+			<key>hash2</key>
+			<data>
+			RyD4VlZhtYEitmaVRKjWHKOmcqTnZvQrhP5QGuZPWsM=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

@@ -7,6 +7,8 @@
 #import <GizWifiSDK/GizWifiDevice.h>
 #import <GizWifiSDK/GizLiteGWSubDevice.h>
 #import <GizWifiSDK/GizWifiBleDevice.h>
+#import <GizWifiSDK/OpenApiResult.h>
+#import <GizWifiSDK/OpenApiLoginResult.h>
 #import "GizWifiDef.h"
 
 @implementation NSDictionary (Giz)
@@ -221,6 +223,31 @@
   [mdict setValue:device forKey:@"device"];
   return [mdict copy];
 }
+
++ (NSMutableDictionary *)makeOpenApiLoginResultDic:(OpenApiLoginResult *)loginResult {
+    NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
+    NSMutableDictionary *errorDict = [NSMutableDictionary dictionary];
+    if (loginResult.error.code == GIZ_SDK_SUCCESS) {
+        [resultDict setValue:loginResult.uid forKey:@"uid"];
+        [resultDict setValue:loginResult.token forKey:@"token"];
+        [resultDict setValue:loginResult.expiredAt forKey:@"expiredAt"];
+    } else {
+        [errorDict setValue:@(loginResult.error.code) forKey:@"errorCode"];
+        [errorDict setValue:loginResult.error.message forKey:@"msg"];
+    }
+    return ((errorDict && errorDict.count) ? errorDict : resultDict);
+}
+
++ (NSMutableDictionary *)makeOpenApiResultDic:(OpenApiResult *)result {
+    NSMutableDictionary *errorDict = nil;
+    if (result.error.code != GIZ_SDK_SUCCESS) {
+        errorDict = [NSMutableDictionary dictionary];
+        [errorDict setValue:@(result.error.code) forKey:@"errorCode"];
+        [errorDict setValue:result.error.message forKey:@"msg"];
+    }
+    return errorDict;
+}
+
 
 + (NSDictionary *)makeWaitForTheLastRequestError{
   return @{@"msg": @"Please wait for the last request!"};
