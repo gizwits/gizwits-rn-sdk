@@ -78,6 +78,23 @@ static GizWifiDeviceCache *sharedInstance = nil;
     return nil;
 }
 
++ (GizWifiDevice *)cachedBleDeviceWithMacAddress:(NSString *)macAddress productKey:(NSString *)productKey {
+    if (nil == macAddress || productKey == nil) {
+        return nil;
+    }
+
+    NSArray *deviceList = [[GizWifiSDK sharedInstance] getBoundBleDevice];
+    for (GizWifiDevice *device in deviceList) {
+        if (device.delegate == nil) {
+            device.delegate = [self sharedInstance];
+        }
+        if ([device.macAddress isEqualToString:macAddress] && [device.productKey isEqualToString:productKey]) {
+             return device;
+        }
+    }
+    return nil;
+}
+
 + (void)device:(GizWifiDevice *)device didUpdateNetStatus:(GizWifiDeviceNetStatus)netStatus {
     [[self sharedInstance] device:device didUpdateNetStatus:netStatus];
 }

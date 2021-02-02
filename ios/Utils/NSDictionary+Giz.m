@@ -180,6 +180,15 @@
   return [mdict copy];
 }
 
++ (NSArray <NSDictionary *>*)deviceDictArrFromDevices:(NSArray <GizWifiDevice *>*)deviceList {
+    NSMutableArray *arrDevice = [NSMutableArray array];
+    for (GizWifiDevice *device in deviceList) {
+        NSDictionary *dictDevice = [NSDictionary makeDictFromDeviceWithProperties:device];
+        [arrDevice addObject:dictDevice];
+    }
+    return arrDevice;
+}
+
 + (NSDictionary *)makeDictFromLiteDeviceWithProperties:(GizWifiDevice *)device {
   NSMutableDictionary *mdict = [self makeMutableDictFromDevice:device];
   NSInteger netStatus = getDeviceNetStatus(device.netStatus);

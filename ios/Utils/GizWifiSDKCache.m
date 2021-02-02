@@ -178,7 +178,7 @@ for (id <GizWifiSDKDelegate>delegate in self.mDelegates) { \
     GIZ_SDK_DELEGATE_CALLBACK_END()
 }
 
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didDiscoverBleDevice:(NSError *)result deviceList:(NSArray<NSDictionary *> *)deviceList {
+- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didDiscoverBleDevice:(NSError * _Nullable)result deviceList:(NSArray <GizWifiBleDevice *> * _Nullable)deviceList {
     GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:didDiscoverBleDevice:deviceList:))
     [delegate wifiSDK:wifiSDK didDiscoverBleDevice:result deviceList:deviceList];
     GIZ_SDK_DELEGATE_CALLBACK_END()
