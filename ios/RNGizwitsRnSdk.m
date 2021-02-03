@@ -115,6 +115,10 @@ RCT_EXPORT_METHOD(setDeviceOnboarding:(id)info result:(RCTResponseSenderBlock)re
     [[GizWifiSDK sharedInstance] setDeviceOnboarding:timeout];
 }
 
+RCT_EXPORT_METHOD(stopDeviceOnboarding){
+    [[GizWifiSDK sharedInstance] stopDeviceOnboarding];
+}
+
 RCT_EXPORT_METHOD(setUidAndToken:(id)info){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
@@ -152,6 +156,61 @@ RCT_EXPORT_METHOD(registerUser:(id)info result:(RCTResponseSenderBlock)result){
         NSDictionary *resultDic = [NSDictionary makeOpenApiLoginResultDic:loginResult];
         [GizWifiRnCallBackManager callBackWithResultDict:resultDic result:result];
     }];
+}
+
+RCT_EXPORT_METHOD(userLogin:(id)info result:(RCTResponseSenderBlock)result){
+    NSDictionary *dict = [info dictionaryObject];
+    if (!dict) {
+        return;
+    }
+
+    NSString *username = [dict stringValueForKey:@"username" defaultValue:@""];
+    NSString *password = [dict stringValueForKey:@"password" defaultValue:@""];
+    [[GizWifiSDK sharedInstance] userLogin:username password:password callback:^(OpenApiLoginResult * _Nonnull loginResult) {
+        NSDictionary *resultDic = [NSDictionary makeOpenApiLoginResultDic:loginResult];
+        [GizWifiRnCallBackManager callBackWithResultDict:resultDic result:result];
+    }];
+}
+
+RCT_EXPORT_METHOD(dynamicLogin:(id)info result:(RCTResponseSenderBlock)result){
+    NSDictionary *dict = [info dictionaryObject];
+    if (!dict) {
+        return;
+    }
+
+    NSString *phone = [dict stringValueForKey:@"phone" defaultValue:@""];
+    NSString *code = [dict stringValueForKey:@"code" defaultValue:@""];
+    [[GizWifiSDK sharedInstance] dynamicLogin:phone code:code callback:^(OpenApiLoginResult * _Nonnull loginResult) {
+        NSDictionary *resultDic = [NSDictionary makeOpenApiLoginResultDic:loginResult];
+        [GizWifiRnCallBackManager callBackWithResultDict:resultDic result:result];
+    }];
+}
+
+RCT_EXPORT_METHOD(userLoginWithThirdAccount:(id)info result:(RCTResponseSenderBlock)result){
+    NSDictionary *dict = [info dictionaryObject];
+    if (!dict) {
+        return;
+    }
+
+    NSInteger thirdAccountType = [dict integerValueForKey:@"thirdAccountType" defaultValue:-1];
+    if (thirdAccountType == -1) {
+        [self.callBackManager callbackParamInvalid:result];
+        return ;
+    }
+
+    NSString *uid = [dict stringValueForKey:@"uid" defaultValue:@""];
+    NSString *token = [dict stringValueForKey:@"token" defaultValue:@""];
+    NSString *tokenSecret = [dict stringValueForKey:@"tokenSecret" defaultValue:@""];
+    [[GizWifiSDK sharedInstance] userLoginWithThirdAccount:thirdAccountType uid:uid token:token tokenSecret:tokenSecret callback:^(OpenApiLoginResult * _Nonnull loginResult) {
+        NSDictionary *resultDic = [NSDictionary makeOpenApiLoginResultDic:loginResult];
+        [GizWifiRnCallBackManager callBackWithResultDict:resultDic result:result];
+    }];
+}
+
+RCT_EXPORT_METHOD(userLogout:(RCTResponseSenderBlock)result){
+    [self.callBackManager addResult:result type:GizWifiRnResultTypeAppStart identity:nil repeatable:NO];
+#warning 还没写回调
+    [[GizWifiSDK sharedInstance] userLogout];
 }
 
 
