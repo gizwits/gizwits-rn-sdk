@@ -130,6 +130,14 @@ RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
 }
 
 RCT_EXPORT_METHOD(connectBle:(id)info result:(RCTResponseSenderBlock)result) {
+    [self connectOrDisconnectToBle:YES info:info result:result];
+}
+
+RCT_EXPORT_METHOD(disconnectBle:(id)info result:(RCTResponseSenderBlock)result) {
+    [self connectOrDisconnectToBle:NO info:info result:result];
+}
+
+- (void)connectOrDisconnectToBle:(BOOL)isConnect info:(id)info result:(RCTResponseSenderBlock)result {
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
         [self.callBackManager callbackParamInvalid:result];
@@ -146,18 +154,33 @@ RCT_EXPORT_METHOD(connectBle:(id)info result:(RCTResponseSenderBlock)result) {
         return;
     }
 
-    [self.callBackManager addResult:result type:GizWifiRnResultTypeConnectBle identity:device.did repeatable:YES];
-    [device connectBle:^(GizWifiErrorCode errorCode) {
-        NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
-        NSDictionary *errDict = nil;
-        NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
-        if (errorCode == GIZ_SDK_SUCCESS) {
-            [dataDict setValue:deviceDict forKey:@"device"];
-        } else {
-            errDict = [NSDictionary makeErrorDictFromResultCode:errorCode device:deviceDict];
-        }
+    if (isConnect) {
+        [self.callBackManager addResult:result type:GizWifiRnResultTypeConnectBle identity:device.did repeatable:YES];
+        [device connectBle:^(GizWifiErrorCode errorCode) {
+            [self connectOrDisconnectCallback:YES errorCode:errorCode device:device];
+        }];
+    } else {
+        [self.callBackManager addResult:result type:GizWifiRnResultTypeDisconnectBle identity:device.did repeatable:YES];
+        [device disconnectBle:^(GizWifiErrorCode errorCode) {
+            [self connectOrDisconnectCallback:NO errorCode:errorCode device:device];
+        }];
+    }
+}
+
+- (void)connectOrDisconnectCallback:(BOOL)isConnect errorCode:(GizWifiErrorCode)errorCode device:(GizWifiDevice *)device {
+    NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
+    NSDictionary *errDict = nil;
+    NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
+    if (errorCode == GIZ_SDK_SUCCESS) {
+        [dataDict setValue:deviceDict forKey:@"device"];
+    } else {
+        errDict = [NSDictionary makeErrorDictFromResultCode:errorCode device:deviceDict];
+    }
+    if (isConnect) {
         [self.callBackManager callBackWithType:GizWifiRnResultTypeConnectBle identity:device.did resultDict:dataDict errorDict:errDict];
-    }];
+    } else {
+        [self.callBackManager callBackWithType:GizWifiRnResultTypeConnectBle identity:device.did resultDict:dataDict errorDict:errDict];
+    }
 }
 
 
