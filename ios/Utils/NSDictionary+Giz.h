@@ -4,6 +4,7 @@
 
 #import <Foundation/Foundation.h>
 @class GizWifiDevice;
+@class GizOpenApiUser;
 
 @interface NSDictionary (Giz)
 - (NSInteger)integerValueForKey:(NSString*)key defaultValue:(NSInteger)defaultValue;
@@ -18,6 +19,7 @@
 + (NSMutableDictionary *)makeMutableDictFromDevice:(GizWifiDevice *)device;
 + (NSDictionary *)makeDictFromDeviceWithProperties:(GizWifiDevice *)device;
 + (NSDictionary *)makeDictFromLiteDeviceWithProperties:(GizWifiDevice *)device;
++ (NSDictionary *)makeUserWithProperties:(GizOpenApiUser *)userInfo;
 
 + (NSDictionary *)makeErrorDictFromError:(NSError *)error;
 + (NSDictionary *)makeErrorDictFromResultCode:(NSInteger)resultCode;

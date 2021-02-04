@@ -124,6 +124,12 @@
   return mdict;
 }
 
+- (void)setStringValue:(NSString *)value forKey:(NSString *)key {
+    if (value) {
+        [self setValue:value forKey:key];
+    }
+}
+
 #pragma mark - bussines
 + (NSMutableDictionary *)makeMutableDictFromDevice:(GizWifiDevice *)device {
   NSMutableDictionary *mdict = [[NSMutableDictionary alloc] init];
@@ -193,6 +199,21 @@
   [mdict setValue:@(device.isSubscribed) forKey:@"isSubscribed"];
   //    }
   return [mdict copy];
+}
+
++ (NSDictionary *)makeUserWithProperties:(GizOpenApiUser *)userInfo {
+    NSMutableDictionary *mdict = [NSMutableDictionary dictionary];
+    [mdict setStringValue:userInfo.uid forKey:@"uid"];
+    [mdict setStringValue:userInfo.username forKey:@"username"];
+    [mdict setStringValue:userInfo.email forKey:@"email"];
+    [mdict setStringValue:userInfo.phone forKey:@"phone"];
+    [mdict setValue:@(userInfo.language) forKey:@"language"];
+    [mdict setStringValue:userInfo.name forKey:@"name"];
+    [mdict setStringValue:userInfo.birthday forKey:@"birthday"];
+    [mdict setValue:@(userInfo.userGender) forKey:@"userGender"];
+    [mdict setStringValue:userInfo.address forKey:@"address"];
+    [mdict setStringValue:userInfo.remark forKey:@"remark"];
+    [mdict setValue:@(userInfo.isAnonymous) forKey:@"isAnonymous"];
 }
 
 + (NSDictionary *)makeErrorDictFromError:(NSError *)error {

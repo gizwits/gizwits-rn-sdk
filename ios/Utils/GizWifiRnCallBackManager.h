@@ -15,6 +15,8 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
     GizWifiRnResultTypeAppStart = 1,
     GizWifiRnResultTypeSetDeviceOnboardingDeploy,
     GizWifiRnResultTypeSetDeviceOnboarding,
+
+    GizWifiRnResultTypeUserLogout,
     
 
   GizWifiRnResultTypeDeviceListNoti,
@@ -29,8 +31,6 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
   GizWifiRnResultTypeRestoreDeviceFactorySetting,
   GizWifiRnResultTypeBindRemoteDevice,
   GizWifiRnResultTypeReceiveDeviceLogNoti,
-  GizWifiRnResultTypeUnBindDevice,
-  GizWifiRnResultTypeBindChannel,
   //device
   GizWifiRnResultTypeSetSubscribe,
   GizWifiRnResultTypeConnectBle,
