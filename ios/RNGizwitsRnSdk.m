@@ -534,7 +534,26 @@ RCT_EXPORT_METHOD(checkUserTerm:(RCTResponseSenderBlock)result){
     }];
 }
 
+RCT_EXPORT_METHOD(confirmUserTerm:(id)info result:(RCTResponseSenderBlock)result){
+    NSDictionary *dict = [info dictionaryObject];
+    if (!dict) {
+        return;
+    }
 
+    NSInteger termType = [dict integerValueForKey:@"termType" defaultValue:-1];
+    if (termType == -1) {
+        [self.callBackManager callbackParamInvalid:result];
+        return ;
+    }
+    [[GizWifiSDK sharedInstance] getUserTerm:termType callback:^(OpenApiResult * _Nonnull apiResult, NSString * _Nonnull termUrl) {
+        NSDictionary *errorDic = [NSDictionary makeOpenApiResultDic:apiResult];
+        NSDictionary *resultDic = nil;
+        if (termUrl) {
+            resultDic = @{@"termUrl": termUrl};
+        }
+        [GizWifiRnCallBackManager callBackWithResultDict:errorDic?:resultDic result:result];
+    }];
+}
 
 //RCT_EXPORT_METHOD(getCurrentCloudService:(RCTResponseSenderBlock)result){
 //    [self.callBackManager addResult:result type:GizWifiRnResultTypeGetCurrentCloudService identity:nil repeatable:NO];
