@@ -216,6 +216,13 @@
     [mdict setValue:@(userInfo.isAnonymous) forKey:@"isAnonymous"];
 }
 
++ (NSDictionary *)makeErrorDictFromGizError:(GizError *)error {
+    NSMutableDictionary *mdict = [NSMutableDictionary dictionary];
+    [mdict setValue:@(error.code) forKey:@"errorCode"];
+    [mdict setValue:error.message forKey:@"msg"];
+    return [mdict copy];
+}
+
 + (NSDictionary *)makeErrorDictFromError:(NSError *)error {
   NSMutableDictionary *mdict = [NSMutableDictionary dictionary];
   [mdict setValue:@(error.code) forKey:@"errorCode"];

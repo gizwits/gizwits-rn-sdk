@@ -15,31 +15,22 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
     GizWifiRnResultTypeAppStart = 1,
     GizWifiRnResultTypeSetDeviceOnboardingDeploy,
     GizWifiRnResultTypeSetDeviceOnboarding,
-
     GizWifiRnResultTypeUserLogout,
-    
+    GizWifiRnResultTypeGetBoundDevices,
+    GizWifiRnResultTypeDeviceListNoti,
+    GizWifiRnResultTypeDeviceSafetyRegister,
+    GizWifiRnResultTypeDeviceSafetyUnbind,
 
-  GizWifiRnResultTypeDeviceListNoti,
-  GizWifiRnResultTypeGetBoundDevices,
-  GizWifiRnResultTypeGetCurrentCloudService,
-  GizWifiRnResultTypeDeviceSafetyRegister,
-  GizWifiRnResultTypeDeviceSafetyUnbind,
-  GizWifiRnResultTypeRegisterBleDevice,
-  GizWifiRnResultTypeGetVersione,
-  GizWifiRnResultTypeChangeDeviceMesh,
-  GizWifiRnResultTypeaAddMeshGroup,
-  GizWifiRnResultTypeRestoreDeviceFactorySetting,
-  GizWifiRnResultTypeBindRemoteDevice,
-  GizWifiRnResultTypeReceiveDeviceLogNoti,
-  //device
-  GizWifiRnResultTypeSetSubscribe,
-  GizWifiRnResultTypeConnectBle,
-  GizWifiRnResultTypeDeviceStatusNoti,
-  GizWifiRnResultTypeMeshDeviceListNoti,
-  GizWifiRnResultTypeGetDeviceStatus,
-  GizWifiRnResultTypeWrite,
-  GizWifiRnResultTypeAppToDevNoti,
+    GizWifiRnResultTypeRegisterBleDevice,
 
+    //device
+    GizWifiRnResultTypeSetSubscribe,
+    GizWifiRnResultTypeConnectBle,
+    GizWifiRnResultTypeGetDeviceStatus,
+    GizWifiRnResultTypeWrite,
+    GizWifiRnResultTypeDeviceStatusNoti,
+    GizWifiRnResultTypeMeshDeviceListNoti,
+    GizWifiRnResultTypeAppToDevNoti,
 };
 
 @interface GizWifiRnCallBackManager : NSObject

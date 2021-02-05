@@ -58,7 +58,7 @@ RCT_EXPORT_METHOD(startWithAppInfo:(id)configInfo result:(RCTResponseSenderBlock
     [self.callBackManager addResult:result type:GizWifiRnResultTypeAppStart identity:nil repeatable:NO];
 
     NSDictionary *appInfo = [dict dictValueForKey:@"appInfo" defaultValue:nil];
-    NSDictionary *productInfo = [dict arrayValueForKey:@"productInfo" defaultValue:nil];
+    NSArray *productInfo = [dict arrayValueForKey:@"productInfo" defaultValue:nil];
     NSDictionary *cloudSeviceInfo = [dict dictValueForKey:@"cloudSeviceInfo" defaultValue:nil];
 
     [GizWifiSDK startWithAppInfo:appInfo productInfo:productInfo cloudServiceInfo:cloudSeviceInfo];
@@ -139,6 +139,7 @@ RCT_EXPORT_METHOD(userLoginAnonymous:(RCTResponseSenderBlock)result){
 RCT_EXPORT_METHOD(registerUser:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -161,6 +162,7 @@ RCT_EXPORT_METHOD(registerUser:(id)info result:(RCTResponseSenderBlock)result){
 RCT_EXPORT_METHOD(userLogin:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -175,6 +177,7 @@ RCT_EXPORT_METHOD(userLogin:(id)info result:(RCTResponseSenderBlock)result){
 RCT_EXPORT_METHOD(dynamicLogin:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -189,13 +192,14 @@ RCT_EXPORT_METHOD(dynamicLogin:(id)info result:(RCTResponseSenderBlock)result){
 RCT_EXPORT_METHOD(userLoginWithThirdAccount:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
     NSInteger thirdAccountType = [dict integerValueForKey:@"thirdAccountType" defaultValue:-1];
     if (thirdAccountType == -1) {
         [self.callBackManager callbackParamInvalid:result];
-        return ;
+        return;
     }
 
     NSString *uid = [dict stringValueForKey:@"uid" defaultValue:@""];
@@ -215,6 +219,7 @@ RCT_EXPORT_METHOD(userLogout:(RCTResponseSenderBlock)result){
 RCT_EXPORT_METHOD(requestSendPhoneSMSCode:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -228,6 +233,7 @@ RCT_EXPORT_METHOD(requestSendPhoneSMSCode:(id)info result:(RCTResponseSenderBloc
 RCT_EXPORT_METHOD(resetPassword:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -248,6 +254,7 @@ RCT_EXPORT_METHOD(resetPassword:(id)info result:(RCTResponseSenderBlock)result){
 RCT_EXPORT_METHOD(changeUserPassword:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -294,6 +301,7 @@ RCT_EXPORT_METHOD(getUserInfo:(RCTResponseSenderBlock)result){
 RCT_EXPORT_METHOD(changePhoneOrEmail:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -314,6 +322,7 @@ RCT_EXPORT_METHOD(changePhoneOrEmail:(id)info result:(RCTResponseSenderBlock)res
 RCT_EXPORT_METHOD(changeUserInfo:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -344,6 +353,7 @@ RCT_EXPORT_METHOD(changeUserInfo:(id)info result:(RCTResponseSenderBlock)result)
 RCT_EXPORT_METHOD(bindDevice:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -364,6 +374,7 @@ RCT_EXPORT_METHOD(bindDevice:(id)info result:(RCTResponseSenderBlock)result){
 RCT_EXPORT_METHOD(bindDeviceByQRCode:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -377,6 +388,7 @@ RCT_EXPORT_METHOD(bindDeviceByQRCode:(id)info result:(RCTResponseSenderBlock)res
 RCT_EXPORT_METHOD(unbindDevices:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -413,6 +425,7 @@ RCT_EXPORT_METHOD(getBoundDevices:(RCTResponseSenderBlock)result){
 RCT_EXPORT_METHOD(deviceSafetyRegister:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -422,7 +435,7 @@ RCT_EXPORT_METHOD(deviceSafetyRegister:(id)info result:(RCTResponseSenderBlock)r
     NSArray *devicesInfo = [dict arrayValueForKey:@"devicesInfo" defaultValue:@[]];
 
     GizWifiDevice *giz = [GizWifiDeviceCache cachedDeviceWithMacAddress:gatewayMac did:gatewayDid];
-    if (pk.length == 0) {
+    if (productKey.length == 0) {
         [self.callBackManager callbackParamInvalid:result];
     } else {
         [GizWifiSDK deviceSafetyRegister:giz productKey:productKey devicesInfo:devicesInfo];
@@ -433,6 +446,7 @@ RCT_EXPORT_METHOD(deviceSafetyRegister:(id)info result:(RCTResponseSenderBlock)r
 RCT_EXPORT_METHOD(deviceSafetyUnbind:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
     NSArray *devicesInfo=[dict arrayValueForKey:@"devicesInfo" defaultValue:@[]];
@@ -452,6 +466,7 @@ RCT_EXPORT_METHOD(deviceSafetyUnbind:(id)info result:(RCTResponseSenderBlock)res
 RCT_EXPORT_METHOD(channelIDBind:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
     NSString *channelID = [dict stringValueForKey:@"channelID" defaultValue:@""];
@@ -472,6 +487,7 @@ RCT_EXPORT_METHOD(channelIDBind:(id)info result:(RCTResponseSenderBlock)result){
 RCT_EXPORT_METHOD(channelIDUnBind:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
     NSString *channelID = [dict stringValueForKey:@"channelID" defaultValue:@""];
@@ -502,6 +518,7 @@ RCT_EXPORT_METHOD(setLogLevel:(id)info){
 RCT_EXPORT_METHOD(getUserTerm:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
@@ -529,7 +546,7 @@ RCT_EXPORT_METHOD(checkUserTerm:(RCTResponseSenderBlock)result){
         for (GizUserTerm *userTerm in terms) {
             [termDicArr addObject:@{@"termType": @(userTerm.termType)}]
         }
-        [resultDic setValue:terms forKey:@"terms"];
+        [resultDic setValue:termDicArr forKey:@"terms"];
         [GizWifiRnCallBackManager callBackWithResultDict:errorDic?:resultDic result:result];
     }];
 }
@@ -537,242 +554,40 @@ RCT_EXPORT_METHOD(checkUserTerm:(RCTResponseSenderBlock)result){
 RCT_EXPORT_METHOD(confirmUserTerm:(id)info result:(RCTResponseSenderBlock)result){
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
         return;
     }
 
-    NSInteger termType = [dict integerValueForKey:@"termType" defaultValue:-1];
-    if (termType == -1) {
-        [self.callBackManager callbackParamInvalid:result];
-        return ;
-    }
-    [[GizWifiSDK sharedInstance] getUserTerm:termType callback:^(OpenApiResult * _Nonnull apiResult, NSString * _Nonnull termUrl) {
-        NSDictionary *errorDic = [NSDictionary makeOpenApiResultDic:apiResult];
-        NSDictionary *resultDic = nil;
-        if (termUrl) {
-            resultDic = @{@"termUrl": termUrl};
+    NSArray *terms = [dict arrayValueForKey:@"terms" defaultValue:nil];
+    NSMutableArray *termObjs = [NSMutableArray array];
+    for (NSDictionary *termDic in terms) {
+        NSInteger termType = [termDic integerValueForKey:@"termType" defaultValue:-1];
+        if (termType >= 0) {
+            GizUserTerm *userTerm = [[GizUserTerm alloc] init];
+            userTerm.termType = termType;
+            [termObjs addObject:userTerm];
         }
-        [GizWifiRnCallBackManager callBackWithResultDict:errorDic?:resultDic result:result];
+    }
+
+    [[GizWifiSDK sharedInstance] confirmUserTerm:termObjs callback:^(OpenApiResult * _Nonnull apiResult) {
+        NSDictionary *resultDic = [NSDictionary makeOpenApiResultDic:apiResult];
+        [GizWifiRnCallBackManager callBackWithResultDict:resultDic result:result];
     }];
 }
 
-//RCT_EXPORT_METHOD(getCurrentCloudService:(RCTResponseSenderBlock)result){
-//    [self.callBackManager addResult:result type:GizWifiRnResultTypeGetCurrentCloudService identity:nil repeatable:NO];
-//    [GizWifiSDK getCurrentCloudService];
-//}
-//
-//RCT_EXPORT_METHOD(getBoundBleDevice:(RCTResponseSenderBlock)result){
-//    NSArray *bleDevices = [[GizWifiSDK sharedInstance] getBoundBleDevice];
-//    if (!bleDevices) {
-//        bleDevices = [NSArray array];
-//    }
-//    if (result) {
-//        result(@[[NSNull null], bleDevices]);
-//    }
-//}
-//
-//RCT_EXPORT_METHOD(bindRemoteDevice:(id)info result:(RCTResponseSenderBlock)result){
-//    NSDictionary *dict = [info dictionaryObject];
-//    if (!dict) {
-//        [self.callBackManager callbackParamInvalid:result];
-//        return;
-//    }
-//
-//    NSString *uid = [dict stringValueForKey:@"uid" defaultValue:@""];
-//    NSString *token = [dict stringValueForKey:@"token" defaultValue:@""];
-//    NSString *mac = [dict stringValueForKey:@"mac" defaultValue:@""];
-//    NSString *productKey = [dict stringValueForKey:@"productKey" defaultValue:@""];
-//    NSString *productSecret = [dict stringValueForKey:@"productSecret" defaultValue:@""];
-//    Boolean beOwner = [dict boolValueForKey:@"beOwner" defaultValue:false];
-//
-//    if (uid.length == 0 || token.length == 0 || mac.length == 0 || productKey.length == 0 ||
-//        productSecret.length == 0) {
-//        [self.callBackManager callbackParamInvalid:result];
-//        return;
-//    }
-//    [self.callBackManager addResult:result type:GizWifiRnResultTypeBindRemoteDevice identity:nil repeatable:YES];
-//    [[GizWifiSDK sharedInstance] bindRemoteDevice:uid token:token mac:mac productKey:productKey productSecret:productSecret beOwner:beOwner];
-//}
-//
-//RCT_EXPORT_METHOD(unbindDevice:(id)info result:(RCTResponseSenderBlock)result){
-//    NSDictionary *dict = [info dictionaryObject];
-//    if (!dict) {
-//        [self.callBackManager callbackParamInvalid:result];
-//        return;
-//    }
-//    NSString *uid = [dict stringValueForKey:@"uid" defaultValue:@""];
-//    NSString *token = [dict stringValueForKey:@"token" defaultValue:@""];
-//    NSString *did = [dict stringValueForKey:@"did" defaultValue:@""];
-//
-//    if (uid.length == 0 || token.length == 0 || did.length == 0) {
-//        [self.callBackManager callbackParamInvalid:result];
-//        return;
-//    } else {
-//        [self.callBackManager addResult:result type:GizWifiRnResultTypeUnBindDevice identity:nil repeatable:YES];
-//        [[GizWifiSDK sharedInstance] unbindDevice:uid token:token did:did];
-//    }
-//}
-//
-//RCT_EXPORT_METHOD(stopDeviceOnboarding){
-//    [[GizWifiSDK sharedInstance] stopDeviceOnboarding];
-//}
-//
-//RCT_EXPORT_METHOD(userLoginAnonymous){
-//    [[GizWifiSDK sharedInstance] userLoginAnonymous];
-//}
-//
-//RCT_EXPORT_METHOD(userFeedback:(id)info){
-//    NSDictionary *dict = [info dictionaryObject];
-//    if (!dict) {
-//        return;
-//    }
-//    NSString *contactInfo = [dict stringValueForKey:@"contactInfo" defaultValue:@""];
-//    NSString *feedbackInfo = [dict stringValueForKey:@"feedbackInfo" defaultValue:@""];
-//    BOOL sendLog = [dict boolValueForKey:@"sendLog" defaultValue:YES];
-//    [GizWifiSDK userFeedback:contactInfo feedbackInfo:feedbackInfo sendLog:sendLog];
-//}
-//
-//
-//
-//- (NSMutableData *)convertHexStrToData:(NSString *)str {
-//    if (!str || [str length] == 0) {
-//        return nil;
-//    }
-//    NSMutableData *hexData = [[NSMutableData alloc] initWithCapacity:8];
-//    NSRange range;
-//    if ([str length] %2 == 0) {
-//        range = NSMakeRange(0,2);
-//    } else {
-//        range = NSMakeRange(0,1);
-//    }
-//    for (NSInteger i = range.location; i < [str length]; i += 2) {
-//        unsigned int anInt;
-//        NSString *hexCharStr = [str substringWithRange:range];
-//        NSScanner *scanner = [[NSScanner alloc] initWithString:hexCharStr];
-//        [scanner scanHexInt:&anInt];
-//        NSData *entity = [[NSData alloc] initWithBytes:&anInt length:1];
-//        [hexData appendData:entity];
-//        range.location += range.length;
-//        range.length = 2;
-//    }
-//    return hexData;
-//}
-//
-//RCT_EXPORT_METHOD(setUserMeseName:(id)info result:(RCTResponseSenderBlock)result){
-//    //  NSDictionary *dict = [info dictionaryObject];
-//    //  if (!dict) {
-//    //    return;
-//    //  }
-//    //  NSString *meshName = [dict stringValueForKey:@"meshName" defaultValue:@""];
-//    //  NSString *password = [dict stringValueForKey:@"password" defaultValue:@""];
-//    //  NSDictionary *uuidInfo = [dict objectForKey:@"uuidInfo"];
-//    //  NSString *meshLTK = [dict stringValueForKey:@"meshLTK" defaultValue:@""];
-//    //  GizMeshVerdor meshVerdor = getMeshVerdorFromInteger([dict integerValueForKey:@"meshVerdor" defaultValue:-1]);
-//    //  if(meshName==nil||password==nil||uuidInfo==nil||[meshLTK isEqualToString:@""])
-//    //  {
-//    //    [self.callBackManager callbackParamInvalid:result];
-//    //  }else{
-//    //    NSData *testData = [self convertHexStrToData:meshLTK];
-//    //    [GizWifiSDK setUserMeshName:meshName password:password uuidInfo:uuidInfo meshLTK:testData meshVendor:(GizMeshVerdor)meshVerdor];
-//    //    if (result) {
-//    //      result(@[[NSNull null]]);
-//    //    }
-//    //  }
-//}
+RCT_EXPORT_METHOD(userFeedback:(id)info){
+    NSDictionary *dict = [info dictionaryObject];
+    if (!dict) {
+        return;
+    }
 
-//RCT_EXPORT_METHOD(registerBleDevice:(id)info result:(RCTResponseSenderBlock)result){
-//    NSDictionary *dict = [info dictionaryObject];
-//    if (!dict) {
-//        return;
-//    }
-//    NSString *mac = [dict stringValueForKey:@"mac" defaultValue:@""];
-//    [[GizWifiSDK sharedInstance] registerBleDevice:mac];
-//    [self.callBackManager addResult:result type:GizWifiRnResultTypeRegisterBleDevice identity:nil repeatable:NO];
-//}
-//
-//
+    NSString *contactInfo = [dict stringValueForKey:@"contactInfo" defaultValue:@""];
+    NSString *feedbackInfo = [dict stringValueForKey:@"feedbackInfo" defaultValue:@""];
+    BOOL sendLog = [dict boolValueForKey:@"sendLog" defaultValue:NO];
+    [GizWifiSDK userFeedback:contactInfo feedbackInfo:feedbackInfo sendLog:sendLog];
+}
 
-//RCT_EXPORT_METHOD(searchMeshDevice:(id)info result:(RCTResponseSenderBlock)result){
-//    //  NSDictionary *dict = [info dictionaryObject];
-//    //  if (!dict) {
-//    //    return;
-//    //  }
-//    //  NSString *meshName = [dict stringValueForKey:@"meshName" defaultValue:@""];
-//    //  if (meshName.length == 0 ) {
-//    //    [self.callBackManager callbackParamInvalid:result];
-//    //  } else {
-//    //    [GizWifiSDK searchMeshDevice:meshName];
-//    //    if (result) {
-//    //      result(@[[NSNull null]]);
-//    //    }
-//    //  }
-//}
-//
-//RCT_EXPORT_METHOD(addGroup:(id)info result:(RCTResponseSenderBlock)result){
-//    //  NSDictionary *dict = [info dictionaryObject];
-//    //  NSUInteger *groupID = [dict integerValueForKey:@"groupID" defaultValue:1];
-//    //  NSArray *meshDevices = [dict arrayValueForKey:@"meshDevices" defaultValue: nil];
-//    //  NSMutableArray *devices=[NSMutableArray array];
-//    //  for (NSDictionary *meshDevice in meshDevices) {
-//    //    NSString *mac = [meshDevice stringValueForKey:@"mac" defaultValue:@""];
-//    //    NSString *did = [meshDevice stringValueForKey:@"did" defaultValue:@""];
-//    //    GizWifiDevice *giz = [GizWifiDeviceCache cachedDeviceWithMacAddress:mac did:did];
-//    //    [devices addObject:giz];
-//    //  }
-//    //  [GizWifiSDK addGroup:groupID meshDevices:devices];
-//    //  [self.callBackManager addResult:result type:GizWifiRnResultTypeaAddMeshGroup identity:nil repeatable:YES];
-//}
-//
-///**
-// @param ssid 前缀
-// */
-////
-//RCT_EXPORT_METHOD(getDeviceLog:(id)info){
-//    //
-//    //  NSDictionary *dict = [info dictionaryObject];
-//    //
-//    //  NSString *softAPSSIDPrefix = [dict stringValueForKey:@"softAPSSIDPrefix" defaultValue:@"XPG-GAgent-"];
-//    //  [GizWifiSDK getDeviceLog:softAPSSIDPrefix];
-//}
-//
-///**
-// @param type 0 client 1 deamon
-// */
-//
-//RCT_EXPORT_METHOD(getLog:(id)info result:(RCTResponseSenderBlock)result){
-//
-//    NSDictionary *dict = [info dictionaryObject];
-//
-//    NSInteger *type = [dict integerValueForKey:@"type" defaultValue:0];
-//    NSString *address = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/GizWifiSDK"];
-//    NSString *clientAddress = [NSString stringWithFormat:@"%@%@", address, @"/GizSDKLog/Client/GizSDKClientLogFile.sys" ];
-//    NSString *deamonAddress = [NSString stringWithFormat:@"%@%@", address, @"/GizSDKLog/Daemon/GizSDKLogFile.sys" ];
-//
-//    NSString *logAddress = @"";
-//    if (type == 0) {
-//        // 获取client日志
-//        logAddress =clientAddress;
-//    } else {
-//        logAddress =deamonAddress;
-//    }
-//
-//    NSString *str=[NSString stringWithContentsOfFile:logAddress encoding:NSASCIIStringEncoding error:nil];
-//    NSMutableDictionary *data = [NSMutableDictionary dictionary];
-//    [data setValue:str forKey:@"log"];
-//
-//    result(@[[NSNull null], data]);
-//}
-//
-//
-//RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)result){
-//    //  NSDictionary *dict = [info dictionaryObject];
-//    //  NSDictionary *meshDeviceInfo = [dict dictValueForKey:@"meshDeviceInfo" defaultValue: nil];
-//    //  NSDictionary *currentMesh = [dict dictValueForKey:@"currentMesh" defaultValue: nil];
-//    //  NSInteger newMeshID = [dict integerValueForKey:@"newMeshID" defaultValue:1];
-//    //  [GizWifiSDK changeDeviceMesh:meshDeviceInfo currentMesh: currentMesh newMeshID: newMeshID];
-//    //
-//    //  [self.callBackManager addResult:result type:GizWifiRnResultTypeChangeDeviceMesh identity:nil repeatable:YES];
-//}
-//
+
 #pragma mark - noti
 - (NSArray<NSString *> *)supportedEvents{
     return @[GizDeviceListNotifications, GizDeviceLogNotifications];
@@ -794,7 +609,7 @@ RCT_EXPORT_METHOD(confirmUserTerm:(id)info result:(RCTResponseSenderBlock)result
 }
 
 #pragma mark - GizWifiSDKDelegate
-- (void)wifiSDK:(GizWifiSDK* _Nonnull)wifiSDK didNotifyEvent:(GizEventType)eventType eventSource:(id _Nonnull)eventSource eventID:(GizWifiErrorCode)eventID eventMessage:(NSString* _Nullable)eventMessage {
+- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didNotifyEvent:(GizEventType)eventType eventSource:(id _Nonnull)eventSource eventID:(GizWifiErrorCode)eventID eventMessage:(NSString* _Nullable)eventMessage {
     //只有这些类型可以回调，其它不回调
     NSString *strEventType = nil;
     switch (eventType) {
@@ -841,13 +656,13 @@ RCT_EXPORT_METHOD(confirmUserTerm:(id)info result:(RCTResponseSenderBlock)result
         dataDict = [NSMutableDictionary dictionary];
         [dataDict setValue:mDevice forKey:@"device"];
     } else{
-        errDict = [NSDictionary makeErrorDictFromError:result];
+        errDict = [NSDictionary makeErrorDictFromGizError:result];
     }
 
     [self.callBackManager callBackWithType:GizWifiRnResultTypeSetDeviceOnboardingDeploy identity:nil resultDict:dataDict errorDict:errDict];
 }
 
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didSetDeviceOnboarding:(GizError *)result deviceList:(NSArray<GizWifiDevice *> *)deviceList {
+- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didSetDeviceOnboarding:(GizError* _Nonnull)result deviceList:(NSArray <GizWifiDevice*>* _Nullable)deviceList {
     NSLog(@">>> %@", deviceList);
     NSDictionary *dataDict = nil;
     NSDictionary *errDict = nil;
@@ -860,14 +675,14 @@ RCT_EXPORT_METHOD(confirmUserTerm:(id)info result:(RCTResponseSenderBlock)result
         }
         dataDict = @{@"devices": arrDevice};
     } else {
-        errDict = [NSDictionary makeErrorDictFromError:result];
+        errDict = [NSDictionary makeErrorDictFromGizError:result];
     }
 
     //callback get bound devices
     [self.callBackManager callBackWithType:GizWifiRnResultTypeSetDeviceOnboarding identity:nil resultDict:dataDict errorDict:errDict];
 }
 
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didDiscovered:(NSError *)result deviceList:(NSArray<GizWifiDevice *> *)deviceList {
+- (void)wifiSDK:(GizWifiSDK* _Nonnull)wifiSDK didDiscovered:(GizError* _Nonnull)result deviceList:(NSArray <GizWifiDevice*>* _Nullable)deviceList {
     NSLog(@">>> %@", deviceList);
     NSDictionary *dataDict = nil;
     NSDictionary *errDict = nil;
@@ -886,7 +701,7 @@ RCT_EXPORT_METHOD(confirmUserTerm:(id)info result:(RCTResponseSenderBlock)result
         }
         dataDict = @{@"devices": arrDevice};
     } else {
-        errDict = [NSDictionary makeErrorDictFromError:result];
+        errDict = [NSDictionary makeErrorDictFromGizError:error];
     }
 
     //callback get bound devices
@@ -899,13 +714,13 @@ RCT_EXPORT_METHOD(confirmUserTerm:(id)info result:(RCTResponseSenderBlock)result
 - (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didUserLogout:(GizError * _Nonnull)result {
     NSDictionary *errDict = nil;
     if (result.code != GIZ_SDK_SUCCESS) {
-        errDict = [NSDictionary makeErrorDictFromError:result];
+        errDict = [NSDictionary makeErrorDictFromGizError:result];
     }
 
     [self.callBackManager callBackWithType:GizWifiRnResultTypeUserLogout identity:nil resultDict:nil errorDict:errDict];
 }
 
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didDeviceSafetyRegister:(NSArray *)successDevices failedDevices:(NSArray *)failedDevices {
+- (void)wifiSDK:(GizWifiSDK* _Nonnull)wifiSDK didDeviceSafetyRegister:(NSArray* _Nullable)successDevices failedDevices:(NSArray* _Nullable)failedDevices {
     NSDictionary *errDict = nil;
     NSDictionary *dataDict = nil;
     dataDict = [NSMutableDictionary dictionary];
@@ -914,7 +729,7 @@ RCT_EXPORT_METHOD(confirmUserTerm:(id)info result:(RCTResponseSenderBlock)result
     [self.callBackManager callBackWithType:GizWifiRnResultTypeDeviceSafetyRegister identity:nil resultDict:dataDict errorDict:errDict];
 }
 
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didDeviceSafetyUnbind:(NSArray *)failedDevices {
+- (void)wifiSDK:(GizWifiSDK* _Nonnull)wifiSDK didDeviceSafetyUnbind:(NSArray* _Nullable)failedDevices {
     NSMutableDictionary *resultDic = nil;
     NSMutableArray *devices = [NSMutableArray array];
     for (NSDictionary *failDevice in failedDevices) {
@@ -932,181 +747,6 @@ RCT_EXPORT_METHOD(confirmUserTerm:(id)info result:(RCTResponseSenderBlock)result
 
 }
 
-
-//
-////- (void)wifiSDK:(GizWifiSDK *)wifiSDK didDiscoveredMeshDevices:(NSError *)result meshDeviceList:(NSArray *)meshDeviceList{
-////  NSDictionary *dataDict = nil;
-////  NSDictionary *errDict = nil;
-////
-////  if (result.code == GIZ_SDK_SUCCESS) {
-////    //｛“devices”: [device1, device2, ...]｝
-////    //        NSMutableArray *arrDevice = [NSMutableArray array];
-////    //        for (GizWifiDevice *device in meshDeviceList) {
-////    //            NSDictionary *dictDevice = [GizWifiCordovaSDK makeDictFromDeviceWithProperties:device];
-////    //            [arrDevice addObject:dictDevice];
-////    //        }
-////    dataDict = @{@"meshDevices": meshDeviceList};
-////  } else {
-////    errDict = [NSDictionary makeErrorDictFromError:result];
-////  }
-////  //noti
-////  [self notiWithType:GizWifiRnResultTypeMeshDeviceListNoti result:errDict ? : dataDict];
-////
-////}
-//
-////- (void)wifiSDK:(GizWifiSDK *)wifiSDK didReceiveDeviceLog:(NSError *)result mac:(NSString *)mac timestamp:(NSInteger)timestamp logSN:(NSInteger)logSN log:(NSString *)log{
-////    NSDictionary *dataDict = nil;
-////    dataDict = [NSMutableDictionary dictionary];
-////    NSDictionary *errDict = nil;
-////
-////    if (result.code == GIZ_SDK_SUCCESS) {
-////      [dataDict setValue:[NSNumber numberWithInt:timestamp] forKey:@"timestamp"];
-////      [dataDict setValue:[NSNumber numberWithInt:logSN] forKey:@"logSN"];
-////      [dataDict setValue:log forKey:@"log"];
-////    } else {
-////      errDict = [NSDictionary makeErrorDictFromError:result];
-////    }
-////    [self notiWithType:GizWifiRnResultTypeReceiveDeviceLogNoti result:errDict ? : dataDict];
-////}
-//
-////- (void)wifiSDK:(GizWifiSDK *)wifiSDK didRestoreDeviceFactorySetting:(NSString *)mac result:(NSError *)result{
-////  NSDictionary *dataDict = nil;
-////  NSDictionary *errDict = nil;
-////
-////  if (result.code == GIZ_SDK_SUCCESS) {
-////    dataDict = @{@"mac": mac};
-////  } else {
-////    errDict = [NSDictionary makeErrorDictFromError:result];
-////  }
-////
-////  [self.callBackManager callBackWithType:GizWifiRnResultTypeRestoreDeviceFactorySetting identity:nil resultDict:dataDict errorDict:errDict];
-////}
-//
-////- (void)wifiSDK:(GizWifiSDK *)wifiSDK didAddDevicesToGroup:(NSArray<GizWifiDevice *> *)successMeshDevice result:(NSError *)result{
-////  NSArray *dataDict = nil;
-////  NSDictionary *errDict = nil;
-////
-////  if (result.code == GIZ_SDK_SUCCESS) {
-////    NSMutableArray *arrDevice = [NSMutableArray array];
-////    for (GizWifiDevice *device in successMeshDevice) {
-////      NSDictionary *dictDevice = [NSDictionary makeDictFromDeviceWithProperties:device];
-////      [arrDevice addObject:dictDevice];
-////    }
-////    dataDict = arrDevice;
-////  } else {
-////    errDict = [NSDictionary makeErrorDictFromError:result];
-////  }
-////
-////  [self.callBackManager callBackWithType:GizWifiRnResultTypeaAddMeshGroup identity:nil resultDict:dataDict errorDict:errDict];
-////}
-//
-//
-////- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didChangeDeviceMesh:(NSDictionary * _Nonnull)meshDeviceInfo result:(NSError * _Nullable)result {
-////
-////  NSDictionary *dataDict = nil;
-////  NSDictionary *errDict = nil;
-////
-////  if (result.code == GIZ_SDK_SUCCESS) {
-////    dataDict = meshDeviceInfo;
-////  } else {
-////    errDict = [NSDictionary makeErrorDictFromError:result];
-////  }
-////
-////  [self.callBackManager callBackWithType:GizWifiRnResultTypeChangeDeviceMesh identity:nil resultDict:dataDict errorDict:errDict];
-////};
-//
-
-//- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didRegisterBleDevice:(NSError * _Nullable)result mac:(NSString * _Nullable)mac productKey:(NSString * _Nullable)productKey {
-//    NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
-//    NSDictionary *errDict = nil;
-//    if (result.code == GIZ_SDK_SUCCESS) {
-//        [dataDict setValue:mac forKey:@"mac"];
-//        [dataDict setValue:productKey forKey:@"productKey"];
-//    } else{
-//        errDict = [NSDictionary makeErrorDictFromError:result];
-//    }
-//    [self.callBackManager callBackWithType:GizWifiRnResultTypeRegisterBleDevice identity:nil resultDict:dataDict errorDict:errDict];
-//}
-//
-//- (void)wifiSDK:(GizWifiSDK *)wifiSDK didGetCurrentCloudService:(NSError *)result cloudServiceInfo:(NSDictionary<NSString *,NSString *> *)cloudServiceInfo{
-//
-//    NSDictionary *dataDict = nil;
-//    NSDictionary *errDict = nil;
-//
-//    if (result.code == GIZ_SDK_SUCCESS) {
-//        dataDict = [NSMutableDictionary dictionaryWithDictionary:cloudServiceInfo];
-//    } else{
-//        errDict = [NSDictionary makeErrorDictFromError:result];
-//    }
-//
-//    [self.callBackManager callBackWithType:GizWifiRnResultTypeGetCurrentCloudService identity:nil resultDict:dataDict errorDict:errDict];
-//}
-//
-
-//
-//- (void)wifiSDK:(GizWifiSDK *)wifiSDK didChannelIDBind:(NSError *)result
-//{
-//    NSDictionary *dataDict = nil;
-//    NSDictionary *errDict = nil;
-//
-//    if (result.code == GIZ_SDK_SUCCESS) {
-//        dataDict = [NSMutableDictionary dictionary];
-//        [dataDict setValue:0 forKey:@"errorCode"];
-//        [dataDict setValue:@"GIZ_SDK_SUCCESS" forKey:@"msg"];
-//    } else{
-//        errDict = [NSDictionary makeErrorDictFromError:result];
-//    }
-//
-//    [self.callBackManager callBackWithType:GizWifiRnResultTypeBindChannel identity:nil resultDict:dataDict errorDict:errDict];
-//
-//}
-//
-//- (void)wifiSDK:(GizWifiSDK *)wifiSDK didChannelIDUnBind:(NSError *)result
-//{
-//    NSDictionary *dataDict = nil;
-//    NSDictionary *errDict = nil;
-//
-//    if (result.code == GIZ_SDK_SUCCESS) {
-//        dataDict = [NSMutableDictionary dictionary];
-//        [dataDict setValue:@(0) forKey:@"errorCode"];
-//        [dataDict setValue:@"GIZ_SDK_SUCCESS" forKey:@"msg"];
-//    } else{
-//        errDict = [NSDictionary makeErrorDictFromError:result];
-//    }
-//
-//    [self.callBackManager callBackWithType:GizWifiRnResultTypeBindChannel identity:nil resultDict:dataDict errorDict:errDict];
-//
-//}
-//
-//- (void)wifiSDK:(GizWifiSDK *)wifiSDK didBindDevice:(NSError *)result did:(NSString *)did{
-//
-//    NSDictionary *dataDict = nil;
-//    NSDictionary *errDict = nil;
-//
-//    if (result.code == GIZ_SDK_SUCCESS) {
-//        dataDict = [NSMutableDictionary dictionary];
-//        [dataDict setValue:did forKey:@"did"];
-//    } else {
-//        errDict = [NSDictionary makeErrorDictFromError:result];
-//    }
-//
-//    [self.callBackManager callBackWithType:GizWifiRnResultTypeBindRemoteDevice identity:nil resultDict:dataDict errorDict:errDict];
-//}
-//
-//- (void)wifiSDK:(GizWifiSDK *)wifiSDK didUnbindDevice:(NSError *)result did:(NSString *)did{
-//    NSDictionary *dataDict = nil;
-//    NSDictionary *errDict = nil;
-//
-//    if (result.code == GIZ_SDK_SUCCESS) {
-//        dataDict = [NSMutableDictionary dictionary];
-//        [dataDict setValue:did forKey:@"did"];
-//    } else {
-//        errDict = [NSDictionary makeErrorDictFromError:result];
-//    }
-//
-//    [self.callBackManager callBackWithType:GizWifiRnResultTypeUnBindDevice identity:nil resultDict:dataDict errorDict:errDict];
-//}
-//
 #pragma mark - tool
 /** 判断列表是否只有netStatus发生了变化 */
 - (BOOL)isOnlyNetStatusChangge: (NSArray <GizWifiDevice *>*)newDeviceList {
@@ -1231,6 +871,100 @@ RCT_EXPORT_METHOD(confirmUserTerm:(id)info result:(RCTResponseSenderBlock)result
     }
     return _oldDeviceList;
 }
+
+
+//RCT_EXPORT_METHOD(getBoundBleDevice:(RCTResponseSenderBlock)result){
+//    NSArray *bleDevices = [[GizWifiSDK sharedInstance] getBoundBleDevice];
+//    if (!bleDevices) {
+//        bleDevices = [NSArray array];
+//    }
+//    if (result) {
+//        result(@[[NSNull null], bleDevices]);
+//    }
+//}
+
+//RCT_EXPORT_METHOD(registerBleDevice:(id)info result:(RCTResponseSenderBlock)result){
+//    NSDictionary *dict = [info dictionaryObject];
+//    if (!dict) {
+//        return;
+//    }
+//    NSString *mac = [dict stringValueForKey:@"mac" defaultValue:@""];
+//    [[GizWifiSDK sharedInstance] registerBleDevice:mac];
+//    [self.callBackManager addResult:result type:GizWifiRnResultTypeRegisterBleDevice identity:nil repeatable:NO];
+//}
+//
+//
+
+///**
+// @param ssid 前缀
+// */
+////
+//RCT_EXPORT_METHOD(getDeviceLog:(id)info){
+//    //
+//    //  NSDictionary *dict = [info dictionaryObject];
+//    //
+//    //  NSString *softAPSSIDPrefix = [dict stringValueForKey:@"softAPSSIDPrefix" defaultValue:@"XPG-GAgent-"];
+//    //  [GizWifiSDK getDeviceLog:softAPSSIDPrefix];
+//}
+//
+///**
+// @param type 0 client 1 deamon
+// */
+//
+//RCT_EXPORT_METHOD(getLog:(id)info result:(RCTResponseSenderBlock)result){
+//
+//    NSDictionary *dict = [info dictionaryObject];
+//
+//    NSInteger *type = [dict integerValueForKey:@"type" defaultValue:0];
+//    NSString *address = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/GizWifiSDK"];
+//    NSString *clientAddress = [NSString stringWithFormat:@"%@%@", address, @"/GizSDKLog/Client/GizSDKClientLogFile.sys" ];
+//    NSString *deamonAddress = [NSString stringWithFormat:@"%@%@", address, @"/GizSDKLog/Daemon/GizSDKLogFile.sys" ];
+//
+//    NSString *logAddress = @"";
+//    if (type == 0) {
+//        // 获取client日志
+//        logAddress =clientAddress;
+//    } else {
+//        logAddress =deamonAddress;
+//    }
+//
+//    NSString *str=[NSString stringWithContentsOfFile:logAddress encoding:NSASCIIStringEncoding error:nil];
+//    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+//    [data setValue:str forKey:@"log"];
+//
+//    result(@[[NSNull null], data]);
+//}
+//
+////- (void)wifiSDK:(GizWifiSDK *)wifiSDK didReceiveDeviceLog:(NSError *)result mac:(NSString *)mac timestamp:(NSInteger)timestamp logSN:(NSInteger)logSN log:(NSString *)log{
+////    NSDictionary *dataDict = nil;
+////    dataDict = [NSMutableDictionary dictionary];
+////    NSDictionary *errDict = nil;
+////
+////    if (result.code == GIZ_SDK_SUCCESS) {
+////      [dataDict setValue:[NSNumber numberWithInt:timestamp] forKey:@"timestamp"];
+////      [dataDict setValue:[NSNumber numberWithInt:logSN] forKey:@"logSN"];
+////      [dataDict setValue:log forKey:@"log"];
+////    } else {
+////      errDict = [NSDictionary makeErrorDictFromError:result];
+////    }
+////    [self notiWithType:GizWifiRnResultTypeReceiveDeviceLogNoti result:errDict ? : dataDict];
+////}
+//
+
+
+//- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didRegisterBleDevice:(NSError * _Nullable)result mac:(NSString * _Nullable)mac productKey:(NSString * _Nullable)productKey {
+//    NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
+//    NSDictionary *errDict = nil;
+//    if (result.code == GIZ_SDK_SUCCESS) {
+//        [dataDict setValue:mac forKey:@"mac"];
+//        [dataDict setValue:productKey forKey:@"productKey"];
+//    } else{
+//        errDict = [NSDictionary makeErrorDictFromError:result];
+//    }
+//    [self.callBackManager callBackWithType:GizWifiRnResultTypeRegisterBleDevice identity:nil resultDict:dataDict errorDict:errDict];
+//}
+//
+
 @end
 
 
