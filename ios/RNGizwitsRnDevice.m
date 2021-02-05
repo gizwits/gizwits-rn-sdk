@@ -179,7 +179,7 @@ RCT_EXPORT_METHOD(disconnectBle:(id)info result:(RCTResponseSenderBlock)result) 
     if (isConnect) {
         [self.callBackManager callBackWithType:GizWifiRnResultTypeConnectBle identity:device.did resultDict:dataDict errorDict:errDict];
     } else {
-        [self.callBackManager callBackWithType:GizWifiRnResultTypeConnectBle identity:device.did resultDict:dataDict errorDict:errDict];
+        [self.callBackManager callBackWithType:GizWifiRnResultTypeDisconnectBle identity:device.did resultDict:dataDict errorDict:errDict];
     }
 }
 
