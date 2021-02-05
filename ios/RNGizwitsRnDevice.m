@@ -237,6 +237,11 @@ RCT_EXPORT_METHOD(disconnectBle:(id)info result:(RCTResponseSenderBlock)result) 
     NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
     [dataDict setValue:deviceDict forKey:@"device"];
     [dataDict setValue:@(netStatus) forKey:@"netStatus"];
+    if ([device isMemberOfClass:[GizWifiBleDevice class]]) {
+        GizWifiBleDevice *bleDevice = (GizWifiBleDevice *)device;
+        // 子设备其他属性
+        [dataDict setValue:@(bleDevice.isBlueLocal) forKey:@"isBlueLocal"];
+    }
     
     [self notiWithType:GizWifiRnResultTypeDeviceStatusNoti result:dataDict];
 }
@@ -262,6 +267,11 @@ RCT_EXPORT_METHOD(disconnectBle:(id)info result:(RCTResponseSenderBlock)result) 
   // 只有通知才需要 netStatus 字段
   NSInteger netStatus = getDeviceNetStatus(device.netStatus);
   [dataDict setValue:@(netStatus) forKey:@"netStatus"];
+    if ([device isMemberOfClass:[GizWifiBleDevice class]]) {
+        GizWifiBleDevice *bleDevice = (GizWifiBleDevice *)device;
+        // 子设备其他属性
+        [dataDict setValue:@(bleDevice.isBlueLocal) forKey:@"isBlueLocal"];
+    }
   [self notiWithType:GizWifiRnResultTypeDeviceStatusNoti result:errDict ? : dataDict];
 }
 
