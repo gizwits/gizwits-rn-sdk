@@ -25,11 +25,12 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
 
     //device
     GizWifiRnResultTypeSetSubscribe,
-    GizWifiRnResultTypeConnectBle,
     GizWifiRnResultTypeGetDeviceStatus,
     GizWifiRnResultTypeWrite,
+    GizWifiRnResultTypeGetHardwareInfo,
+    GizWifiRnResultTypeSetCustomInfo,
+
     GizWifiRnResultTypeDeviceStatusNoti,
-    GizWifiRnResultTypeMeshDeviceListNoti,
     GizWifiRnResultTypeAppToDevNoti,
 };
 
