@@ -2,6 +2,7 @@ package com.gizwitssdk;
 
 import com.gizwits.gizwifisdk.api.GizWifiCentralControlDevice;
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
+import com.gizwits.gizwifisdk.api.GizWifiBleDevice;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.api.GizWifiSubDevice;
 import com.gizwits.gizwifisdk.enumration.GizWifiDeviceType;
@@ -96,6 +97,20 @@ public class RNGizwitsDeviceCache {
 
         return null;
     }
+
+    // 在蓝牙设备列表中找设备
+    public GizWifiBleDevice findBleDeviceByMac(String mac)
+    {
+        List<GizWifiBleDevice> deviceList = GizWifiSDK.sharedInstance().getBoundBleDevice();
+            for (int i = 0; i < deviceList.size(); i++) {
+                GizWifiBleDevice device = deviceList.get(i);
+                if (device.getMacAddress().equals(mac)) {
+                    return device;
+                }
+            }
+        return null;
+    }
+
 
     // 在设备列表中找中控设备
     public GizWifiCentralControlDevice findCenterControlDeviceByMac(String mac, String did) {

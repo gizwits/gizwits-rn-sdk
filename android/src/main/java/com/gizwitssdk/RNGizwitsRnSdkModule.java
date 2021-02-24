@@ -406,15 +406,24 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             }
         }
 
-        public void didDiscoverBleDevice(GizWifiErrorCode result,List<ConcurrentHashMap<String, String>> deviceList)
+        public void didDiscoverBleDevice(GizWifiErrorCode result,List<GizWifiBleDevice> deviceList)
         {
             JSONArray data = new JSONArray();
             try {
                 for(int i=0;i<deviceList.size();i++)
                 {
+                    GizWifiBleDevice device = deviceList.get(i);
                     JSONObject json = new JSONObject();
-                    json.put("mac",deviceList.get(i).get("mac"));
-                    json.put("productKey",deviceList.get(i).get("productKey"));
+                    json.put("mac",device.getMacAddress());
+                    json.put("productKey",device.getProductKey());
+                    int netStatus = 0;
+                    if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceOnline) {
+                        netStatus = 1;
+                    } else if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceControlled) {
+                        netStatus = 2;
+                    }
+                    json.put("netStatus", netStatus);
+                    json.put("isBlueLocal",device.isBlueLocal());
                     data.put(json);
                 }
                 callbackBleDeviceNofitication(data);
@@ -1123,14 +1132,23 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             return;
         }
 
-        List<ConcurrentHashMap<String,String>> bleDeviceList = GizWifiSDK.sharedInstance().getBoundBleDevice();
+        List<GizWifiBleDevice> bleDeviceList = GizWifiSDK.sharedInstance().getBoundBleDevice();
         JSONArray data = new JSONArray();
         try {
             for(int i=0;i<bleDeviceList.size();i++)
-            {
+            {   
+                GizWifiBleDevice device = bleDeviceList.get(i);
                 JSONObject json = new JSONObject();
-                json.put("mac",bleDeviceList.get(i).get("mac"));
-                json.put("productKey",bleDeviceList.get(i).get("productKey"));
+                json.put("mac",device.getMacAddress());
+                json.put("productKey",device.getProductKey());
+                int netStatus = 0;
+                    if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceOnline) {
+                        netStatus = 1;
+                    } else if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceControlled) {
+                        netStatus = 2;
+                    }
+                json.put("netStatus", netStatus);
+                json.put("isBlueLocal",device.isBlueLocal());
                 data.put(json);
             }
             sendResultEvent(callback, data);
