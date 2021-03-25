@@ -225,6 +225,7 @@ extern NSString * _Null_unspecified XPGWifiDeviceHardwareProductKey DEPRECATED_M
  NSDictionary类型。缓存最新的设备状态
  */
 @property (strong, nonatomic, readonly) NSDictionary <NSString *, id>* _Nullable attrStatus;
+@property (strong, nonatomic, readonly) NSString * _Nullable passcode;
 @property (strong, nonatomic, readonly) NSString * _Nullable deviceModuleFirmwareVer;
 @property (strong, nonatomic, readonly) NSString * _Nullable deviceMcuFirmwareVer;
 @property (strong, nonatomic, readonly) NSString * _Nullable deviceModuleHardVer;
@@ -303,7 +304,7 @@ extern NSString * _Null_unspecified XPGWifiDeviceHardwareProductKey DEPRECATED_M
 - (void)setCustomInfo:(NSString * _Nullable)remark alias:(NSString * _Nullable)alias;
 
 /** @deprecated 此变量已废弃，不再提供支持。 */
-@property (strong, nonatomic, readonly) NSString * _Null_unspecified passcode DEPRECATED_MSG_ATTRIBUTE("No longer supported.") NS_EXTENSION_UNAVAILABLE_IOS("") NS_SWIFT_UNAVAILABLE("");
+//@property (strong, nonatomic, readonly) NSString * _Null_unspecified passcode DEPRECATED_MSG_ATTRIBUTE("No longer supported.") NS_EXTENSION_UNAVAILABLE_IOS("") NS_SWIFT_UNAVAILABLE("");
 /** @deprecated 此变量已废弃，不再提供支持。替代变量为 productType */
 @property (assign, nonatomic, readonly) XPGWifiDeviceType type DEPRECATED_MSG_ATTRIBUTE("Please use productType instead") NS_EXTENSION_UNAVAILABLE_IOS("") NS_SWIFT_UNAVAILABLE("");
 /** @deprecated 此变量已废弃，不再提供支持。替代变量为 netStatus */
