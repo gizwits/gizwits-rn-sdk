@@ -197,7 +197,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("productKey", device.getProductKey());
                     deviceobj.put("productName", device.getProductName());
                     deviceobj.put("ip", device.getIPAddress());
-                    // deviceobj.put("passcode", device.getPasscode());
+                    deviceobj.put("passcode", device.getPasscode());
                     // deviceobj.put("isConnected", device.isConnected());
                     deviceobj.put("isOnline", device.isOnline());
                     deviceobj.put("isLAN", device.isLAN());
