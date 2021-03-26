@@ -165,6 +165,7 @@
   [mdict setValue:@(device.isLAN) forKey:@"isLAN"];
   [mdict setValue:@(device.isBind) forKey:@"isBind"];
   [mdict setValue:@(device.isSubscribed) forKey:@"isSubscribed"];
+  [mdict setValue:device.passcode forKey:@"passcode"];
   [mdict setValue:device.rootDevice==nil?@"":device.rootDevice.did forKey:@"rootDeviceId"];
     if (device.isLowPower) {
         [mdict setValue:@(device.isLowPower) forKey:@"isLowPower"];
