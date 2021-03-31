@@ -472,16 +472,35 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                         }
                     }
 
+                    // if (tempDataMap.toString().contains("binary")) {
+                    //     byte[] byteStr = (byte[]) tempDataMap.get("binary");
+                    //     if (byteStr != null) {
+                    //         String binary = GizWifiBinary.encode(byteStr);
+                    //         if (binary != null && binary.length() != 0) {
+                    //             status.put("binary", binary);
+                    //             resultJson.put("binary", binary);
+                    //         }
+                    //     }
+                    // }
+
                     if (tempDataMap.toString().contains("binary")) {
                         byte[] byteStr = (byte[]) tempDataMap.get("binary");
-                        if (byteStr != null) {
-                            String binary = GizWifiBinary.encode(byteStr);
-                            if (binary != null && binary.length() != 0) {
-                                status.put("binary", binary);
-                                resultJson.put("binary", binary);
-                            }
-                        }
-
+                                    JSONArray jsonArray;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                                        jsonArray = new JSONArray(byteStr);
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+                                            jsonArray.put(i, ((Byte) jsonArray.get(i)) & 0xff);
+                                        }
+                                    } else {
+                                        jsonArray = new JSONArray();
+                                        for (int i = 0; i < byteStr.length; i++) {
+                                            jsonArray.put(byteStr[i]);
+                                        }
+                                    }
+//                                        String str = bytesToHex(byteStr);
+                                    status.put("binary", jsonArray);
+                                    resultJson.put("binary", jsonArray);
+                                    Log.e("GizSDKClientLog", "Value=" + jsonArray.toString());
                     }
 
                     // resultJson.put("status", status);
