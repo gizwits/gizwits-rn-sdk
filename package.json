@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.22.7-beta-11",
-  "description": "更新蓝牙安卓sdk，修复透传数据解析问题",
+  "version": "2.22.7-beta-12",
+  "description": "更新蓝牙安卓sdk，安卓11的兼容",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
