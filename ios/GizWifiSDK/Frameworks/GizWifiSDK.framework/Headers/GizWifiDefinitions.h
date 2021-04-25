@@ -394,6 +394,8 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     GIZ_SDK_START_SUCCESS = 8316,
     /** 设备配网被中断 */
     GIZ_SDK_ONBOARDING_STOPPED = 8318,
+    /** 手机不支持NFC配网 */
+    GIZ_SDK_NOT_SUPPORT_NFC = 8320,
     
     /** 当前固件是最新版本，不需要升级 */
     GIZ_SDK_OTA_FIRMWARE_IS_LATEST = 8350,
@@ -628,7 +630,9 @@ typedef NS_ENUM(NSInteger, GizWifiConfigureMode) {
     /** 蓝牙配置模式 */
     GizWifiBleLink = 3,
     /** 支持多设备同时进行蓝牙配置 */
-    GizWifiBleLinkMulti = 4
+    GizWifiBleLinkMulti = 4,
+    /** NFC配网模式 */
+    GizWifiNFCLink = 5
 };
 
 /**
