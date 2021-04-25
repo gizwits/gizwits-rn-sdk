@@ -493,9 +493,12 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
     NSDictionary *dataDict = nil;
     NSDictionary *errDict = nil;
 
+    BOOL isCallback = [self.callBackManager haveCallBack:GizWifiRnResultTypeGetBoundDevices identity:nil];
+
     if (result.code == GIZ_SDK_SUCCESS) {
-        if ([self isOnlyNetStatusChangge:deviceList]) {
+        if (!isCallback && [self isOnlyNetStatusChangge:deviceList]) {  //主动上报且只有设备上下线状态发生变化，
             // 只有设备状态发生变化
+            NSLog(@"test - 主动上报，且设备列表只有NetStatus发生变化，不回调列表");
             return;
         }
         NSMutableArray *arrDevice = [NSMutableArray array];
@@ -510,11 +513,15 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
         errDict = [NSDictionary makeErrorDictFromError:result];
     }
 
-    //callback get bound devices
-    [self.callBackManager callBackWithType:GizWifiRnResultTypeGetBoundDevices identity:nil resultDict:dataDict errorDict:errDict];
-
-    //noti
-    [self notiWithType:GizWifiRnResultTypeDeviceListNoti result:errDict ? : dataDict];
+    if (isCallback) {
+        // 有回调，要回
+        NSLog(@"test - 调用getBoundDevice得到的回调，回复回调");
+        [self.callBackManager callBackWithType:GizWifiRnResultTypeGetBoundDevices identity:nil resultDict:dataDict errorDict:errDict];
+    } else {
+        //没有回调，通知
+        NSLog(@"test - 主动上报，且设备列表发生变化，回调列表");
+        [self notiWithType:GizWifiRnResultTypeDeviceListNoti result:errDict ? : dataDict];
+    }
 }
 
 //- (void)wifiSDK:(GizWifiSDK *)wifiSDK didDiscoveredMeshDevices:(NSError *)result meshDeviceList:(NSArray *)meshDeviceList{
