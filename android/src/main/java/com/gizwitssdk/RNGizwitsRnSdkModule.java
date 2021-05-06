@@ -254,7 +254,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     JSONObject error = new JSONObject();
                     error.put("errorCode", result.getResult());
                     error.put("msg", result.name());
-                    sendResultEvent(getBoundDevicesCallback, jsonResult, null);
+                    sendResultEvent(getBoundDevicesCallback, null, error);
                 }
 
 
