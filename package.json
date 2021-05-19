@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.22.7-beta-13",
-  "description": "修复RN安卓上报sdk错误为空",
+  "version": "2.22.7-beta-14",
+  "description": "修复iOS getBoundDevice在设备未有变化时不主动上报问题",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
