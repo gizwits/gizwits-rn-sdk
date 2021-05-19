@@ -67,6 +67,14 @@
  */
 - (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didSetDeviceOnboarding:(NSError * _Nonnull)result mac:(NSString * _Nullable)mac did:(NSString * _Nullable)did productKey:(NSString * _Nullable)productKey;
 
+/**
+ 设备配网进展回调接口（目前仅支持NFC配网）
+ 可以通过这个接口拿到 配网会话被激活/已发送成功配置信息/发送配置信息失败等通知
+ @param wifiSDK 为回调的 GizWifiSDK 单例
+ @param process 设备配网进程
+ */
+- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK deviceOnboardingProcess:(GizConfigureProcess)process;
+
 /** 设备配网回调接口 */
 - (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didSetDeviceOnboarding:(NSError * _Nonnull)result device:(GizWifiDevice * _Nullable)device;
 

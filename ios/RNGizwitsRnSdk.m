@@ -426,7 +426,7 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
 
 #pragma mark - noti
 - (NSArray<NSString *> *)supportedEvents{
-    return @[GizDeviceListNotifications, GizMeshDeviceListNotifications, GizDeviceLogNotifications, GizBleDeviceListNotifications];
+    return @[GizDeviceListNotifications, GizMeshDeviceListNotifications, GizDeviceLogNotifications, GizBleDeviceListNotifications,GizDeviceOnboardingProcessNotifications];
 }
 
 - (void)notiWithType:(GizWifiRnResultType)type result:(id)result{
@@ -446,6 +446,10 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
             break;
         case GizWifiRnResultTypeBleDeviceListNoti:{
             [self sendEventWithName:GizBleDeviceListNotifications body:result];
+        }
+            break;
+        case GizWifiRnResultTypeDeviceOnboardingProcessNoti:{
+            [self sendEventWithName:GizDeviceOnboardingProcessNotifications body:result];
         }
             break;
         default:
@@ -669,6 +673,11 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
     }
 
     [self.callBackManager callBackWithType:GizWifiRnResultTypeSetDeviceOnboardingDeploy identity:nil resultDict:dataDict errorDict:errDict];
+}
+
+-(void)wifiSDK:(GizWifiSDK *)wifiSDK deviceOnboardingProcess:(GizConfigureProcess)process{
+    NSInteger processInt = getDeviceOnboardingProcessTypeFromEnum(process);
+    [self notiWithType:GizWifiRnResultTypeDeviceOnboardingProcessNoti result:@{@"process":[NSNumber numberWithInteger:processInt]}];
 }
 
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didChannelIDBind:(NSError *)result

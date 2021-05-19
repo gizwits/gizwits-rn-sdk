@@ -28,6 +28,7 @@ import com.gizwits.gizwifisdk.enumration.GizPushType;
 import com.gizwits.gizwifisdk.enumration.GizWifiConfigureMode;
 import com.gizwits.gizwifisdk.enumration.GizWifiDeviceNetStatus;
 import com.gizwits.gizwifisdk.enumration.GizWifiDeviceType;
+import com.gizwits.gizwifisdk.enumration.GizConfigureProcess;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.enumration.GizWifiGAgentType;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
@@ -375,6 +376,26 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     sendResultEvent(setOnboardingCallback.get(0), null, jsonResult);
                 }
                 setOnboardingCallback.remove(0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+         @Override
+        public void deviceOnboardingProcess(GizConfigureProcess process) {
+            try {
+                JSONObject jsonResult = new JSONObject();
+                 int _process = -1;
+                if (process == GizConfigureProcess.GizConfigureDidBecomeActive) {
+                    _process = 0;
+                } else if (process == GizConfigureProcess.GizConfigureDidSendDataSuccess) {
+                    _process = 1;
+                } else if (process == GizConfigureProcess.GizConfigureDidSendDataFailed) {
+                    _process = 2;
+                }
+                jsonResult.put("process", _process);
+                callbackDeviceOnboardingProcessNofitication(jsonResult);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -896,6 +917,9 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             case 4:
                 GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiBleLinkMulti, softAPSSIDPrefix, timeout, types, isBind);
                 break;
+            case 5:
+                GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiNFCLink, softAPSSIDPrefix, timeout, types, isBind);
+                break;
         }
     }
 
@@ -1192,6 +1216,14 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("GizDeviceLogNotifications", writableMap);
+    }
+
+    public void callbackDeviceOnboardingProcessNofitication(JSONObject params) {
+        Log.e("DeviceOnboardingProcess", params.toString());
+        WritableMap writableMap = jsonObject2WriteableMap(params);
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("GizDeviceOnboardingProcessNotifications", writableMap);
     }
 
     public JSONObject readable2JsonObject(ReadableMap readableMap) {
