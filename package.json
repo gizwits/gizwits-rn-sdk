@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.22.7-beta-13",
-  "description": "修复RN安卓上报sdk错误为空",
+  "version": "2.22.8",
+  "description": "修复底层通讯时，高频率、高带宽产生的问题",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
