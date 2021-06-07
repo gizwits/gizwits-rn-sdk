@@ -1186,7 +1186,8 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         JSONObject args = readable2JsonObject(readableMap);
         registBleDeviceCallback = callback;
         String mac = args.optString("mac");
-        GizWifiSDK.sharedInstance().registerBleDevice(mac);
+        String productKey = args.optString("productKey");
+        GizWifiSDK.sharedInstance().registerBleDevice(mac,productKey);
     }
 
     public void callbackNofitication(JSONObject params) {
