@@ -24,4 +24,6 @@
 + (NSDictionary *)makeErrorDictFromResultCode:(NSInteger)resultCode device:(NSDictionary *)device;
 + (NSDictionary *)makeErrorCodeFromError:(NSError *)error device:(NSDictionary *)device;
 + (NSDictionary *)makeWaitForTheLastRequestError;
+
++ (NSArray <NSDictionary *>*)deviceDictArrFromDevices:(NSArray <GizWifiDevice *>*)deviceList;
 @end

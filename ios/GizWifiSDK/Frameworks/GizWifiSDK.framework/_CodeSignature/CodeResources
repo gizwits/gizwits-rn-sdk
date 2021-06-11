@@ -94,7 +94,7 @@
 		</data>
 		<key>Headers/GizWifiBleDevice.h</key>
 		<data>
-		K4vpeTREUr1Aayyl0O6GjyV7lBU=
+		MJbpPIvll1LPuAtsJu84r8X3+58=
 		</data>
 		<key>Headers/GizWifiCentralControlDevice.h</key>
 		<data>
@@ -106,11 +106,11 @@
 		</data>
 		<key>Headers/GizWifiDevice.h</key>
 		<data>
-		mYufthTMZRPY/b8ZdiGhoX6QQyg=
+		Rsy7wQZRP/VWA4ZWvWgYifgsWik=
 		</data>
 		<key>Headers/GizWifiSDK.h</key>
 		<data>
-		QXVV1xm98HIMQXHDVlJJSCxt+DE=
+		aFoyGsHexb1IZhzyqC+I391MEHI=
 		</data>
 		<key>Headers/GizWifiSSID.h</key>
 		<data>
@@ -118,7 +118,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		SORAVEW00/dOOGEasfnPJGSM1ss=
+		muNAoVqeXCRBrGb4hjaaz/KCjd4=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -377,11 +377,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			K4vpeTREUr1Aayyl0O6GjyV7lBU=
+			MJbpPIvll1LPuAtsJu84r8X3+58=
 			</data>
 			<key>hash2</key>
 			<data>
-			XUxKARRBYdxuD9PoA/heiUOb8aqxqW9TKPVD2CEQzXE=
+			8yNzKgdtBvDa0bZVYEsKrxIxT2vStPHaX+j2mx0JX1o=
 			</data>
 		</dict>
 		<key>Headers/GizWifiCentralControlDevice.h</key>
@@ -410,22 +410,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mYufthTMZRPY/b8ZdiGhoX6QQyg=
+			Rsy7wQZRP/VWA4ZWvWgYifgsWik=
 			</data>
 			<key>hash2</key>
 			<data>
-			ht+V+S19wJG0h/qlsUExtuGJvi2WwIMhnirlKbnkhFc=
+			YYcOMnOrXV9Tqzo7tIv76fwb1fPxB6kDgh/mQIwzgYQ=
 			</data>
 		</dict>
 		<key>Headers/GizWifiSDK.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			QXVV1xm98HIMQXHDVlJJSCxt+DE=
+			aFoyGsHexb1IZhzyqC+I391MEHI=
 			</data>
 			<key>hash2</key>
 			<data>
-			PSL+8cP9UxIlELifp25uJy/OZeTbm0XzVasaQFBqP7o=
+			9F03UlFuzkwNH/vgwkU2DmxXeomvImv7o3Ic71RW4fE=
 			</data>
 		</dict>
 		<key>Headers/GizWifiSSID.h</key>

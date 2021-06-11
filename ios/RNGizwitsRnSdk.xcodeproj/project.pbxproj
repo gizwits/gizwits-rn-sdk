@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1996305A25C8F36F00FBF10F /* RNGizwitsRnDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 1996305825C8F36F00FBF10F /* RNGizwitsRnDevice.m */; };
 		B3E7B58A1CC2AC0600A0062D /* RNGizwitsRnSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNGizwitsRnSdk.m */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +25,22 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNGizwitsRnSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNGizwitsRnSdk.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1996305825C8F36F00FBF10F /* RNGizwitsRnDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNGizwitsRnDevice.m; sourceTree = "<group>"; };
+		1996305925C8F36F00FBF10F /* RNGizwitsRnDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNGizwitsRnDevice.h; sourceTree = "<group>"; };
+		1996305D25C8F37B00FBF10F /* NSObject+Giz.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Giz.h"; sourceTree = "<group>"; };
+		1996305E25C8F37B00FBF10F /* GizWifiSDKCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GizWifiSDKCache.m; sourceTree = "<group>"; };
+		1996305F25C8F37B00FBF10F /* GizWifiDef.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GizWifiDef.m; sourceTree = "<group>"; };
+		1996306025C8F37B00FBF10F /* GizWifiCacheCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GizWifiCacheCommon.h; sourceTree = "<group>"; };
+		1996306125C8F37B00FBF10F /* GizWifiDeviceCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GizWifiDeviceCache.m; sourceTree = "<group>"; };
+		1996306225C8F37B00FBF10F /* NSDictionary+Giz.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Giz.h"; sourceTree = "<group>"; };
+		1996306325C8F37B00FBF10F /* GizWifiRnCallBackManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GizWifiRnCallBackManager.h; sourceTree = "<group>"; };
+		1996306425C8F37B00FBF10F /* GizWifiSDKCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GizWifiSDKCache.h; sourceTree = "<group>"; };
+		1996306525C8F37B00FBF10F /* NSObject+Giz.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Giz.m"; sourceTree = "<group>"; };
+		1996306625C8F37B00FBF10F /* GizWifiDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GizWifiDef.h; sourceTree = "<group>"; };
+		1996306725C8F37B00FBF10F /* GizWifiCacheCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GizWifiCacheCommon.m; sourceTree = "<group>"; };
+		1996306825C8F37B00FBF10F /* GizWifiRnCallBackManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GizWifiRnCallBackManager.m; sourceTree = "<group>"; };
+		1996306925C8F37B00FBF10F /* NSDictionary+Giz.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Giz.m"; sourceTree = "<group>"; };
+		1996306A25C8F37B00FBF10F /* GizWifiDeviceCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GizWifiDeviceCache.h; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* RNGizwitsRnSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNGizwitsRnSdk.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNGizwitsRnSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNGizwitsRnSdk.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -47,11 +64,35 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1996305C25C8F37B00FBF10F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1996306625C8F37B00FBF10F /* GizWifiDef.h */,
+				1996305F25C8F37B00FBF10F /* GizWifiDef.m */,
+				1996305D25C8F37B00FBF10F /* NSObject+Giz.h */,
+				1996306525C8F37B00FBF10F /* NSObject+Giz.m */,
+				1996306225C8F37B00FBF10F /* NSDictionary+Giz.h */,
+				1996306925C8F37B00FBF10F /* NSDictionary+Giz.m */,
+				1996306425C8F37B00FBF10F /* GizWifiSDKCache.h */,
+				1996305E25C8F37B00FBF10F /* GizWifiSDKCache.m */,
+				1996306A25C8F37B00FBF10F /* GizWifiDeviceCache.h */,
+				1996306125C8F37B00FBF10F /* GizWifiDeviceCache.m */,
+				1996306025C8F37B00FBF10F /* GizWifiCacheCommon.h */,
+				1996306725C8F37B00FBF10F /* GizWifiCacheCommon.m */,
+				1996306325C8F37B00FBF10F /* GizWifiRnCallBackManager.h */,
+				1996306825C8F37B00FBF10F /* GizWifiRnCallBackManager.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				1996305C25C8F37B00FBF10F /* Utils */,
 				B3E7B5881CC2AC0600A0062D /* RNGizwitsRnSdk.h */,
 				B3E7B5891CC2AC0600A0062D /* RNGizwitsRnSdk.m */,
+				1996305925C8F36F00FBF10F /* RNGizwitsRnDevice.h */,
+				1996305825C8F36F00FBF10F /* RNGizwitsRnDevice.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -95,6 +136,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 58B511D21A9E6C8500147676;
@@ -113,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3E7B58A1CC2AC0600A0062D /* RNGizwitsRnSdk.m in Sources */,
+				1996305A25C8F36F00FBF10F /* RNGizwitsRnDevice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,7 +247,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-				"$(inherited)",
+					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
