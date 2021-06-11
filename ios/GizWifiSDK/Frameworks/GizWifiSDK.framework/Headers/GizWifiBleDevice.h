@@ -26,7 +26,7 @@ typedef void (^bleCallback)(GizWifiErrorCode errorCode);
 /**
  断开连接
  */
-- (void)disconnectCallback: (bleCallback)callback;
+- (void)disconnectBle: (bleCallback)callback;
 
 @end
 

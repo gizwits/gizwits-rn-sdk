@@ -165,6 +165,7 @@
   [mdict setValue:@(device.isLAN) forKey:@"isLAN"];
   [mdict setValue:@(device.isBind) forKey:@"isBind"];
   [mdict setValue:@(device.isSubscribed) forKey:@"isSubscribed"];
+  [mdict setValue:device.passcode forKey:@"passcode"];
   [mdict setValue:device.rootDevice==nil?@"":device.rootDevice.did forKey:@"rootDeviceId"];
     if (device.isLowPower) {
         [mdict setValue:@(device.isLowPower) forKey:@"isLowPower"];
@@ -178,6 +179,15 @@
   [mdict setValue:device.deviceModuleHardVer forKey:@"deviceModuleHardVer"];
   [mdict setValue:device.deviceMcuHardVer forKey:@"deviceMcuHardVer"];
   return [mdict copy];
+}
+
++ (NSArray <NSDictionary *>*)deviceDictArrFromDevices:(NSArray <GizWifiDevice *>*)deviceList {
+    NSMutableArray *arrDevice = [NSMutableArray array];
+    for (GizWifiDevice *device in deviceList) {
+        NSDictionary *dictDevice = [NSDictionary makeDictFromDeviceWithProperties:device];
+        [arrDevice addObject:dictDevice];
+    }
+    return arrDevice;
 }
 
 + (NSDictionary *)makeDictFromLiteDeviceWithProperties:(GizWifiDevice *)device {

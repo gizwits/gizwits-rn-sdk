@@ -197,7 +197,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("productKey", device.getProductKey());
                     deviceobj.put("productName", device.getProductName());
                     deviceobj.put("ip", device.getIPAddress());
-                    // deviceobj.put("passcode", device.getPasscode());
+                    deviceobj.put("passcode", device.getPasscode());
                     // deviceobj.put("isConnected", device.isConnected());
                     deviceobj.put("isOnline", device.isOnline());
                     deviceobj.put("isLAN", device.isLAN());
@@ -254,7 +254,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     JSONObject error = new JSONObject();
                     error.put("errorCode", result.getResult());
                     error.put("msg", result.name());
-                    sendResultEvent(getBoundDevicesCallback, jsonResult, null);
+                    sendResultEvent(getBoundDevicesCallback, null, error);
                 }
 
 
@@ -401,6 +401,32 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                 }
                 result_obj.put("fail", failArray);
                 sendResultEvent(deviceSafetyUnbindCallback, result_obj, null);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void didDiscoverBleDevice(GizWifiErrorCode result,List<GizWifiBleDevice> deviceList)
+        {
+            JSONArray data = new JSONArray();
+            try {
+                for(int i=0;i<deviceList.size();i++)
+                {
+                    GizWifiBleDevice device = deviceList.get(i);
+                    JSONObject json = new JSONObject();
+                    json.put("mac",device.getMacAddress());
+                    json.put("productKey",device.getProductKey());
+                    int netStatus = 0;
+                    if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceOnline) {
+                        netStatus = 1;
+                    } else if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceControlled) {
+                        netStatus = 2;
+                    }
+                    json.put("netStatus", netStatus);
+                    json.put("isBlueLocal",device.isBlueLocal());
+                    data.put(json);
+                }
+                callbackBleDeviceNofitication(data);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -1106,14 +1132,23 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             return;
         }
 
-        List<ConcurrentHashMap<String,String>> bleDeviceList = GizWifiSDK.sharedInstance().getBoundBleDevice();
+        List<GizWifiBleDevice> bleDeviceList = GizWifiSDK.sharedInstance().getBoundBleDevice();
         JSONArray data = new JSONArray();
         try {
             for(int i=0;i<bleDeviceList.size();i++)
-            {
+            {   
+                GizWifiBleDevice device = bleDeviceList.get(i);
                 JSONObject json = new JSONObject();
-                json.put("mac",bleDeviceList.get(i).get("mac"));
-                json.put("productKey",bleDeviceList.get(i).get("productKey"));
+                json.put("mac",device.getMacAddress());
+                json.put("productKey",device.getProductKey());
+                int netStatus = 0;
+                    if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceOnline) {
+                        netStatus = 1;
+                    } else if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceControlled) {
+                        netStatus = 2;
+                    }
+                json.put("netStatus", netStatus);
+                json.put("isBlueLocal",device.isBlueLocal());
                 data.put(json);
             }
             sendResultEvent(callback, data);
@@ -1143,6 +1178,13 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("GizMeshDeviceListNotifications", writableMap);
+    }
+    public void callbackBleDeviceNofitication(JSONArray params) {
+        Log.e("bleDevice",params.toString());
+        WritableArray writableMap = jsonArray2WriteableArray(params);
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("GizBleDeviceListNotifications", writableMap);
     }
     public void callbackDeviceLogNofitication(JSONObject params) {
         Log.e("meshDevice", params.toString());

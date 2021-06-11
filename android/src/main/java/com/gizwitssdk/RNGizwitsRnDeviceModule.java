@@ -117,7 +117,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
         }
 
         @Override
-        public void didConnectBle(GizWifiErrorCode result, GizWifiDevice device) {
+        public void didConnectBle(GizWifiErrorCode result, GizWifiBleDevice device) {
             if (connectBleCallback == null) {
                 SDKLog.d("moduleContext is null");
                 return;
@@ -125,7 +125,21 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
             try {
                 JSONObject jsonResult = new JSONObject();
                 JSONObject deviceobj = new JSONObject();
+               
                 if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                     if (device != null) {
+                    deviceobj.put("mac",device.getMacAddress());
+                    deviceobj.put("productKey",device.getProductKey());
+                    int netStatus = 0;
+                    if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceOnline) {
+                        netStatus = 1;
+                    } else if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceControlled) {
+                        netStatus = 2;
+                    }
+                    deviceobj.put("netStatus", netStatus);
+                    deviceobj.put("isBlueLocal",device.isBlueLocal());
+                    jsonResult.put("device", deviceobj);
+                    }
                     sendResultEvent(connectBleCallback, jsonResult, null);
                 } else {
                     jsonResult.put("errorCode", result.getResult());
@@ -162,8 +176,16 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
             String did = deviceobj.optString("did");
             result.put("device", deviceobj);
 
-            GizWifiDevice device = RNGizwitsDeviceCache.getInstance()
+            GizWifiDevice device = null;
+            device = RNGizwitsDeviceCache.getInstance()
                     .findDeviceByMac(mac, did);
+
+            GizWifiBleDevice bleDevice = RNGizwitsDeviceCache.getInstance()
+                    .findBleDeviceByMac(mac);
+            if(bleDevice!=null&&bleDevice.getNetStatus()==GizWifiDeviceNetStatus.GizDeviceControlled)
+            {
+                device = bleDevice;
+            }
             getDeviceStatusCallback.put(mac,callback);
             if (device == null) {
                 result.put("errorCode",
@@ -191,8 +213,16 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
             String did = deviceobj.optString("did");
             result.put("device", deviceobj);
 
-            GizWifiDevice device = RNGizwitsDeviceCache.getInstance()
+            GizWifiDevice device = null;
+            device = RNGizwitsDeviceCache.getInstance()
                     .findDeviceByMac(mac, did);
+
+            GizWifiBleDevice bleDevice = RNGizwitsDeviceCache.getInstance()
+                    .findBleDeviceByMac(mac);
+            if(bleDevice!=null&&bleDevice.getNetStatus()==GizWifiDeviceNetStatus.GizDeviceControlled)
+            {
+                device = bleDevice;
+            }
             if (device == null) {
                 result.put("errorCode",
                         GizWifiErrorCode.GIZ_SDK_DEVICE_DID_INVALID.getResult());
@@ -307,11 +337,10 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
         JSONObject deviceobj = args.optJSONObject("device");
         try {
             String mac = deviceobj.optString("mac");
-            String did = deviceobj.optString("did");
             result.put("device", deviceobj);
 
-            GizWifiDevice device = RNGizwitsDeviceCache.getInstance()
-                    .findDeviceByMac(mac, did);
+            GizWifiBleDevice device = RNGizwitsDeviceCache.getInstance()
+                    .findBleDeviceByMac(mac);
             
             if (device == null) {
                 result.put("errorCode",
@@ -321,10 +350,35 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 sendResultEvent(callback, null, result);
             } else {
                 connectBleCallback = callback;
-                if (device instanceof GizWifiBleDevice) {
-                    ((GizWifiBleDevice)device).connectBle();
-                }
-                
+                device.setListener(deviceListener);
+                device.connectBle();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @ReactMethod
+    public void disconnectBle(ReadableMap readableMap, Callback callback) {
+        JSONObject args = readable2JsonObject(readableMap);
+        JSONObject result = new JSONObject();
+        JSONObject deviceobj = args.optJSONObject("device");
+        try {
+            String mac = deviceobj.optString("mac");
+            result.put("device", deviceobj);
+
+            GizWifiBleDevice device = RNGizwitsDeviceCache.getInstance()
+                    .findBleDeviceByMac(mac);
+            
+            if (device == null) {
+                result.put("errorCode",
+                        GizWifiErrorCode.GIZ_SDK_DEVICE_DID_INVALID.getResult());
+                result.put("msg", GizWifiErrorCode.GIZ_SDK_DEVICE_DID_INVALID.name());
+                SDKLog.d("result = " + result);
+                sendResultEvent(callback, null, result);
+            } else {
+                connectBleCallback = callback;
+                device.disconnectBle();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -418,16 +472,35 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                         }
                     }
 
+                    // if (tempDataMap.toString().contains("binary")) {
+                    //     byte[] byteStr = (byte[]) tempDataMap.get("binary");
+                    //     if (byteStr != null) {
+                    //         String binary = GizWifiBinary.encode(byteStr);
+                    //         if (binary != null && binary.length() != 0) {
+                    //             status.put("binary", binary);
+                    //             resultJson.put("binary", binary);
+                    //         }
+                    //     }
+                    // }
+
                     if (tempDataMap.toString().contains("binary")) {
                         byte[] byteStr = (byte[]) tempDataMap.get("binary");
-                        if (byteStr != null) {
-                            String binary = GizWifiBinary.encode(byteStr);
-                            if (binary != null && binary.length() != 0) {
-                                status.put("binary", binary);
-                                resultJson.put("binary", binary);
-                            }
-                        }
-
+                                    JSONArray jsonArray;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                                        jsonArray = new JSONArray(byteStr);
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+                                            jsonArray.put(i, ((Byte) jsonArray.get(i)) & 0xff);
+                                        }
+                                    } else {
+                                        jsonArray = new JSONArray();
+                                        for (int i = 0; i < byteStr.length; i++) {
+                                            jsonArray.put(byteStr[i]);
+                                        }
+                                    }
+//                                        String str = bytesToHex(byteStr);
+                                    status.put("binary", jsonArray);
+                                    resultJson.put("binary", jsonArray);
+                                    Log.e("GizSDKClientLog", "Value=" + jsonArray.toString());
                     }
 
                     // resultJson.put("status", status);

@@ -127,7 +127,7 @@ RCT_EXPORT_METHOD(getBoundBleDevice:(RCTResponseSenderBlock)result){
         bleDevices = [NSArray array];
     }
     if (result) {
-        result(@[[NSNull null], bleDevices]);
+        result(@[[NSNull null], [NSDictionary deviceDictArrFromDevices:bleDevices]]);
     }
 }
 
@@ -316,7 +316,8 @@ RCT_EXPORT_METHOD(registerBleDevice:(id)info result:(RCTResponseSenderBlock)resu
         return;
     }
     NSString *mac = [dict stringValueForKey:@"mac" defaultValue:@""];
-    [[GizWifiSDK sharedInstance] registerBleDevice:mac];
+    NSString *productKey = [dict stringValueForKey:@"productKey" defaultValue:@""];
+    [[GizWifiSDK sharedInstance] registerBleDevice:mac productKey:productKey];
     [self.callBackManager addResult:result type:GizWifiRnResultTypeRegisterBleDevice identity:nil repeatable:NO];
 }
 
@@ -425,10 +426,10 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
 
 #pragma mark - noti
 - (NSArray<NSString *> *)supportedEvents{
-    return @[GizDeviceListNotifications, GizMeshDeviceListNotifications, GizDeviceLogNotifications];
+    return @[GizDeviceListNotifications, GizMeshDeviceListNotifications, GizDeviceLogNotifications, GizBleDeviceListNotifications];
 }
 
-- (void)notiWithType:(GizWifiRnResultType)type result:(NSDictionary *)result{
+- (void)notiWithType:(GizWifiRnResultType)type result:(id)result{
 
     switch (type) {
         case GizWifiRnResultTypeDeviceListNoti:{
@@ -438,8 +439,13 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
         case GizWifiRnResultTypeMeshDeviceListNoti:{
             [self sendEventWithName:GizMeshDeviceListNotifications body:result];
         }
+            break;
         case GizWifiRnResultTypeReceiveDeviceLogNoti:{
             [self sendEventWithName:GizDeviceLogNotifications body:result];
+        }
+            break;
+        case GizWifiRnResultTypeBleDeviceListNoti:{
+            [self sendEventWithName:GizBleDeviceListNotifications body:result];
         }
             break;
         default:
@@ -619,6 +625,11 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
         errDict = [NSDictionary makeErrorDictFromError:result];
     }
     [self.callBackManager callBackWithType:GizWifiRnResultTypeRegisterBleDevice identity:nil resultDict:dataDict errorDict:errDict];
+}
+
+- (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didDiscoverBleDevice:(NSError * _Nullable)result deviceList:(NSArray <GizWifiBleDevice *> * _Nullable)deviceList {
+    //noti
+    [self notiWithType:GizWifiRnResultTypeBleDeviceListNoti result:[NSDictionary deviceDictArrFromDevices: deviceList]];
 }
 
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didGetCurrentCloudService:(NSError *)result cloudServiceInfo:(NSDictionary<NSString *,NSString *> *)cloudServiceInfo{
@@ -820,9 +831,6 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
     }
     return GizCompareDeviceProperityNetStatusUnEqual;
 }
-
-
-
 
 #pragma mark - lazy load
 - (GizWifiRnCallBackManager *)callBackManager{
