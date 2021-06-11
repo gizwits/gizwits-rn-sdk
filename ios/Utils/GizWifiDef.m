@@ -16,6 +16,8 @@ GizWifiConfigureMode getConfigModeFromInteger(NSInteger integerValue) {
             return GizWifiBleLink;
         case 4:
             return GizWifiBleLinkMulti;
+        case 5:
+            return GizWifiNFCLink;
         default:
             break;
     }
@@ -200,6 +202,29 @@ GizWifiDeviceNetStatus getDeviceNetStatus(NSInteger integerValue) {
             return GizDeviceOnline;
         case 2:
             return GizDeviceControlled;
+        default:
+            break;
+    }
+    return -1;
+}
+
+NSInteger getDeviceOnboardingProcessTypeFromEnum(GizConfigureProcess enumValue){
+    /**
+     //  配置会话被激活
+       GizConfigureDidBecomeActive = 0,
+       // 发送配置数据成功
+       GizConfigureDidSendDataSuccess = 1,
+       // 发送配置数据失败
+       GizConfigureDidSendDataFailed = 2,
+     */
+    
+    switch (enumValue) {
+        case GizConfigureDidBecomeActive:
+            return 0;
+        case GizConfigureDidSendDataSuccess:
+            return 1;
+        case GizConfigureDidSendDataFailed:
+            return 2;
         default:
             break;
     }
