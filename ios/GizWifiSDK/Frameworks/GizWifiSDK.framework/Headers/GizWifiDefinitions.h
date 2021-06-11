@@ -636,6 +636,18 @@ typedef NS_ENUM(NSInteger, GizWifiConfigureMode) {
 };
 
 /**
+ @brief GizConfigureProcess 配置进程（目前仅支持NFC）
+ */
+typedef NS_ENUM(NSInteger, GizConfigureProcess) {
+    /** 配置会话被激活 */
+    GizConfigureDidBecomeActive = 0,
+    /** 发送配置数据成功 */
+    GizConfigureDidSendDataSuccess = 1,
+    /** 发送配置数据失败 */
+    GizConfigureDidSendDataFailed = 2,
+};
+
+/**
  @brief GizWifiGAgentType 模组类型
  */
 typedef NS_ENUM(NSInteger, GizWifiGAgentType) {

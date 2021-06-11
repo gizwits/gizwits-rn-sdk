@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.22.8",
-  "description": "修复底层通讯时，高频率、高带宽产生的问题",
+  "version": "2.23.0-beta-2",
+  "description": "更新安卓sdk；注册蓝牙设备方法参数修改为mac和pk；",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
