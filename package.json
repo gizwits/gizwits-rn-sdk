@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.23.0-beta-2",
-  "description": "更新安卓sdk；注册蓝牙设备方法参数修改为mac和pk；",
+  "version": "2.23.0-beta-3",
+  "description": "修复ios上报设备列表的逻辑，getboundDevices也会触发会调",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
