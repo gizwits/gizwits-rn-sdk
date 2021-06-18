@@ -517,11 +517,8 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
         // 有回调，要回
         NSLog(@"test - 调用getBoundDevice得到的回调，回复回调");
         [self.callBackManager callBackWithType:GizWifiRnResultTypeGetBoundDevices identity:nil resultDict:dataDict errorDict:errDict];
-    } else {
-        //没有回调，通知
-        NSLog(@"test - 主动上报，且设备列表发生变化，回调列表");
-        [self notiWithType:GizWifiRnResultTypeDeviceListNoti result:errDict ? : dataDict];
     }
+    [self notiWithType:GizWifiRnResultTypeDeviceListNoti result:errDict ? : dataDict];
 }
 
 //- (void)wifiSDK:(GizWifiSDK *)wifiSDK didDiscoveredMeshDevices:(NSError *)result meshDeviceList:(NSArray *)meshDeviceList{
