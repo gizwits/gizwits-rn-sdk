@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.22.7-beta-15",
-  "description": "修复ios上报设备列表的逻辑，getboundDevices也会触发会调",
+  "version": "2.23.1",
+  "description": "更新sdk2.17.17.3-1 tag",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
