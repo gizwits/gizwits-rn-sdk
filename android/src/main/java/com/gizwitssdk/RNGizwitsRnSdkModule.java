@@ -203,7 +203,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("isLAN", device.isLAN());
                     // deviceobj.put("isDisabled", device.isDisabled());
                     deviceobj.put("remark", device.getRemark());
-                    // deviceobj.put("alias", device.getAlias());
+                    deviceobj.put("alias", device.getAlias());
                     deviceobj.put("isBind", device.isBind());
                     // deviceobj.put("netType", device.getNetType());
                     if(device instanceof GizLiteGWSubDevice) {

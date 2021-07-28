@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.23.2",
+  "version": "2.23.3",
   "description": "ios 放开 alias字段",
   "main": "index.js",
   "scripts": {
