@@ -161,6 +161,7 @@
   [mdict setValue:@(productType) forKey:@"type"];
   [mdict setValue:@(device.isOnline) forKey:@"isOnline"];
   [mdict setValue:device.remark forKey:@"remark"];
+  [mdict setValue:device.alias forKey:@"alias"];
   [mdict setValue:@(netStatus) forKey:@"netStatus"];
   [mdict setValue:@(device.isLAN) forKey:@"isLAN"];
   [mdict setValue:@(device.isBind) forKey:@"isBind"];
