@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.23.5",
-  "description": "获取设备列表的时候直接获取200个",
+  "version": "2.24.0-beta-1",
+  "description": "增加安卓蓝牙OTA接口",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
