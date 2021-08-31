@@ -92,7 +92,10 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                     deviceobj.put("did", device.getDid());
                     jsonResult.put("device", deviceobj);
                 }
+                // sdk错误码
                 jsonResult.put("errorCode", code.getResult());
+                // 0 预处理 1下载固件包完成事件 2传输固件包完成事件 3 设备重启事件 4 OTA结束事件
+               
                 jsonResult.put("type", type.toString());
                 jsonResult.put("device", deviceobj);
                 callbackBleOTAStatus(jsonResult);
