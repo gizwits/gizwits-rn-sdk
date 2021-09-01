@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.24.0-beta-1",
-  "description": "增加安卓蓝牙OTA接口",
+  "version": "2.24.0-beta-3",
+  "description": "修正蓝牙配网过早收到onleScan导致的崩溃",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

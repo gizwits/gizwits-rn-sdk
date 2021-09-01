@@ -275,7 +275,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 type = GizOTAFirmwareType.GizOTAFirmareModule;
                 break;
             case "1":
-                type = GizOTAFirmwareType.GizOTAFirmareModule;
+                type = GizOTAFirmwareType.GizOTAFirmareMcu;
                 break;
             default:
                 type = GizOTAFirmwareType.GizOTAFirmareModule;
@@ -313,7 +313,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 type = GizOTAFirmwareType.GizOTAFirmareModule;
                 break;
             case "1":
-                type = GizOTAFirmwareType.GizOTAFirmareModule;
+                type = GizOTAFirmwareType.GizOTAFirmareMcu;
                 break;
             default:
                 type = GizOTAFirmwareType.GizOTAFirmareModule;
