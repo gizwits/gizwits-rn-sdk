@@ -267,15 +267,15 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
     public void checkUpdate(ReadableMap readableMap, Callback callback) {
         JSONObject args = readable2JsonObject(readableMap);
         JSONObject result = new JSONObject();
-        String typeString = args.optString("type");
+        Integer typeInt = args.optInt("type");
         JSONObject deviceobj = args.optJSONObject("device");
         GizOTAFirmwareType type = GizOTAFirmwareType.GizOTAFirmareModule;
 
-        switch (typeString) {
-            case "0":
+        switch (typeInt) {
+            case 0:
                 type = GizOTAFirmwareType.GizOTAFirmareModule;
                 break;
-            case "1":
+            case 1:
                 type = GizOTAFirmwareType.GizOTAFirmareMcu;
                 break;
             default:
@@ -305,15 +305,15 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
     public void startUpgrade(ReadableMap readableMap, Callback callback) {
         JSONObject args = readable2JsonObject(readableMap);
         JSONObject result = new JSONObject();
-        String typeString = args.optString("type");
+        Integer typeInt = args.optInt("type");
         JSONObject deviceobj = args.optJSONObject("device");
         GizOTAFirmwareType type = GizOTAFirmwareType.GizOTAFirmareModule;
 
-        switch (typeString) {
-            case "0":
+        switch (typeInt) {
+            case 0:
                 type = GizOTAFirmwareType.GizOTAFirmareModule;
                 break;
-            case "1":
+            case 1:
                 type = GizOTAFirmwareType.GizOTAFirmareMcu;
                 break;
             default:
