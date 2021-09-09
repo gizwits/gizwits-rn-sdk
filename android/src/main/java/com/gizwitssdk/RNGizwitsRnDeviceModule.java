@@ -18,9 +18,14 @@ import com.gizwits.gizwifisdk.api.GizWifiBinary;
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.api.GizWifiBleDevice;
 import com.gizwits.gizwifisdk.enumration.GizWifiDeviceNetStatus;
+import com.gizwits.gizwifisdk.enumration.GizOTAEventType;
 import com.gizwits.gizwifisdk.enumration.GizWifiDeviceType;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
+import com.gizwits.gizwifisdk.enumration.GizOTAFirmwareType;
+
 import com.gizwits.gizwifisdk.listener.GizWifiDeviceListener;
+import com.gizwits.gizwifisdk.listener.GizDeviceBleOTAListener;
+
 import com.gizwits.gizwifisdk.log.SDKLog;
 import com.xtremeprog.xpgconnect.XPGWifiBinary;
 
@@ -42,9 +47,65 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
     private Map<String,Callback> getDeviceStatusCallback= new HashMap<String, Callback>();
     private  Map<String,Callback> writeCallback= new HashMap<String, Callback>();
     private  Callback connectBleCallback;
+    private  Callback checkUpdateCallback;
+    
     Map<String, Callback> subscribeCallbacks = new HashMap<String, Callback>();
 
     private final ReactApplicationContext reactContext;
+
+    GizDeviceBleOTAListener bleOtaListener = new GizDeviceBleOTAListener() {
+        public void didCheckUpdate(GizWifiErrorCode code, GizWifiBleDevice device, String lastVersion, String currentVersion) {
+            if (checkUpdateCallback == null) {
+                SDKLog.d("check update moduleContext is null");
+                return;
+            }
+            try {
+                JSONObject jsonResult = new JSONObject();
+                JSONObject deviceobj = new JSONObject();
+                
+                if (device != null) {
+                    deviceobj.put("mac", device.getMacAddress());
+                    deviceobj.put("did", device.getDid());
+                    jsonResult.put("device", deviceobj);
+                }
+
+                if (code == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                    jsonResult.put("lastVersion", lastVersion);
+                    jsonResult.put("currentVersion", currentVersion);
+                    sendResultEvent(checkUpdateCallback, jsonResult, null);
+                } else {
+                    jsonResult.put("errorCode", code.getResult());
+                    jsonResult.put("msg", code.name());
+                    sendResultEvent(checkUpdateCallback, null, jsonResult);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void didStartUpgrade(final GizWifiErrorCode code, GizWifiBleDevice device, final GizOTAEventType type) {
+            try {
+                JSONObject jsonResult = new JSONObject();
+                JSONObject deviceobj = new JSONObject();
+                if (device != null) {
+                    deviceobj.put("mac", device.getMacAddress());
+                    deviceobj.put("did", device.getDid());
+                    jsonResult.put("device", deviceobj);
+                }
+                // sdk错误码
+                jsonResult.put("errorCode", code.getResult());
+                // 0 预处理 1下载固件包完成事件 2传输固件包完成事件 3 设备重启事件 4 OTA结束事件
+                if (type != null) {
+                    jsonResult.put("type", type.toString());
+                }
+                jsonResult.put("device", deviceobj);
+                callbackBleOTAStatus(jsonResult);
+            } catch (Exception e) {
+                //TODO: handle exception
+                e.printStackTrace();
+            }
+        }
+    };
 
     GizWifiDeviceListener deviceListener = new GizWifiDeviceListener() {
         @Override
@@ -200,6 +261,85 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
             e.printStackTrace();
         }
 
+    }
+
+    @ReactMethod
+    public void checkUpdate(ReadableMap readableMap, Callback callback) {
+        JSONObject args = readable2JsonObject(readableMap);
+        JSONObject result = new JSONObject();
+        String typeString = args.optString("type");
+        JSONObject deviceobj = args.optJSONObject("device");
+        GizOTAFirmwareType type = GizOTAFirmwareType.GizOTAFirmareModule;
+
+        switch (typeString) {
+            case "0":
+                type = GizOTAFirmwareType.GizOTAFirmareModule;
+                break;
+            case "1":
+                type = GizOTAFirmwareType.GizOTAFirmareMcu;
+                break;
+            default:
+                type = GizOTAFirmwareType.GizOTAFirmareModule;
+                break;
+        }
+        try {
+            String mac = deviceobj.optString("mac");
+            GizWifiBleDevice device = RNGizwitsDeviceCache.getInstance()
+                    .findBleDeviceByMac(mac);
+            if (device == null) {
+                result.put("errorCode",
+                        GizWifiErrorCode.GIZ_SDK_DEVICE_DID_INVALID.getResult());
+                result.put("msg", GizWifiErrorCode.GIZ_SDK_DEVICE_DID_INVALID.name());
+                SDKLog.d("result = " + result);
+                sendResultEvent(callback, null, result);
+            } else {
+                checkUpdateCallback = callback;
+                device.checkUpdate(type, bleOtaListener);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @ReactMethod
+    public void startUpgrade(ReadableMap readableMap, Callback callback) {
+        JSONObject args = readable2JsonObject(readableMap);
+        JSONObject result = new JSONObject();
+        String typeString = args.optString("type");
+        JSONObject deviceobj = args.optJSONObject("device");
+        GizOTAFirmwareType type = GizOTAFirmwareType.GizOTAFirmareModule;
+
+        switch (typeString) {
+            case "0":
+                type = GizOTAFirmwareType.GizOTAFirmareModule;
+                break;
+            case "1":
+                type = GizOTAFirmwareType.GizOTAFirmareMcu;
+                break;
+            default:
+                type = GizOTAFirmwareType.GizOTAFirmareModule;
+                break;
+        }
+        try {
+            String mac = deviceobj.optString("mac");
+            GizWifiBleDevice device = RNGizwitsDeviceCache.getInstance()
+                    .findBleDeviceByMac(mac);
+            if (device == null) {
+                result.put("errorCode",
+                        GizWifiErrorCode.GIZ_SDK_DEVICE_DID_INVALID.getResult());
+                result.put("msg", GizWifiErrorCode.GIZ_SDK_DEVICE_DID_INVALID.name());
+                SDKLog.d("result = " + result);
+                sendResultEvent(callback, null, result);
+            } else {
+                checkUpdateCallback = callback;
+                device.startUpgrade(type, bleOtaListener);
+
+                result.put("errorCode", GizWifiErrorCode.GIZ_SDK_SUCCESS.getResult());
+                sendResultEvent(callback, result, null);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @ReactMethod
@@ -730,6 +870,11 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("GizDeviceAppToDevNotifications", writableMap);
     }
-
-
+    
+    public void callbackBleOTAStatus(JSONObject params) {
+        WritableMap writableMap = jsonObject2WriteableMap(params);
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("GizDeviceBleOTAStatus", writableMap);
+    }
 }
