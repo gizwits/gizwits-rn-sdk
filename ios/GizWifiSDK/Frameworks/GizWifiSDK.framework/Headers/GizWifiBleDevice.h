@@ -28,6 +28,20 @@ typedef void (^bleCallback)(GizWifiErrorCode errorCode);
  */
 - (void)disconnectBle: (bleCallback)callback;
 
+/**
+ 升级固件
+ @param firmwateType 选择固件类型是mcu还是模组
+ */
+- (void)startUpgrade:(GizOTAFirmwareType)firmwareType listener:(void (^)(GizOTAEventType type, NSError *result))listener;
+
+/**
+ 检查设备更新
+ @param firmwateType 选择固件类型是mcu还是模组
+ @param lastVersion 云端最新的固件版本号
+ @param currentVersion 当前固件版本号
+ */
+- (void)checkUpdate:(GizOTAFirmwareType)firmwareType completion:(void(^)(NSError * _Nonnull result , NSString *lastVersion, NSString *currentVersion))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END
