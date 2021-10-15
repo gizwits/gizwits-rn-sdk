@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.24.0-beta-7",
+  "version": "2.24.0-beta-12",
   "description": "安全注册解绑成功去删除本地缓存的设备",
   "main": "index.js",
   "scripts": {
