@@ -240,20 +240,20 @@ GizOTAFirmwareType getOTAFirmareTypeFromInteger(NSInteger integerValue) {
     }
 }
 
-NSInteger getOTAEventTypeFromEnum(GizOTAEventType enumValue) {
+NSString* getOTAEventTypeFromEnum(GizOTAEventType enumValue) {
     switch (enumValue) {
         case GizOTAEventPretreatment:
-            return 0;
+            return @"GizOTAEventPretreatment";
         case GizOTAEventDownload:
-            return 1;
+            return @"GizOTAEventDownload";
         case GizOTAEventTransmit:
-            return 2;
+            return @"GizOTAEventTransmit";
         case GizOTAEventReboot:
-            return 3;
+            return @"GizOTAEventReboot";
         case GizOTAEventFinish:
-            return 4;
+            return @"GizOTAEventFinish";
         default:
             break;
     }
-    return -1;
+    return @"GizOTAEventPretreatment";
 }

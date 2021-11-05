@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.24.0-beta-6",
-  "description": "增加ios插件，event改为字符串",
+  "version": "2.24.0-beta-12",
+  "description": "安卓的文件存储到应用内存储",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

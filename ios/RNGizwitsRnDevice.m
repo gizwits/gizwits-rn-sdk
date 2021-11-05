@@ -236,12 +236,12 @@ RCT_EXPORT_METHOD(startUpgrade:(id)info result:(RCTResponseSenderBlock)result) {
     NSInteger type = [dict integerValueForKey:@"type" defaultValue:0];
     GizOTAFirmwareType enumType = getOTAFirmareTypeFromInteger(type);
     [device startUpgrade:enumType listener:^(GizOTAEventType type, NSError * _Nonnull result) {
-        NSInteger typeNum = getOTAEventTypeFromEnum(type);
+        NSString* typeString = getOTAEventTypeFromEnum(type);
         NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
         NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
         [dataDict setValue:deviceDict forKey:@"device"];
         [dataDict setValue:@(result.code) forKey:@"errorCode"];
-        [dataDict setValue:@(typeNum) forKey:@"type"];
+        [dataDict setValue:typeString forKey:@"type"];
         [self notiWithType:GizWifiRnResultTypeOTAStatusNoti result:dataDict];
     }];
 }
