@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.24.1",
-  "description": "安卓SDK缓存文件保存到应用内缓存",
+  "version": "2.24.2",
+  "description": "蓝牙分包延时增加到30ms",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
