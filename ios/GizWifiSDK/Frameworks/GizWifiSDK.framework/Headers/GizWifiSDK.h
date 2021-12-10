@@ -705,6 +705,12 @@
           verifyCode:(NSString * _Nullable)code
          accountType:(GizUserAccountType)accountType;
 
+- (void)registerUser:(NSString * _Nonnull)username
+            password:(NSString * _Nonnull)password
+          verifyCode:(NSString * _Nullable)code
+         accountType:(GizUserAccountType)accountType
+             encrypt:(BOOL)encrypt;
+
 /**
  匿名登录。匿名方式登录，不需要注册用户账号
  @see 对应的回调接口：[GizWifiSDKDelegate wifiSDK:didUserLogin:uid:token:]
@@ -730,6 +736,15 @@
 - (void)userLogin:(NSString * _Nonnull)username password:(NSString * _Nonnull)password;
 
 /**
+ 用户登录。需使用注册成功的用户名、密码进行登录，可以是手机用户名、邮箱用户名或普通用户名
+ @param username 注册成功的用户名
+ @param password 注册成功的用户密码
+ @param encrypt 是否加密
+ @see 对应的回调接口：[GizWifiSDKDelegate wifiSDK:didUserLogin:uid:token:]
+ */
+- (void)userLogin:(NSString * _Nonnull)username password:(NSString * _Nonnull)password encrypt:(BOOL * _Nonnull)encrypt;
+
+/**
  第三方账号登录（第三方接口登录方式）
  @param thirdAccountType 第三方账号类型，详细见 GizThirdAccountType 枚举定义
  @param uid 通过第三方平台 api 方式登录后得到的 uid
@@ -751,6 +766,11 @@
                oldPassword:(NSString * _Nonnull)oldPassword
                newPassword:(NSString * _Nonnull)newPassword;
 
+- (void)changeUserPassword:(NSString * _Nonnull)token
+               oldPassword:(NSString * _Nonnull)oldPassword
+               newPassword:(NSString * _Nonnull)newPassword
+                   encrypt:(BOOL)encrypt;
+
 /**
  重置密码
  @param username 待重置密码的手机号或邮箱
@@ -764,6 +784,12 @@
            verifyCode:(NSString * _Nullable)code
           newPassword:(NSString * _Nullable)newPassword
           accountType:(GizUserAccountType)accountType;
+
+- (void)resetPassword:(NSString * _Nonnull)username
+           verifyCode:(NSString * _Nullable)code
+          newPassword:(NSString * _Nullable)newPassword
+          accountType:(GizUserAccountType)accountType
+              encrypt:(BOOL)encrypt;
 
 /**
  修改用户信息，包括用户名和个人信息。用户名只支持修改手机号或邮箱，并且手机号或邮箱必须是已经注册过的。该接口用于以下场景：
@@ -803,6 +829,13 @@
                   password:(NSString * _Nonnull)password
                 verifyCode:(NSString * _Nullable)code
                accountType:(GizUserAccountType)accountType;
+
+- (void)transAnonymousUser:(NSString * _Nonnull)token
+                  username:(NSString * _Nonnull)username
+                  password:(NSString * _Nonnull)password
+                verifyCode:(NSString * _Nullable)code
+               accountType:(GizUserAccountType)accountType
+                   encrypt:(BOOL)encrypt;
 
 /**
  获取当前的服务器
