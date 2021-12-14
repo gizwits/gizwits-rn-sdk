@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.24.2",
-  "description": "蓝牙分包延时增加到30ms",
+  "version": "2.25.0",
+  "description": "1.增加蓝牙OTA;2.限制安卓softAp发包频率;3.ios socket容量增加;4.修改sdk缓存目录;5.修复android 合并列表线程安全问题",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
