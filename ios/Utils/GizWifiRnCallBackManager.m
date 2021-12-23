@@ -49,7 +49,7 @@
 - (GizWifiRnResult *)haveCallBack:(GizWifiRnResultType)type identity:(NSString *)identity{
   //只回调第一个匹配到的结果
   for (GizWifiRnResult *r in self.callbacks) {
-    if (r.type == type && r.identity == identity) {
+    if (r.type == type && ([r.identity isEqualToString:identity] || r.identity == identity)) {
       return r;
     }
   }

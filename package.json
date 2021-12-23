@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.25.1",
-  "description": "iOS Framework升级为2.18.18.21120914",
+  "version": "2.25.2-beta",
+  "description": "daemon后台保持心跳",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
