@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.25.2-beta",
-  "description": "daemon后台保持心跳",
+  "version": "2.25.3",
+  "description": "iOS framework替换为支持NFC",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
