@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.25.3-beta",
-  "description": "安卓client 和 daemon socket增加组包",
+  "version": "2.25.3-beta-2",
+  "description": "daemon 推送设备列表防抖，去掉安卓client主动查询productUI的行为，增加安卓sdk重启",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
