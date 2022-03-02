@@ -275,6 +275,15 @@ extern NSString * _Null_unspecified XPGWifiDeviceHardwareProductKey DEPRECATED_M
 - (void)getDeviceStatus:(NSArray <NSString *>* _Nullable)attrs;
 
 /**
+ 获取设备状态。已订阅的设备变为可控状态后才能获取到状态。如果设备是变长数据点类型，则可查询指定的数据点状态
+ @param attrs 要查询状态的数据点名称，为NSString类型数组。此参数默认值为nil。SDK默认返回设备的所有数据点状态。
+    若要查询某些数据点的状态，参数应指定为要查询的数据点数组
+ @note 主动上报的sn为0。如果要准确判断sn，这里的sn不要设置为0
+ @see 对应的回调接口：[GizWifiDeviceDelegate device: didReceiveAttrStatus:attrStatus:adapterAttrStatus:withSN:]
+ */
+- (void)getDeviceStatus:(NSArray <NSString *>* _Nullable)attrs withSN:(int)sn;
+
+/**
  退出产测模式。不订阅设备就可以调用此接口，设备进入产测模式后会响应
  @see 对应的回调接口：[GizWifiDeviceDelegate device:didExitProductionTesting:]
  */

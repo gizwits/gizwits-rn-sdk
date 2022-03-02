@@ -6,6 +6,7 @@
 
 #import <GizWifiSDK/GizWifiDevice.h>
 #import "NSObject+Giz.h"
+#import "GizSn.h"
 #import "NSDictionary+Giz.h"
 #import "GizWifiRnCallBackManager.h"
 #import "GizWifiDef.h"
@@ -95,8 +96,9 @@ RCT_EXPORT_METHOD(getDeviceStatus:(id)info result:(RCTResponseSenderBlock)result
         }
     }
     NSArray *attrs = [dict arrayValueForKey:@"attrs" defaultValue:nil];
-    [self.callBackManager addResult:result type:GizWifiRnResultTypeGetDeviceStatus identity:device.did repeatable:YES];
-    [device getDeviceStatus:attrs];
+    NSInteger sn = [GizSn getSn];
+    [self.callBackManager addResult:result type:GizWifiRnResultTypeGetDeviceStatus identity:[NSString stringWithFormat:@"%@+%ld", device.did, sn] repeatable:YES];
+    [device getDeviceStatus:attrs withSN:(int)sn];
 }
 
 RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
@@ -329,7 +331,7 @@ RCT_EXPORT_METHOD(startUpgrade:(id)info result:(RCTResponseSenderBlock)result) {
     } else {
         errDict = [NSDictionary makeErrorCodeFromError:result device:deviceDict];
     }
-    [self.callBackManager callBackWithType:GizWifiRnResultTypeGetDeviceStatus identity:device.did resultDict:dataDict errorDict:errDict];
+    [self.callBackManager callBackWithType:GizWifiRnResultTypeGetDeviceStatus identity:[NSString stringWithFormat:@"%@+%ld", device.did, [sn integerValue]] resultDict:dataDict errorDict:errDict];
 
     // 只有通知才需要 netStatus 字段
     NSInteger netStatus = getDeviceNetStatus(device.netStatus);
