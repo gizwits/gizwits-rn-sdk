@@ -230,3 +230,30 @@ NSInteger getDeviceOnboardingProcessTypeFromEnum(GizConfigureProcess enumValue){
     }
     return -1;
 }
+
+GizOTAFirmwareType getOTAFirmareTypeFromInteger(NSInteger integerValue) {
+    switch (integerValue) {
+        case 0:
+            return GizOTAFirmareModule;
+        default:
+            return GizOTAFirmareMcu;
+    }
+}
+
+NSString* getOTAEventTypeFromEnum(GizOTAEventType enumValue) {
+    switch (enumValue) {
+        case GizOTAEventPretreatment:
+            return @"GizOTAEventPretreatment";
+        case GizOTAEventDownload:
+            return @"GizOTAEventDownload";
+        case GizOTAEventTransmit:
+            return @"GizOTAEventTransmit";
+        case GizOTAEventReboot:
+            return @"GizOTAEventReboot";
+        case GizOTAEventFinish:
+            return @"GizOTAEventFinish";
+        default:
+            break;
+    }
+    return @"GizOTAEventPretreatment";
+}

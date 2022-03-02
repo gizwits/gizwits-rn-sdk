@@ -296,6 +296,22 @@ extern NSString * _Null_unspecified XPGWifiDeviceHardwareProductKey DEPRECATED_M
 - (void)write:(NSDictionary <NSString *, id>* _Nonnull)data withSN:(int)sn;
 
 /**
+ 给设备发送控制指令。已订阅的设备变为可控状态后才能发送控制指令
+ @param data 该参数为要发给设备的操作指令。为字典格式，字典键值对可按以下方式填充：
+ 如果设备有数据点定义，操作指令一次可以下发多个数据点。字典中的key为数据点名称，value为数据点的值。value类型要与数据点定义一致：
+ （1）如果数据点为布尔类型，则value为NSNumber类型；
+ （2）如果数据点为数值类型，则value为NSNumber类型；
+ （3）如果数据点为枚举类型，则value为枚举序号（NSNumber类型）或者枚举字符串（NSString类型）；
+ （4）如果数据点为扩展类型，则value为NSData类型；
+ 如果设备操作采用透传方式，透传指令一次只能下发一条。透传数据的key为”binary”，value为NSData类型
+ @param sn 控制指令序号，用于对应控制指令应答数据。控制确认回调时会返回这个sn
+ @param qos 支持传1或0参数，0：只支持可控设备发送指令  1：非可控状态的设备也可以发送指令
+ @note 主动上报的sn为0。如果要准确判断sn，这里的sn不要设置为0
+ @see 对应的回调接口：[GizWifiDeviceDelegate device: didReceiveAttrStatus:attrStatus:adapterAttrStatus:withSN:]
+ */
+- (void)write:(NSDictionary <NSString *, id>* _Nonnull)data withSN:(int)sn qos:(int)qos;
+
+/**
  修改设备的备注和别名。设备绑定后才能修改
  @param remark 待修改的备注信息。传 null表示不修改，传@""则会覆盖为空串
  @param alias 待修改的设备别名。传 null表示不修改，传@""则会覆盖为空串
