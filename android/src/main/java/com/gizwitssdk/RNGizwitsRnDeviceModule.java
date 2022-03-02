@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
+import java.util.List;
+import java.util.ArrayList;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -48,7 +51,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
     private  Map<String,Callback> writeCallback= new HashMap<String, Callback>();
     private  Callback connectBleCallback;
     private  Callback checkUpdateCallback;
-    
+
     Map<String, Callback> subscribeCallbacks = new HashMap<String, Callback>();
 
     private final ReactApplicationContext reactContext;
@@ -62,7 +65,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
             try {
                 JSONObject jsonResult = new JSONObject();
                 JSONObject deviceobj = new JSONObject();
-                
+
                 if (device != null) {
                     deviceobj.put("mac", device.getMacAddress());
                     deviceobj.put("did", device.getDid());
@@ -186,7 +189,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
             try {
                 JSONObject jsonResult = new JSONObject();
                 JSONObject deviceobj = new JSONObject();
-               
+
                 if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
                      if (device != null) {
                     deviceobj.put("mac",device.getMacAddress());
@@ -235,6 +238,19 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
             String mac = deviceobj.optString("mac");
             String did = deviceobj.optString("did");
+
+
+            List<String> attrs = null;
+
+            JSONArray attrsArr = args.optJSONArray("attrs");
+
+            if (attrsArr != null) {
+                attrs = new ArrayList();
+                for (int i = 0; i < attrsArr.length(); i++) {
+                    attrs.add(attrsArr.getString(i));
+                }
+            }
+
             result.put("device", deviceobj);
 
             GizWifiDevice device = null;
@@ -243,11 +259,12 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
             GizWifiBleDevice bleDevice = RNGizwitsDeviceCache.getInstance()
                     .findBleDeviceByMac(mac);
+            Integer sn = Utils.getSn();
             if(bleDevice!=null&&bleDevice.getNetStatus()==GizWifiDeviceNetStatus.GizDeviceControlled)
             {
                 device = bleDevice;
             }
-            getDeviceStatusCallback.put(mac,callback);
+            getDeviceStatusCallback.put(sn + "",callback);
             if (device == null) {
                 result.put("errorCode",
                         GizWifiErrorCode.GIZ_SDK_PARAM_INVALID.getResult());
@@ -255,7 +272,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 sendResultEvent(callback, null, result);
             } else {
                 device.setListener(deviceListener);
-                device.getDeviceStatus();
+                device.getDeviceStatus(attrs, sn);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -481,7 +498,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
             GizWifiBleDevice device = RNGizwitsDeviceCache.getInstance()
                     .findBleDeviceByMac(mac);
-            
+
             if (device == null) {
                 result.put("errorCode",
                         GizWifiErrorCode.GIZ_SDK_DEVICE_DID_INVALID.getResult());
@@ -509,7 +526,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
             GizWifiBleDevice device = RNGizwitsDeviceCache.getInstance()
                     .findBleDeviceByMac(mac);
-            
+
             if (device == null) {
                 result.put("errorCode",
                         GizWifiErrorCode.GIZ_SDK_DEVICE_DID_INVALID.getResult());
@@ -655,8 +672,8 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 writeCallback.remove(sn+"");
 
                 // 状态查询回调
-                sendResultEvent(getDeviceStatusCallback.get(device.getMacAddress()), resultJson, null);
-                getDeviceStatusCallback.remove(device.getMacAddress());
+                sendResultEvent(getDeviceStatusCallback.get(sn + ""), resultJson, null);
+                getDeviceStatusCallback.remove(sn + "");
 
 
 
@@ -870,7 +887,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("GizDeviceAppToDevNotifications", writableMap);
     }
-    
+
     public void callbackBleOTAStatus(JSONObject params) {
         WritableMap writableMap = jsonObject2WriteableMap(params);
         reactContext

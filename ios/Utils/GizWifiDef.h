@@ -16,3 +16,5 @@ GizUserAccountType getUserAccountTypeFromInteger(NSInteger integerValue);
 GizWifiDeviceNetStatus getDeviceNetStatus(NSInteger integerValue);
 GizPushType getPushTypeFromInteger(NSInteger integerValue);
 NSInteger getDeviceOnboardingProcessTypeFromEnum(GizConfigureProcess enumValue);
+GizOTAFirmwareType getOTAFirmareTypeFromInteger(NSInteger integerValue);
+NSString* getOTAEventTypeFromEnum(GizOTAEventType enumValue);

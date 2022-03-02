@@ -94,7 +94,7 @@
 		</data>
 		<key>Headers/GizWifiBleDevice.h</key>
 		<data>
-		MJbpPIvll1LPuAtsJu84r8X3+58=
+		JdeVM8IGt0/c7QTeQYh8mSN0xMs=
 		</data>
 		<key>Headers/GizWifiCentralControlDevice.h</key>
 		<data>
@@ -102,15 +102,15 @@
 		</data>
 		<key>Headers/GizWifiDefinitions.h</key>
 		<data>
-		UnHFt4YRN5mnhCm9Y8GnbJKZqfU=
+		M2FZMkfbDQ7cA3f6xxwqJvwUDC0=
 		</data>
 		<key>Headers/GizWifiDevice.h</key>
 		<data>
-		Rsy7wQZRP/VWA4ZWvWgYifgsWik=
+		9x2dDBRFyyzpgTgIJ+QvIqSt4c8=
 		</data>
 		<key>Headers/GizWifiSDK.h</key>
 		<data>
-		iq2C+Y4NaXpq9IjwZKwcuQcoJzA=
+		BFwlo/SaWtvGA/Sy9L0yVrhdhJ0=
 		</data>
 		<key>Headers/GizWifiSSID.h</key>
 		<data>
@@ -118,7 +118,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		wFIKLedVnUTZuN6DzBfJnzOXv+k=
+		VvtLNF/CcF4PnA3oK9LDdLvgKwI=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -377,11 +377,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			MJbpPIvll1LPuAtsJu84r8X3+58=
+			JdeVM8IGt0/c7QTeQYh8mSN0xMs=
 			</data>
 			<key>hash2</key>
 			<data>
-			8yNzKgdtBvDa0bZVYEsKrxIxT2vStPHaX+j2mx0JX1o=
+			WdYS3qYjW6zniy09HRqH54UEN59EVf91jveqmxAzdc4=
 			</data>
 		</dict>
 		<key>Headers/GizWifiCentralControlDevice.h</key>
@@ -399,33 +399,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			UnHFt4YRN5mnhCm9Y8GnbJKZqfU=
+			M2FZMkfbDQ7cA3f6xxwqJvwUDC0=
 			</data>
 			<key>hash2</key>
 			<data>
-			fonK+JvAXcevZxYXMzMvpl70wA2qKrjcRimgtFiW8cA=
+			/HmOzPdWGaOsXGUVUM97AANBklqKQWb+XWMNkypGq5M=
 			</data>
 		</dict>
 		<key>Headers/GizWifiDevice.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Rsy7wQZRP/VWA4ZWvWgYifgsWik=
+			9x2dDBRFyyzpgTgIJ+QvIqSt4c8=
 			</data>
 			<key>hash2</key>
 			<data>
-			YYcOMnOrXV9Tqzo7tIv76fwb1fPxB6kDgh/mQIwzgYQ=
+			WXVenEHlK2qsEhUAQRru19DMZmCnhjMORTzQ+YnNHh4=
 			</data>
 		</dict>
 		<key>Headers/GizWifiSDK.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			iq2C+Y4NaXpq9IjwZKwcuQcoJzA=
+			BFwlo/SaWtvGA/Sy9L0yVrhdhJ0=
 			</data>
 			<key>hash2</key>
 			<data>
-			rbricCjjF6EEQb81c9RXmmX2m33FvwQnrqPpIGc0hxo=
+			K53PwACpghAl4QxkFdZVb1iCTX/B4rvmxDcb5q6O+u4=
 			</data>
 		</dict>
 		<key>Headers/GizWifiSSID.h</key>

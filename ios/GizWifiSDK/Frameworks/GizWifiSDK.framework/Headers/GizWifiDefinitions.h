@@ -396,6 +396,8 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     GIZ_SDK_ONBOARDING_STOPPED = 8318,
     /** 手机不支持NFC配网 */
     GIZ_SDK_NOT_SUPPORT_NFC = 8320,
+    /** 当前SDK不支持NFC配网 */
+    GIZ_SDK_CURRENT_SDK_NOT_SUPPORT_NFC = 8321,
     
     /** 当前固件是最新版本，不需要升级 */
     GIZ_SDK_OTA_FIRMWARE_IS_LATEST = 8350,
@@ -419,6 +421,25 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     GIZ_SDK_OTA_FIRMWARE_VERIFY_SUCCESS = 8359,
     /** 设备不支持手机OTA升级 */
     GIZ_SDK_OTA_DEVICE_NOT_SUPPORT = 8360,
+    /** 蓝牙OTA设备返回的固件类型与当前要升级的固件类型不匹配 */
+    GIZ_SDK_OTA_FIRMWARE_TYPE_NOT_MATCH = 8361,
+    /** 蓝牙OTA固件PK与设备PK不一致 */
+    GIZ_SDK_OTA_PRODUCTKEY_NOT_MATCH = 8362,
+    /** 蓝牙OTA固件太大 */
+    GIZ_SDK_OTA_FIRMWARE_TOO_BIG = 8363,
+    /** 固件包序号异常 */
+    GIZ_SDK_OTA_PACKAGE_NUMBER_ERROR = 8364,
+    /** 固件包长度不对 */
+    GIZ_SDK_OTA_PACKAGE_LENGTH_ERROR = 8365,
+    /** CRC校验失败 */
+    GIZ_SDK_OTA_CRC_CHECK_FAILED = 8366,
+    /** 正在检查固件更新或者OTA */
+    GIZ_SDK_OTA_CHECK_OR_UPGRADE_IS_RUNNING = 8367,
+    /** 取消OTA失败 */
+    GIZ_SDK_OTA_CANCEL_OTA_FAILED = 8368,
+    /** 设备启用新固件失败 */
+    GIZ_SDK_OTA_DEVICE_ENABLE_NEW_FIRMWARE_FAILED = 8369,
+
     /** websocket握手失败 */
     GIZ_SDK_WS_HANDSHAKE_FAILED = 8400,
     /** websocket登录失败 */
@@ -588,6 +609,8 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     GIZ_OPENAPI_TRANSFER_OWNER_TO_LIMIT_GUEST = 9104,
     /** device binding time closed */
     GIZ_OPENAPI_DEVICE_BINDING_TIME_CLOSE = 9105,
+    /** push rule not in effect or device already upgrade */
+    GIZ_OPENAPI_DEVICE_ALREADY_UPGRADE = 9502,
     /** reserved */
     GIZ_OPENAPI_RESERVED = 9999,
     
@@ -1010,6 +1033,19 @@ typedef NS_ENUM(NSInteger, GizOTAFirmwareType) {
     GizOTAFirmareModule = 0,
     /** 设备mcu固件 */
     GizOTAFirmareMcu = 1,
+};
+
+typedef NS_ENUM(NSInteger, GizOTAEventType) {
+    /** 预处理事件 */
+    GizOTAEventPretreatment = 0,
+    /** 下载固件包事件 */
+    GizOTAEventDownload = 1,
+    /** 传输固件包事件 */
+    GizOTAEventTransmit = 2,
+    /** 重启设备事件 */
+    GizOTAEventReboot = 3,
+    /** OTA结束事件 */
+    GizOTAEventFinish = 4,
 };
 
 /**
