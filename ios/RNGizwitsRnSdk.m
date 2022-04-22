@@ -142,6 +142,7 @@ RCT_EXPORT_METHOD(setDeviceOnboardingDeploy:(id)info result:(RCTResponseSenderBl
     NSString *key = [dict stringValueForKey:@"key" defaultValue:@""];
     GizWifiConfigureMode configMode = getConfigModeFromInteger([dict integerValueForKey:@"mode" defaultValue:-1]);
     NSString *softAPSSIDPrefix = [dict stringValueForKey:@"softAPSSIDPrefix" defaultValue:@""];
+    NSArray *softAPSSIDPrefixs = [dict arrayValueForKey:@"softAPSSIDPrefixs" defaultValue:nil];
     NSInteger timeout = [dict integerValueForKey:@"timeout" defaultValue:0];
     BOOL isbind = [dict boolValueForKey:@"bind" defaultValue:YES];
     NSArray *gagentTypes = [dict arrayValueForKey:@"gagentTypes" defaultValue:nil];
@@ -152,7 +153,11 @@ RCT_EXPORT_METHOD(setDeviceOnboardingDeploy:(id)info result:(RCTResponseSenderBl
     }
 
     [self.callBackManager addResult:result type:GizWifiRnResultTypeSetDeviceOnboardingDeploy identity:nil repeatable:YES];
-    [[GizWifiSDK sharedInstance] setDeviceOnboardingDeploy:ssid key:key configMode:configMode softAPSSIDPrefix:softAPSSIDPrefix timeout:(int)timeout wifiGAgentType:gagentTypes bind:isbind];
+    if (softAPSSIDPrefixs != nil) {
+        [[GizWifiSDK sharedInstance] setDeviceOnboardingDeploy:ssid key:key configMode:configMode softAPSSIDPrefixs:softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:gagentTypes bind:isbind];
+    } else {
+        [[GizWifiSDK sharedInstance] setDeviceOnboardingDeploy:ssid key:key configMode:configMode softAPSSIDPrefix:softAPSSIDPrefix timeout:(int)timeout wifiGAgentType:gagentTypes bind:isbind];
+    }
 }
 
 RCT_EXPORT_METHOD(bindRemoteDevice:(id)info result:(RCTResponseSenderBlock)result){
