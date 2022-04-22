@@ -837,10 +837,21 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         final int mode = args.optInt("mode");
         final int timeout = args.optInt("timeout");
         final String softAPSSIDPrefix = args.optString("softAPSSIDPrefix");
+        JSONArray softAPSSIDPrefixs = args.optJSONArray("softAPSSIDPrefixs");
         JSONArray jsonarray = args.optJSONArray("gagentTypes");
         final boolean isBind = args.optBoolean("bind");
         setOnboardingCallback.add(0, callback);
         final List<GizWifiGAgentType> types = new ArrayList<GizWifiGAgentType>();
+        final List<String> prefixs = new ArrayList<String>();
+        try {
+            if (softAPSSIDPrefixs != null) {
+                for (int i = 0; i < softAPSSIDPrefixs.length(); i++) {
+                    prefixs.add(softAPSSIDPrefixs.getString(i));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         try {
             if (jsonarray != null) {
                 for (int i = 0; i < jsonarray.length(); i++) {
@@ -903,21 +914,37 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
 
         switch (mode) {
             case 0:
+                if (softAPSSIDPrefixs != null) {
+                    GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiSoftAP, prefixs, timeout, types, isBind);
+                    break;
+                }
                 GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiSoftAP, softAPSSIDPrefix, timeout, types, isBind);
                 break;
             case 1:
-                GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiAirLink, null, timeout, types, isBind);
+                GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiAirLink, "", timeout, types, isBind);
                 break;
             case 2:
-                GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiAirLinkMulti, null, timeout, types, isBind);
+                GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiAirLinkMulti, "", timeout, types, isBind);
                 break;
             case 3:
+                if (softAPSSIDPrefixs != null) {
+                    GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiBleLink, prefixs, timeout, types, isBind);
+                    break;
+                }
                 GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiBleLink, softAPSSIDPrefix, timeout, types, isBind);
                 break;
             case 4:
+                if (softAPSSIDPrefixs != null) {
+                    GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiBleLinkMulti, prefixs, timeout, types, isBind);
+                    break;
+                }
                 GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiBleLinkMulti, softAPSSIDPrefix, timeout, types, isBind);
                 break;
             case 5:
+                if (softAPSSIDPrefixs != null) {
+                    GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiNFCLink, prefixs, timeout, types, isBind);
+                    break;
+                }
                 GizWifiSDK.sharedInstance().setDeviceOnboardingDeploy(ssid, key, GizWifiConfigureMode.GizWifiNFCLink, softAPSSIDPrefix, timeout, types, isBind);
                 break;
         }
