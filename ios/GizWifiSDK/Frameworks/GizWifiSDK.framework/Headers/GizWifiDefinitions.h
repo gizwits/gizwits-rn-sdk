@@ -1078,6 +1078,16 @@ typedef NS_ENUM(NSInteger, GizMeshVerdor) {
     GizMeshJingXun = 1 // 晶讯
 };
 
+/**
+ @brief 蓝牙工作状态
+ */
+typedef NS_ENUM(NSInteger, GizBleWorkStatusType) {
+    /* 默认状态 */
+    GizBleWorkStatusTypeNormal = 0,
+    /* 配网状态 */
+    GizBleWorkStatusTypeOnBording = 1,
+};
+
 /** @deprecated 此枚举定义已废弃，不再提供支持。请使用替代定义：GizWifiErrorCode */
 typedef NS_ENUM(NSInteger, XPGWifiErrorCode) {
     XPGWifiError_NONE = 0,

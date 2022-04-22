@@ -591,6 +591,21 @@
  */
 - (void)setDeviceOnboardingDeploy:(NSString * _Nonnull)ssid key:(NSString * _Nullable)key configMode:(GizWifiConfigureMode)mode softAPSSIDPrefix:(NSString * _Nullable)softAPSSIDPrefix timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
 
+/**
+ 设备配网接口。配网时可自动完成设备域名部署，此接口对模组固件版本向前兼容。
+ 设备处于 softap 模式时，模组会产生一个热点名称，手机 wifi 连接此热点后就可以配置了。如果是机智云提供的固件，模组热点名称前缀为"XPG-GAgent-"，密码为"123456789"或无密码。设备处于 airlink 模式时，手机随时都可以开始配置
+ 配网时，若检测到手机的配网wifi为5G路由，会通过didNotifyEvent回调通知App，回调中的eventID为8319
+ @param ssid 待配置的路由SSID名。此参数不能为nil
+ @param key 待配置的路由密码。此参数不能为nil
+ @param mode 配置模式，详细见GizWifiConfigureMode枚举定义。此参数必须填有效范围内的值
+ @param softAPSSIDPrefixs 热点模式下设备热点前缀或全名集合。默认前缀为:XPG-GAgent-，SDK以此判断手机当前是否连上了设备的热点。AirLink模式下可传nil
+ @param timeout 配网绑定的超时时间，默认超时时间为30秒。在超时时间内如果无法配置和绑定会回调配网失败
+ @param types 待配置的模组类型数组，详细见GizWifiGAgentType枚举。默认类型为GizGAgentESP。如果在模组类型中找不到自己使用的模组，可传GizGAgentOther
+ @param bind 配网时是否自动绑定，自动绑定要求先用户登录。YES为自动绑定，NO为不绑定
+ @see 回调函数 [GizWifiSDKDelegate wifiSDK:didSetDeviceOnboarding:mac:did:productKey:]
+ */
+- (void)setDeviceOnboardingDeploy:(NSString * _Nonnull)ssid key:(NSString * _Nullable)key configMode:(GizWifiConfigureMode)mode softAPSSIDPrefixs:(NSArray<NSString *> * _Nullable)softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
+
 /** 停止配网接口，停止后回调中返回的错误为GIZ_SDK_ONBOARDING_STOPPED
  @see 回调函数 [GizWifiSDKDelegate wifiSDK:didSetDeviceOnboarding:GizWifiDevice:]
  */

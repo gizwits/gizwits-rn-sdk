@@ -19,6 +19,11 @@ typedef void (^bleCallback)(GizWifiErrorCode errorCode);
 @property (nonatomic, assign, readonly) BOOL isBlueLocal;
 
 /**
+ 标志设备当前的状态；true: 表示当前使用的是蓝牙通道
+ */
+@property (nonatomic, assign, readonly) GizBleWorkStatusType bleWorkStatus;
+
+/**
  建立连接
  */
 - (void)connectBle: (bleCallback)callback;
@@ -34,6 +39,7 @@ typedef void (^bleCallback)(GizWifiErrorCode errorCode);
  */
 - (void)startUpgrade:(GizOTAFirmwareType)firmwareType listener:(void (^)(GizOTAEventType type, NSError *result))listener;
 
+- (void)setBleWorkStatus:(GizBleWorkStatusType)status;
 /**
  检查设备更新
  @param firmwateType 选择固件类型是mcu还是模组
