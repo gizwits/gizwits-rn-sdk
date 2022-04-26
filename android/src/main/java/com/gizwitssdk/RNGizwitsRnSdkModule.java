@@ -435,6 +435,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                 {
                     GizWifiBleDevice device = deviceList.get(i);
                     JSONObject json = new JSONObject();
+                    json.put("bleAlias",device.bleAlias);
                     json.put("mac",device.getMacAddress());
                     json.put("productKey",device.getProductKey());
                     int netStatus = 0;
@@ -443,6 +444,11 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     } else if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceControlled) {
                         netStatus = 2;
                     }
+                    int bleWorkStatus = 0;
+                    if (device.getBleWorkStatus() == GizBleWorkStatusType.OnBording) {
+                        bleWorkStatus = 1;
+                    }
+                    json.put("bleWorkStatus", bleWorkStatus);
                     json.put("netStatus", netStatus);
                     json.put("isBlueLocal",device.isBlueLocal());
                     data.put(json);
@@ -1190,14 +1196,20 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             {   
                 GizWifiBleDevice device = bleDeviceList.get(i);
                 JSONObject json = new JSONObject();
+                json.put("bleAlias",device.bleAlias);
                 json.put("mac",device.getMacAddress());
                 json.put("productKey",device.getProductKey());
                 int netStatus = 0;
-                    if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceOnline) {
-                        netStatus = 1;
-                    } else if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceControlled) {
-                        netStatus = 2;
-                    }
+                if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceOnline) {
+                    netStatus = 1;
+                } else if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceControlled) {
+                    netStatus = 2;
+                }
+                int bleWorkStatus = 0;
+                if (device.getBleWorkStatus() == GizBleWorkStatusType.OnBording) {
+                    bleWorkStatus = 1;
+                }
+                json.put("bleWorkStatus", bleWorkStatus);
                 json.put("netStatus", netStatus);
                 json.put("isBlueLocal",device.isBlueLocal());
                 data.put(json);

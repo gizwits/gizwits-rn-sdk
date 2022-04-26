@@ -18,6 +18,9 @@ typedef void (^bleCallback)(GizWifiErrorCode errorCode);
  */
 @property (nonatomic, assign, readonly) BOOL isBlueLocal;
 
+// 蓝牙名称
+@property (strong, nonatomic) NSString * _Nonnull bleAlias;
+
 /**
  标志设备当前的状态；true: 表示当前使用的是蓝牙通道
  */
