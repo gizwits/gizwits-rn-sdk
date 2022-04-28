@@ -150,7 +150,9 @@
       GizWifiBleDevice *subDevice = (GizWifiBleDevice *)device;
       // 子设备其他属性
       [mdict setValue:@(subDevice.isBlueLocal) forKey:@"isBlueLocal"];
-      [mdict setValue:@(subDevice.bleAlias) forKey:@"bleAlias"];
+      [mdict setValue:subDevice.bleAlias forKey:@"bleAlias"];
+      NSInteger bleWorkStatus = getBleWorkStatusFromEnum(subDevice.bleWorkStatus);
+      [mdict setValue:@(bleWorkStatus) forKey:@"bleWorkStatus"];
   }
   // 普通设备其他属性
   NSInteger productType = getDeviceTypeFromEnum(device.productType);

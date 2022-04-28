@@ -240,6 +240,18 @@ GizOTAFirmwareType getOTAFirmareTypeFromInteger(NSInteger integerValue) {
     }
 }
 
+NSInteger getBleWorkStatusFromEnum(GizBleWorkStatusType enumValue) {
+    switch (enumValue) {
+        case GizBleWorkStatusTypeNormal:
+            return 0;
+        case GizBleWorkStatusTypeOnBording:
+            return 1;
+        default:
+            break;
+    }
+    return 1;
+}
+
 NSString* getOTAEventTypeFromEnum(GizOTAEventType enumValue) {
     switch (enumValue) {
         case GizOTAEventPretreatment:

@@ -32,6 +32,7 @@ import com.gizwits.gizwifisdk.enumration.GizConfigureProcess;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.enumration.GizWifiGAgentType;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
+import com.gizwits.gizwifisdk.enumration.GizBleWorkStatusType;
 import com.gizwits.gizwifisdk.log.SDKLog;
 
 import org.json.JSONArray;

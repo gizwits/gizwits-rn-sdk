@@ -18,3 +18,4 @@ GizPushType getPushTypeFromInteger(NSInteger integerValue);
 NSInteger getDeviceOnboardingProcessTypeFromEnum(GizConfigureProcess enumValue);
 GizOTAFirmwareType getOTAFirmareTypeFromInteger(NSInteger integerValue);
 NSString* getOTAEventTypeFromEnum(GizOTAEventType enumValue);
+NSInteger getBleWorkStatusFromEnum(GizBleWorkStatusType enumValue);
