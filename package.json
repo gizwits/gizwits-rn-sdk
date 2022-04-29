@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.0-beta-6",
+  "version": "2.26.0-beta-7-nfc",
   "description": "修正getDeviceStatus 回调问题",
   "main": "index.js",
   "scripts": {
