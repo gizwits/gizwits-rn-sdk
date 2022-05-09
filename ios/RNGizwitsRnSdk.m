@@ -128,6 +128,7 @@ RCT_EXPORT_METHOD(getBoundBleDevice:(RCTResponseSenderBlock)result){
     }
     if (result) {
         result(@[[NSNull null], [NSDictionary deviceDictArrFromDevices:bleDevices]]);
+        [self notiWithType:GizWifiRnResultTypeBleDeviceListNoti result:[NSDictionary deviceDictArrFromDevices: bleDevices]];
     }
 }
 
@@ -431,7 +432,7 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
 
 #pragma mark - noti
 - (NSArray<NSString *> *)supportedEvents{
-    return @[GizDeviceListNotifications, GizMeshDeviceListNotifications, GizDeviceLogNotifications, GizBleDeviceListNotifications,GizDeviceOnboardingProcessNotifications];
+    return @[GizDeviceListNotifications, GizMeshDeviceListNotifications, GizDeviceLogNotifications, GizBleDeviceListNotifications,GizDeviceOnboardingProcessNotifications, GizDeviceOnboardingNotifications];
 }
 
 - (void)notiWithType:(GizWifiRnResultType)type result:(id)result{
@@ -455,6 +456,9 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
             break;
         case GizWifiRnResultTypeDeviceOnboardingProcessNoti:{
             [self sendEventWithName:GizDeviceOnboardingProcessNotifications body:result];
+        }
+        case GizWifiRnResultTypeSetOnboardingNoti:{
+            [self sendEventWithName:GizDeviceOnboardingNotifications body:result];
         }
             break;
         default:
@@ -670,10 +674,11 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
         [mDevice setValue:productKey forKey:@"productKey"];
         dataDict = [NSMutableDictionary dictionary];
         [dataDict setValue:mDevice forKey:@"device"];
+
     } else{
         errDict = [NSDictionary makeErrorDictFromError:result];
     }
-
+    [self notiWithType:GizWifiRnResultTypeDeviceOnboardingNoti result:@{@"process":errDict ?: dataDict}];
     [self.callBackManager callBackWithType:GizWifiRnResultTypeSetDeviceOnboardingDeploy identity:nil resultDict:dataDict errorDict:errDict];
 }
 
