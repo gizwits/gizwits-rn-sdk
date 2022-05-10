@@ -678,7 +678,7 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
     } else{
         errDict = [NSDictionary makeErrorDictFromError:result];
     }
-    [self notiWithType:GizWifiRnResultTypeDeviceOnboardingNoti result:@{@"process":errDict ?: dataDict}];
+    [self notiWithType:GizWifiRnResultTypeSetOnboardingNoti result:@{@"process":errDict ?: dataDict}];
     [self.callBackManager callBackWithType:GizWifiRnResultTypeSetDeviceOnboardingDeploy identity:nil resultDict:dataDict errorDict:errDict];
 }
 

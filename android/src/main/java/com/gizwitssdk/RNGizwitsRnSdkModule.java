@@ -1256,12 +1256,12 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     }
 
     // 推送配网成功或失败事件
-    public void callbackSetDeviceOnBoardingNofitication(JSONArray params) {
+    public void callbackSetDeviceOnBoardingNofitication(JSONObject params) {
         Log.e("bleDevice",params.toString());
-        WritableArray writableMap = jsonArray2WriteableArray(params);
+        WritableMap writableMap = jsonObject2WriteableMap(params);
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit("GizSetDeviceOnBoardingNofitication", writableMap);
+                .emit("GizDeviceOnboardingNotifications", writableMap);
     }
     public void callbackDeviceLogNofitication(JSONObject params) {
         Log.e("meshDevice", params.toString());
