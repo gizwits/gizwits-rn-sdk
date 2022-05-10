@@ -51,3 +51,15 @@ import RNGizwitsRnSdk from 'react-native-gizwits-sdk';
 RNGizwitsRnSdk;
 ```
   
+
+## 监听配网回调
+
+```javascript
+sdkListEvent.addListener(
+	'GizDeviceOnboardingNotifications',
+	(reminder) => {
+		// reminder = [{mac: '', did: '', productKey: ''}]
+		console.log('GizDeviceOnboardingNotifications', reminder);
+	}
+);
+```

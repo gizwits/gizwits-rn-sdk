@@ -371,10 +371,12 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                     deviceobj.put("netStatus", netStatus);
                     jsonResult.put("device", deviceobj);
                     sendResultEvent(setOnboardingCallback.get(0), jsonResult, null);
+                    callbackSetDeviceOnBoardingNofitication(jsonResult);
                 } else {
                     jsonResult.put("errorCode", result.getResult());
                     jsonResult.put("msg", result.name());
                     sendResultEvent(setOnboardingCallback.get(0), null, jsonResult);
+                    callbackSetDeviceOnBoardingNofitication(jsonResult);
                 }
                 setOnboardingCallback.remove(0);
             } catch (Exception e) {
@@ -1216,6 +1218,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                 data.put(json);
             }
             sendResultEvent(callback, data);
+            callbackBleDeviceNofitication(data);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1250,6 +1253,15 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("GizBleDeviceListNotifications", writableMap);
+    }
+
+    // 推送配网成功或失败事件
+    public void callbackSetDeviceOnBoardingNofitication(JSONObject params) {
+        Log.e("bleDevice",params.toString());
+        WritableMap writableMap = jsonObject2WriteableMap(params);
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("GizDeviceOnboardingNotifications", writableMap);
     }
     public void callbackDeviceLogNofitication(JSONObject params) {
         Log.e("meshDevice", params.toString());
