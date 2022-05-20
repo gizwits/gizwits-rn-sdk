@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.0-nfc-3",
-  "description": "修正蓝牙上报问题",
+  "version": "2.26.0-nfc-5",
+  "description": "更新sdk，修正ios蓝牙设备缓存问题",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
