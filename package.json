@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.0-nfc-5",
+  "version": "2.26.1-nfc",
   "description": "更新sdk，修正ios蓝牙设备缓存问题",
   "main": "index.js",
   "scripts": {
