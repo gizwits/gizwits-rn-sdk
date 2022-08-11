@@ -590,7 +590,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 //                                        String str = bytesToHex(byteStr);
                                     json.put(key, jsonArray);
                                     Log.d("GizSDKClientLog", "byte Key=" + key + ";Value=" + jsonArray.toString());
-                                } if(value instanceof Long) {
+                                } else if(value instanceof Long) {
                                     json.put(key,((Long) object.get(key)).doubleValue());
                                     Log.d("GizSDKClientLog", "Key=" + key + ";Value=" + object.get(key));
                                 } else {
