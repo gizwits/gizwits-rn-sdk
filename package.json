@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.1-12",
+  "version": "2.26.2",
   "description": "回滚蓝牙重启的处理，交给应用层处理",
   "main": "index.js",
   "scripts": {
