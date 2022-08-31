@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.2-1",
-  "description": "替换androidid的实现，改成guid",
+  "version": "2.26.2-2",
+  "description": "修正安卓蓝牙关闭的时候没有判断空指针",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
