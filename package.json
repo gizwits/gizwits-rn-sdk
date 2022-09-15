@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.2-4",
-  "description": "更新gradle语法",
+  "version": "2.26.2-5",
+  "description": "修正 isBlueLocal的上报",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
