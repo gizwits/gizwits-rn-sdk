@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.2-nfc-2",
-  "description": "修正安卓蓝牙关闭的时候没有判断空指针",
+  "version": "2.26.2-nfc-5",
+  "description": "修正 isBlueLocal的上报",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
