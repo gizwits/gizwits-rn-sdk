@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.3-nfc",
-  "description": "更新2.20.20SDK",
+  "version": "2.26.4-nfc",
+  "description": "更新2.20.21SDK，兼容ios16",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
