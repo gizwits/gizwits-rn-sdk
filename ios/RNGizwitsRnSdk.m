@@ -13,7 +13,7 @@
 #import <objc/runtime.h>
 
 
-#define SDK_MODULE_VERSION      @"1.3.1"
+#define SDK_MODULE_VERSION      @"2.26.4-4"
 
 /**
  @brief GizCompareDeviceProperityType枚举，描述两个设备的属性值是否相同
@@ -131,7 +131,9 @@ RCT_EXPORT_METHOD(getCurrentCloudService:(RCTResponseSenderBlock)result){
 RCT_EXPORT_METHOD(getVersion:(RCTResponseSenderBlock)result){
     NSString *version = [NSString stringWithFormat:@"%@-%@", [GizWifiSDK getVersion], SDK_MODULE_VERSION];
     if (result) {
-        result(@[[NSNull null], version]);
+         NSMutableDictionary *data = [NSMutableDictionary dictionary];
+        [data setValue:version forKey:@"version"];
+        result(@[[NSNull null], data]);
     }
 }
 

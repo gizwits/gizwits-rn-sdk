@@ -50,7 +50,7 @@ import java.util.Map;
 
 
 public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
-    final String moduleVersion = "1.3.1";
+    final String moduleVersion = "2.26.4-4";
 
     private Callback startWithAppIdCallback;
     private Callback getCurrentCloudService;
