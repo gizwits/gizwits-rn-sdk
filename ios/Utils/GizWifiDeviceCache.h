@@ -20,4 +20,6 @@
 //+ (GizWifiSubDevice *)cachedSubDeviceWithMacAddress:(NSString *)macAddress did:(NSString *)did subDid:(NSString *)subDid;
 //+ (GizWifiSubDevice *)cachedSubDeviceWithDid:(NSString *)did subDid:(NSString *)subDid;
 
+// 设置是否支持蓝牙设备
++ (void)updateSupportBleState:(Boolean)isSupportBle;
 @end

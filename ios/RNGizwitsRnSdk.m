@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, GizCompareDeviceProperityType) {
 @interface RNGizwitsRnSdk()<GizWifiSDKDelegate>
 @property (nonatomic, strong) GizWifiRnCallBackManager *callBackManager;
 @property (nonatomic, strong) NSMutableDictionary <NSString *, NSDictionary *>* oldDeviceList;
+@property (nonatomic) bool supportBle;
 @end
 
 @implementation RNGizwitsRnSdk
@@ -64,6 +65,19 @@ RCT_EXPORT_METHOD(startWithAppID:(id)configInfo result:(RCTResponseSenderBlock)r
     NSArray *specialProductKeySecrets = [dict arrayValueForKey:@"specialProductKeySecrets" defaultValue:nil];
     BOOL autoSetDeviceDomain = [dict boolValueForKey:@"autoSetDeviceDomain" defaultValue:NO];
     NSArray *specialUsingAdapter = [dict arrayValueForKey:@"specialUsingAdapter" defaultValue:nil];
+
+    // 检查是否支持蓝牙设备
+    bool isSupportBle = NO;
+    for (int i = 0; i < specialUsingAdapter.count; i++) {
+        NSString *adapter = specialUsingAdapter[i];
+        if ([adapter isEqualToString:@"GizAdapterWifiBle"]) {
+            isSupportBle = YES;
+            break;
+        }
+    }
+    _supportBle = isSupportBle;
+    [GizWifiDeviceCache updateSupportBleState:_supportBle];
+
     BOOL isUsingAdapter = NO;
     if (specialUsingAdapter.count == specialProductKeys.count) {
         isUsingAdapter = YES;

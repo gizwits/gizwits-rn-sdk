@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.4-3",
+  "version": "2.26.4-4",
   "description": "修正蓝牙开关关闭时的行为",
   "main": "index.js",
   "scripts": {
