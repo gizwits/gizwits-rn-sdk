@@ -13,7 +13,7 @@
 #import <objc/runtime.h>
 
 
-#define SDK_MODULE_VERSION      @"1.3.1"
+#define SDK_MODULE_VERSION      @"2.26.4"
 
 /**
  @brief GizCompareDeviceProperityType枚举，描述两个设备的属性值是否相同
@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, GizCompareDeviceProperityType) {
 @interface RNGizwitsRnSdk()<GizWifiSDKDelegate>
 @property (nonatomic, strong) GizWifiRnCallBackManager *callBackManager;
 @property (nonatomic, strong) NSMutableDictionary <NSString *, NSDictionary *>* oldDeviceList;
+@property (nonatomic) bool supportBle;
 @end
 
 @implementation RNGizwitsRnSdk
@@ -64,6 +65,19 @@ RCT_EXPORT_METHOD(startWithAppID:(id)configInfo result:(RCTResponseSenderBlock)r
     NSArray *specialProductKeySecrets = [dict arrayValueForKey:@"specialProductKeySecrets" defaultValue:nil];
     BOOL autoSetDeviceDomain = [dict boolValueForKey:@"autoSetDeviceDomain" defaultValue:NO];
     NSArray *specialUsingAdapter = [dict arrayValueForKey:@"specialUsingAdapter" defaultValue:nil];
+
+    // 检查是否支持蓝牙设备
+    bool isSupportBle = NO;
+    for (int i = 0; i < specialUsingAdapter.count; i++) {
+        NSString *adapter = specialUsingAdapter[i];
+        if ([adapter isEqualToString:@"GizAdapterWifiBle"]) {
+            isSupportBle = YES;
+            break;
+        }
+    }
+    _supportBle = isSupportBle;
+    [GizWifiDeviceCache updateSupportBleState:_supportBle];
+
     BOOL isUsingAdapter = NO;
     if (specialUsingAdapter.count == specialProductKeys.count) {
         isUsingAdapter = YES;
@@ -115,12 +129,14 @@ RCT_EXPORT_METHOD(getCurrentCloudService:(RCTResponseSenderBlock)result){
 }
 
 RCT_EXPORT_METHOD(getVersion:(RCTResponseSenderBlock)result){
-    NSString *version = [NSString stringWithFormat:@"%@-%@", [GizWifiSDK getVersion], SDK_MODULE_VERSION];
+    NSString *nativeVersion = [GizWifiSDK getVersion];
     if (result) {
-        result(@[[NSNull null], version]);
+         NSMutableDictionary *data = [NSMutableDictionary dictionary];
+        [data setValue:nativeVersion forKey:@"nativeVersion"];
+        [data setValue:SDK_MODULE_VERSION forKey:@"moduleVersion"];
+        result(@[[NSNull null], data]);
     }
 }
-
 RCT_EXPORT_METHOD(getBoundBleDevice:(RCTResponseSenderBlock)result){
     NSArray *bleDevices = [[GizWifiSDK sharedInstance] getBoundBleDevice];
     if (!bleDevices) {

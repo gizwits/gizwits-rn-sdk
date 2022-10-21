@@ -8,7 +8,7 @@ static GizWifiDeviceCache *sharedInstance = nil;
 
 @property (nonatomic, strong) NSMutableArray *mDelegates;
 @property (nonatomic, strong) NSMutableArray *mCentrolDelegates;
-
+@property (nonatomic) bool supportBle;
 @end
 
 @implementation GizWifiDeviceCache
@@ -83,6 +83,12 @@ static GizWifiDeviceCache *sharedInstance = nil;
         return nil;
     }
 
+    // 不支持 直接返回空
+    GizWifiDeviceCache *deviceCache = [self sharedInstance];
+    if (!deviceCache.supportBle) {
+        return nil;
+    }
+
     NSArray *deviceList = [[GizWifiSDK sharedInstance] getBoundBleDevice];
     for (GizWifiDevice *device in deviceList) {
         if (device.delegate == nil) {
@@ -97,6 +103,11 @@ static GizWifiDeviceCache *sharedInstance = nil;
 
 + (void)device:(GizWifiDevice *)device didUpdateNetStatus:(GizWifiDeviceNetStatus)netStatus {
     [[self sharedInstance] device:device didUpdateNetStatus:netStatus];
+}
+
++ (void)updateSupportBleState:(Boolean)isSupportBle {
+    GizWifiDeviceCache *deviceCache = [self sharedInstance];
+    deviceCache.supportBle = isSupportBle;
 }
 
 #pragma mark - device delegate

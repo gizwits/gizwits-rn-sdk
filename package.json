@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.4-nfc-3",
-  "description": "修正蓝牙关闭的行为",
+  "version": "2.26.4-6",
+  "description": "修正安卓和ios getVersion返回不统一的问题",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

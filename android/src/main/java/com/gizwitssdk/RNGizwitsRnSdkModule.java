@@ -50,7 +50,7 @@ import java.util.Map;
 
 
 public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
-    final String moduleVersion = "1.3.1";
+    final String moduleVersion = "2.26.4";
 
     private Callback startWithAppIdCallback;
     private Callback getCurrentCloudService;
@@ -760,12 +760,11 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
         }
 
         String version = GizWifiSDK.sharedInstance().getVersion();
-        version += "-" + moduleVersion;
-        SDKLog.d("version = " + version);
 
         JSONObject json = new JSONObject();
         try {
-            json.put("version", version);
+            json.put("nativeVersion", version);
+            json.put("moduleVersion", moduleVersion);
             sendResultEvent(callback, json, null);
         } catch (JSONException e) {
             e.printStackTrace();
