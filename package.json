@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.6",
+  "version": "2.26.7",
   "description": "修复sdk编译问题",
   "main": "index.js",
   "scripts": {
