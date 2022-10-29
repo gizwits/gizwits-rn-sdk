@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.7-mtu",
-  "description": "mtu 改512 + 3",
+  "version": "2.26.8",
+  "description": "修复ios 关闭蓝牙不上报的问题",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
