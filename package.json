@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.8-nfc",
-  "description": "修复蓝牙设备缓存清除问题",
+  "version": "2.26.9-nfc",
+  "description": "修复安卓长时间挂机，无法控制的问题",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
