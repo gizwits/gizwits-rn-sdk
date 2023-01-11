@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.11",
-  "description": "修复TCP缓冲区不足，导致卡死的问题",
+  "version": "2.26.12",
+  "description": "更新daemon，修复长时间挂机的问题",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
