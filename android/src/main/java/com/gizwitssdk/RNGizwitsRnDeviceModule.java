@@ -18,6 +18,10 @@ import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.gizwits.gizwifisdk.api.GizWifiBinary;
+import com.gizwits.gizwifisdk.protocol.OTASendDataReplyParse;
+import com.gizwits.gizwifisdk.protocol.OTAPreCheckParse;
+
+
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.api.GizWifiBleDevice;
 import com.gizwits.gizwifisdk.enumration.GizWifiDeviceNetStatus;
@@ -51,6 +55,10 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
     private  Map<String,Callback> writeCallback= new HashMap<String, Callback>();
     private  Callback connectBleCallback;
     private  Callback checkUpdateCallback;
+    // 保留临时OTA数据
+    private OTAPreCheckParse preCheckData;
+    private int firmwareSize;
+
 
     Map<String, Callback> subscribeCallbacks = new HashMap<String, Callback>();
 
@@ -108,6 +116,32 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 e.printStackTrace();
             }
         }
+
+        public void didPreOtaListener(GizWifiErrorCode code, OTAPreCheckParse otaData, int len) {
+            if (code == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                preCheckData = otaData;
+                firmwareSize = len;
+            }
+        }
+
+        public void didOTADataReply(GizWifiErrorCode code, OTASendDataReplyParse replyData) {
+            if (preCheckData != null) {
+                // 计算当前的数据
+                try {
+                    JSONObject jsonResult = new JSONObject();
+                    jsonResult.put("packageMaxLen", preCheckData.packageMaxLen);
+                    jsonResult.put("firmwareSize", firmwareSize);
+                    jsonResult.put("currentNumber", replyData.getPackageNum());
+
+                    callbackBleOTAProgress(jsonResult);
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+
     };
 
     GizWifiDeviceListener deviceListener = new GizWifiDeviceListener() {
@@ -198,18 +232,18 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 JSONObject deviceobj = new JSONObject();
 
                 if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
-                     if (device != null) {
-                    deviceobj.put("mac",device.getMacAddress());
-                    deviceobj.put("productKey",device.getProductKey());
-                    int netStatus = 0;
-                    if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceOnline) {
-                        netStatus = 1;
-                    } else if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceControlled) {
-                        netStatus = 2;
-                    }
-                    deviceobj.put("netStatus", netStatus);
-                    deviceobj.put("isBlueLocal",device.isBlueLocal());
-                    jsonResult.put("device", deviceobj);
+                    if (device != null) {
+                        deviceobj.put("mac",device.getMacAddress());
+                        deviceobj.put("productKey",device.getProductKey());
+                        int netStatus = 0;
+                        if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceOnline) {
+                            netStatus = 1;
+                        } else if (device.getNetStatus() == GizWifiDeviceNetStatus.GizDeviceControlled) {
+                            netStatus = 2;
+                        }
+                        deviceobj.put("netStatus", netStatus);
+                        deviceobj.put("isBlueLocal",device.isBlueLocal());
+                        jsonResult.put("device", deviceobj);
                     }
                     sendResultEvent(connectBleCallback, jsonResult, null);
                 } else {
@@ -557,7 +591,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
         int netStatus = 0;
         ConcurrentHashMap<String, Object> tempDataMap = null;
         JSONObject resultJson = new JSONObject();
-         if (dataMap != null&&dataMap.size()!=0) {
+        if (dataMap != null&&dataMap.size()!=0) {
             tempDataMap = dataMap;
         }
         if (adapterAttrStatus != null&&adapterAttrStatus.size()!=0) {
@@ -652,22 +686,22 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
                     if (tempDataMap.toString().contains("binary")) {
                         byte[] byteStr = (byte[]) tempDataMap.get("binary");
-                                    JSONArray jsonArray;
-                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                                        jsonArray = new JSONArray(byteStr);
-                                        for (int i = 0; i < jsonArray.length(); i++) {
-                                            jsonArray.put(i, ((Byte) jsonArray.get(i)) & 0xff);
-                                        }
-                                    } else {
-                                        jsonArray = new JSONArray();
-                                        for (int i = 0; i < byteStr.length; i++) {
-                                            jsonArray.put(byteStr[i]);
-                                        }
-                                    }
+                        JSONArray jsonArray;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                            jsonArray = new JSONArray(byteStr);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonArray.put(i, ((Byte) jsonArray.get(i)) & 0xff);
+                            }
+                        } else {
+                            jsonArray = new JSONArray();
+                            for (int i = 0; i < byteStr.length; i++) {
+                                jsonArray.put(byteStr[i]);
+                            }
+                        }
 //                                        String str = bytesToHex(byteStr);
-                                    status.put("binary", jsonArray);
-                                    resultJson.put("binary", jsonArray);
-                                    Log.e("GizSDKClientLog", "Value=" + jsonArray.toString());
+                        status.put("binary", jsonArray);
+                        resultJson.put("binary", jsonArray);
+                        Log.e("GizSDKClientLog", "Value=" + jsonArray.toString());
                     }
 
                     // resultJson.put("status", status);
@@ -734,7 +768,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 if(device instanceof GizWifiBleDevice){
                     resultJson.put("isBlueLocal", ((GizWifiBleDevice)device).isBlueLocal());
                 }
-                
+
                 if (isAppToDev) {
                     callbackAppToDevDeviceStatus(resultJson);
                 } else {
@@ -909,4 +943,12 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("GizDeviceBleOTAStatus", writableMap);
     }
+
+    public void callbackBleOTAProgress(JSONObject params) {
+        WritableMap writableMap = jsonObject2WriteableMap(params);
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("GizDeviceBleOTAProgress", writableMap);
+    }
+
 }
