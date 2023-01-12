@@ -245,13 +245,20 @@ RCT_EXPORT_METHOD(startUpgrade:(id)info result:(RCTResponseSenderBlock)result) {
         [dataDict setValue:@(result.code) forKey:@"errorCode"];
         [dataDict setValue:typeString forKey:@"type"];
         [self notiWithType:GizWifiRnResultTypeOTAStatusNoti result:dataDict];
+    } progressListener:^(NSInteger firmwareSize, NSInteger packageMaxLen, int currentNumber){
+        NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
+        
+        [dataDict setValue:@(firmwareSize) forKey:@"firmwareSize"];
+        [dataDict setValue:@(packageMaxLen) forKey:@"packageMaxLen"];
+        [dataDict setValue:@(currentNumber) forKey:@"currentNumber"];
+        [self notiWithType:GizWifiRnResultTypeOTAProgressNoti result:dataDict];
     }];
 }
 
 
 #pragma mark - noti
 - (NSArray<NSString *> *)supportedEvents{
-    return @[GizDeviceStatusNotifications,GizDeviceAppToDevNotifications,GizDeviceBleOTAStatus];
+    return @[GizDeviceStatusNotifications,GizDeviceAppToDevNotifications,GizDeviceBleOTAStatus, GizDeviceBleOTAProgress];
 }
 
 - (void)notiWithType:(GizWifiRnResultType)type result:(NSDictionary *)result{
@@ -266,6 +273,10 @@ RCT_EXPORT_METHOD(startUpgrade:(id)info result:(RCTResponseSenderBlock)result) {
         }
         case GizWifiRnResultTypeOTAStatusNoti: {
             [self sendEventWithName:GizDeviceBleOTAStatus body:result];
+            break;
+        }
+        case GizWifiRnResultTypeOTAProgressNoti: {
+            [self sendEventWithName:GizDeviceBleOTAProgress body:result];
             break;
         }
         default:

@@ -13,6 +13,7 @@
 #define GizDeviceOnboardingProcessNotifications     @"GizDeviceOnboardingProcessNotifications"
 #define GizDeviceOnboardingNotifications     @"GizDeviceOnboardingNotifications"
 #define GizDeviceBleOTAStatus          @"GizDeviceBleOTAStatus"
+#define GizDeviceBleOTAProgress          @"GizDeviceBleOTAProgress"
 
 typedef void (^RCTResponseSenderBlock)(NSArray *response);
 
@@ -47,6 +48,7 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
   GizWifiRnResultTypeSetOnboardingNoti,
   GizWifiRnResultTypeCheckUpdate,
   GizWifiRnResultTypeOTAStatusNoti,
+  GizWifiRnResultTypeOTAProgressNoti,
 };
 
 @interface GizWifiRnCallBackManager : NSObject
