@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.12-nfc",
+  "version": "2.26.13-nfc",
   "description": "更新daemon，修复长时间挂机的问题",
   "main": "index.js",
   "scripts": {
