@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^bleCallback)(GizWifiErrorCode errorCode);
+typedef void (^otaProgressListener)(NSInteger firmwareSize, NSInteger packageMaxLen, int currentNumber);
 @interface GizWifiBleDevice : GizWifiDevice
 
 /**
@@ -40,7 +41,7 @@ typedef void (^bleCallback)(GizWifiErrorCode errorCode);
  升级固件
  @param firmwateType 选择固件类型是mcu还是模组
  */
-- (void)startUpgrade:(GizOTAFirmwareType)firmwareType listener:(void (^)(GizOTAEventType type, NSError *result))listener;
+- (void)startUpgrade:(GizOTAFirmwareType)firmwareType listener:(void (^)(GizOTAEventType type, NSError *result))listener progressListener:(otaProgressListener)progressListener;
 
 - (void)setBleWorkStatus:(GizBleWorkStatusType)status;
 /**

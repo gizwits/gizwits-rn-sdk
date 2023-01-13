@@ -609,6 +609,8 @@ typedef NS_ENUM(NSInteger, GizWifiErrorCode) {
     GIZ_OPENAPI_TRANSFER_OWNER_TO_LIMIT_GUEST = 9104,
     /** device binding time closed */
     GIZ_OPENAPI_DEVICE_BINDING_TIME_CLOSE = 9105,
+    /** no ota push rule */
+    GIZ_SDK_NO_OTA_PUSH_RULE = 9500,
     /** push rule not in effect or device already upgrade */
     GIZ_OPENAPI_DEVICE_ALREADY_UPGRADE = 9502,
     /** reserved */
