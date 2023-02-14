@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.14-nfc",
-  "description": "修复ios蓝牙连接上报状态问题",
+  "version": "2.26.15-nfc",
+  "description": "daemon socket 错误时，递进重试，防止内存溢出",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
