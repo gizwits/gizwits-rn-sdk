@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.15-nfc",
-  "description": "daemon socket 错误时，递进重试，防止内存溢出",
+  "version": "2.26.16-nfc",
+  "description": "修正安卓12 nfc",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
