@@ -55,6 +55,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     private Callback startWithAppIdCallback;
     private Callback getCurrentCloudService;
     private Callback getBoundDevicesCallback;
+    private Callback userLoginAnonymousCallback;
     private Callback deviceSafetyUnbindCallback;
     private Callback deviceSafeRegistCallback;
     private Callback addGroupCallback;
@@ -133,6 +134,30 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                 e.printStackTrace();
             }
         }
+
+        /**
+         * 用户登录回调
+         */
+        @Override
+        protected void didUserLogin(GizWifiErrorCode result, String uid,
+                                    String token) {
+            super.didUserLogin(result, uid, token);
+            try {
+                JSONObject jsonResult = new JSONObject();
+                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                    jsonResult.put("uid", uid);
+                    jsonResult.put("token", token);
+                    sendResultEvent(userLoginAnonymousCallback, jsonResult, null);
+                } else {
+                    jsonResult.put("errorCode", result.getResult());
+                    jsonResult.put("msg", result.name());
+                    sendResultEvent(userLoginAnonymousCallback, null, jsonResult);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         @Override
         public void didRegistBleDevice(GizWifiErrorCode result, String mac, String productKey) {
@@ -1179,8 +1204,9 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void userLoginAnonymous()
+    public void userLoginAnonymous(Callback callback)
     {
+        userLoginAnonymousCallback = callback;
         GizWifiSDK.sharedInstance().userLoginAnonymous();
     }
 
