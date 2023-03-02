@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.17-nfc",
+  "version": "2.26.19-nfc",
   "description": "修复ios oom",
   "main": "index.js",
   "scripts": {
