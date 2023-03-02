@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.16",
-  "description": "捕获NotYetConnectedException",
+  "version": "2.26.17",
+  "description": "修正ios oom",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
