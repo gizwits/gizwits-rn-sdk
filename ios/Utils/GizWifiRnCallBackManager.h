@@ -49,6 +49,7 @@ typedef NS_ENUM(NSInteger, GizWifiRnResultType) {
   GizWifiRnResultTypeCheckUpdate,
   GizWifiRnResultTypeOTAStatusNoti,
   GizWifiRnResultTypeOTAProgressNoti,
+  GizWifiRnResultTypeuUerLoginAnonymous,
 };
 
 @interface GizWifiRnCallBackManager : NSObject
