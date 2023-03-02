@@ -223,8 +223,9 @@ RCT_EXPORT_METHOD(stopDeviceOnboarding){
     [[GizWifiSDK sharedInstance] stopDeviceOnboarding];
 }
 
-RCT_EXPORT_METHOD(userLoginAnonymous){
+RCT_EXPORT_METHOD(userLoginAnonymous:(RCTResponseSenderBlock)result){
     [[GizWifiSDK sharedInstance] userLoginAnonymous];
+    [self.callBackManager addResult:result type:GizWifiRnResultTypeuUerLoginAnonymous identity:nil repeatable:YES];
 }
 
 RCT_EXPORT_METHOD(userFeedback:(id)info){
@@ -764,6 +765,20 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
     }
 
     [self.callBackManager callBackWithType:GizWifiRnResultTypeUnBindDevice identity:nil resultDict:dataDict errorDict:errDict];
+}
+
+-(void)wifiSDK:(GizWifiSDK *)wifiSDK didUserLogin:(NSError *)result uid:(NSString *)uid token:(NSString *)token{
+    BOOL isCallback = [self.callBackManager haveCallBack:GizWifiRnResultTypeuUerLoginAnonymous identity:nil];
+    if(isCallback){
+        NSDictionary *dataDict = nil;
+        NSDictionary *errDict = nil;
+        if(result.code == GIZ_SDK_SUCCESS){
+            dataDict = @{@"uid":uid,@"token":token};
+        } else {
+            errDict = [NSDictionary makeErrorDictFromError:result];
+        }
+        [self.callBackManager callBackWithType:GizWifiRnResultTypeuUerLoginAnonymous identity:nil resultDict:dataDict errorDict:errDict];
+    }
 }
 
 #pragma mark - tool
