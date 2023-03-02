@@ -80,9 +80,10 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                     jsonResult.put("device", deviceobj);
                 }
 
+                jsonResult.put("lastVersion", lastVersion);
+                jsonResult.put("currentVersion", currentVersion);
+
                 if (code == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
-                    jsonResult.put("lastVersion", lastVersion);
-                    jsonResult.put("currentVersion", currentVersion);
                     sendResultEvent(checkUpdateCallback, jsonResult, null);
                 } else {
                     jsonResult.put("errorCode", code.getResult());

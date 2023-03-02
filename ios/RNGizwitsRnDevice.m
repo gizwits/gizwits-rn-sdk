@@ -208,11 +208,10 @@ RCT_EXPORT_METHOD(checkUpdate:(id)info result:(RCTResponseSenderBlock)result) {
         NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
         NSDictionary *errDict = nil;
         NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
-        if (result.code == GIZ_SDK_SUCCESS) {
-            [dataDict setValue:deviceDict forKey:@"device"];
-            [dataDict setValue:lastVersion forKey:@"lastVersion"];
-            [dataDict setValue:currentVersion forKey:@"currentVersion"];
-        } else {
+        [dataDict setValue:deviceDict forKey:@"device"];
+        [dataDict setValue:lastVersion forKey:@"lastVersion"];
+        [dataDict setValue:currentVersion forKey:@"currentVersion"];
+        if (result.code != GIZ_SDK_SUCCESS) {
             errDict = [NSDictionary makeErrorDictFromResultCode:result.code device:deviceDict];
         }
         [self.callBackManager callBackWithType:GizWifiRnResultTypeCheckUpdate identity:device.did resultDict:dataDict errorDict:errDict];
