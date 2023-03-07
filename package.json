@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.20",
+  "version": "2.26.21",
   "description": "增加安卓匿名登录回调",
   "main": "index.js",
   "scripts": {
