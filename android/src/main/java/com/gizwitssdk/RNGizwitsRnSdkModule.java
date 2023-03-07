@@ -139,7 +139,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
          * 用户登录回调
          */
         @Override
-        protected void didUserLogin(GizWifiErrorCode result, String uid,
+        public void didUserLogin(GizWifiErrorCode result, String uid,
                                     String token) {
             super.didUserLogin(result, uid, token);
             try {
