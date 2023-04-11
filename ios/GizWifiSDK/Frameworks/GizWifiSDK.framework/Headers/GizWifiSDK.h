@@ -21,6 +21,8 @@
 #import <GizWifiSDK/GizLiteGWSubDevice.h>
 #import <GizWifiSDK/GizWifiBleDevice.h>
 
+typedef void(^GizInnerCallbackHandler)(GizWifiErrorCode *result);
+
 @class GizWifiSDK;
 @class GizLiteGWSubDevice;
 @class GizWifiBleDevice;
@@ -937,6 +939,7 @@
  @see 回调 [GizWifiSDKDelegate didDeviceSafetyUnbind:]
  */
 + (void)deviceSafetyUnbind:(NSArray* _Nonnull)devicesInfo;
++ (void)deviceSafetyUnbindWithCallback:(NSArray* _Nonnull)devicesInfo callback:(GizInnerCallbackHandler _Nullable )callback;
 
 /**
  设置日志加密。此接口无回调。App若要设置日志加密，需要在调用sdk启动接口之前调用此接口。加密后，日志将不再输出到调试终端上
