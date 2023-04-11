@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.26.21",
-  "description": "增加安卓匿名登录回调",
+  "version": "2.26.22-beta-1",
+  "description": "蓝牙产品配置直接下载",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
