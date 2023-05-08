@@ -447,6 +447,36 @@ RCT_EXPORT_METHOD(changeDeviceMesh:(id)info result:(RCTResponseSenderBlock)resul
     //  [self.callBackManager addResult:result type:GizWifiRnResultTypeChangeDeviceMesh identity:nil repeatable:YES];
 }
 
+RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock)result){
+    NSDictionary *dict = [info dictionaryObject];
+    if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
+        return;
+    }
+
+    NSString *ssid = [dict stringValueForKey:@"ssid" defaultValue:@""];
+    NSString *key = [dict stringValueForKey:@"key" defaultValue:@""];
+    NSString *mac = [dict stringValueForKey:@"mac" defaultValue:nil];
+    GizWifiConfigureMode configMode = getConfigModeFromInteger([dict integerValueForKey:@"mode" defaultValue:-1]);
+    NSString *softAPSSIDPrefix = [dict stringValueForKey:@"softAPSSIDPrefix" defaultValue:@""];
+    NSArray *softAPSSIDPrefixs = [dict arrayValueForKey:@"softAPSSIDPrefixs" defaultValue:nil];
+    NSInteger timeout = [dict integerValueForKey:@"timeout" defaultValue:0];
+    BOOL isbind = [dict boolValueForKey:@"bind" defaultValue:YES];
+    NSArray *gagentTypes = [dict arrayValueForKey:@"gagentTypes" defaultValue:nil];
+
+    if (ssid.length == 0 || (NSInteger)configMode == -1) {
+        [self.callBackManager callbackParamInvalid:result];
+        return;
+    }
+
+    [self.callBackManager addResult:result type:GizWifiRnResultTypeSetDeviceOnboardingDeploy identity:nil repeatable:YES];
+    if (softAPSSIDPrefixs != nil) {
+        [[GizWifiSDK sharedInstance] setDeviceBleOnboarding:ssid key:key mac:mac configMode:configMode softAPSSIDPrefixs:softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:gagentTypes bind:isbind];
+    } else {
+        [[GizWifiSDK sharedInstance] setDeviceOnboardingDeploy:ssid key:key configMode:configMode softAPSSIDPrefix:softAPSSIDPrefix timeout:(int)timeout wifiGAgentType:gagentTypes bind:isbind];
+    }
+}
+
 #pragma mark - noti
 - (NSArray<NSString *> *)supportedEvents{
     return @[GizDeviceListNotifications, GizMeshDeviceListNotifications, GizDeviceLogNotifications, GizBleDeviceListNotifications,GizDeviceOnboardingProcessNotifications, GizDeviceOnboardingNotifications];

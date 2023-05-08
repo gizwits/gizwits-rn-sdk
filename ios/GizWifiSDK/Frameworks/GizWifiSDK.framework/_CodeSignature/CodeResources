@@ -110,7 +110,7 @@
 		</data>
 		<key>Headers/GizWifiSDK.h</key>
 		<data>
-		8ewJyT3G+a5Urls4VhGufo1LnI8=
+		UkFP1MubO2M3WoxvFTR1lTl+VU4=
 		</data>
 		<key>Headers/GizWifiSSID.h</key>
 		<data>
@@ -118,7 +118,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		KMiVoO/tmAcOCAJ1sPqLYs2dbqQ=
+		bod+zMq0er/5DgR6OcGE6hl4a74=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -421,11 +421,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8ewJyT3G+a5Urls4VhGufo1LnI8=
+			UkFP1MubO2M3WoxvFTR1lTl+VU4=
 			</data>
 			<key>hash2</key>
 			<data>
-			5Qm7D58eLcS+I4DIUT2dac3mQjS0GtVjHMgqb6EfCpo=
+			KZDK6UFdJDAyraiHQwoxxPQS1TaezZtbbd2Ny5tg9NI=
 			</data>
 		</dict>
 		<key>Headers/GizWifiSSID.h</key>
