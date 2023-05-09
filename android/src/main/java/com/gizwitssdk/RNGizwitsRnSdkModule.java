@@ -984,6 +984,103 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void setDeviceBleOnboarding(ReadableMap readableMap, Callback callback) {
+        if (callback == null) {
+            SDKLog.d("callbackContext is null");
+            return;
+        }
+        JSONObject args = readable2JsonObject(readableMap);
+        final String ssid = args.optString("ssid");
+        final String key = args.optString("key");
+        final String mac = args.optString("mac");
+
+        final int mode = args.optInt("mode");
+        final int timeout = args.optInt("timeout");
+        JSONArray softAPSSIDPrefixs = args.optJSONArray("softAPSSIDPrefixs");
+        JSONArray jsonarray = args.optJSONArray("gagentTypes");
+        final boolean isBind = args.optBoolean("bind");
+        setOnboardingCallback.add(0, callback);
+        final List<GizWifiGAgentType> types = new ArrayList<GizWifiGAgentType>();
+        final List<String> prefixs = new ArrayList<String>();
+        try {
+            if (softAPSSIDPrefixs != null) {
+                for (int i = 0; i < softAPSSIDPrefixs.length(); i++) {
+                    prefixs.add(softAPSSIDPrefixs.getString(i));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (jsonarray != null) {
+                for (int i = 0; i < jsonarray.length(); i++) {
+                    int type = jsonarray.getInt(i);
+                    switch (type) {
+                        case 0:
+                            types.add(GizWifiGAgentType.GizGAgentMXCHIP);
+                            break;
+                        case 1:
+                            types.add(GizWifiGAgentType.GizGAgentHF);
+                            break;
+                        case 2:
+                            types.add(GizWifiGAgentType.GizGAgentRTK);
+                            break;
+                        case 3:
+                            types.add(GizWifiGAgentType.GizGAgentWM);
+                            break;
+                        case 4:
+                            types.add(GizWifiGAgentType.GizGAgentESP);
+                            break;
+                        case 5:
+                            types.add(GizWifiGAgentType.GizGAgentQCA);
+                            break;
+                        case 6:
+                            types.add(GizWifiGAgentType.GizGAgentTI);
+                            break;
+
+                        case 7:
+                            types.add(GizWifiGAgentType.GizGAgentFSK);
+                            break;
+
+                        case 8:
+                            types.add(GizWifiGAgentType.GizGAgentMXCHIP3);
+                            break;
+
+                        case 9:
+                            types.add(GizWifiGAgentType.GizGAgentBL);
+                            break;
+
+                        case 10:
+                            types.add(GizWifiGAgentType.GizGAgentAtmelEE);
+                            break;
+
+                        case 11:
+                            types.add(GizWifiGAgentType.GizGAgentOther);
+                            break;
+                        case 12:
+                            types.add(GizWifiGAgentType.GizGAgentFlyLink);
+                            break;
+                        default:
+                            types.add(GizWifiGAgentType.GizGAgentESP);
+                            break;
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        switch (mode) {
+            case 3: 
+                GizWifiSDK.sharedInstance().setDeviceBleOnboarding(ssid, key, mac, GizWifiConfigureMode.GizWifiBleLink, prefixs, timeout, types, isBind);
+                break;
+            default: 
+                GizWifiSDK.sharedInstance().setDeviceBleOnboarding(ssid, key, mac, GizWifiConfigureMode.GizWifiBleLink, prefixs, timeout, types, isBind);
+                break;
+        }
+    }
+
+    @ReactMethod
     public void bindRemoteDevice(ReadableMap readableMap, Callback callbackContext) {
         JSONObject args = readable2JsonObject(readableMap);
         if (callbackContext == null) {

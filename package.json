@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.0-weiyi",
+  "version": "2.30.3-weiyi",
   "description": "增加checkDevice 线程安全",
   "main": "index.js",
   "scripts": {
