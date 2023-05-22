@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.3-weiyi",
-  "description": "增加checkDevice 线程安全",
+  "version": "2.30.5-weiyi",
+  "description": "增加版本号",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
