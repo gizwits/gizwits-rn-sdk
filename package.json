@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.27.8",
-  "description": "增加checkDevice 线程安全",
+  "version": "2.27.9",
+  "description": "安卓 蓝牙 timeoutHandler 替换成 HandlerThread实现，补丁处理sendCommandList 不启动问题",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
