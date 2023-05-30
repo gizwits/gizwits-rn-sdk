@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.7-weiyi",
-  "description": "增加版本号",
+  "version": "2.30.8-weiyi",
+  "description": "结束蓝牙配网后，重新启动蓝牙搜索",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
