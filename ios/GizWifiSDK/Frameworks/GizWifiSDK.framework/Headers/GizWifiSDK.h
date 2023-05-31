@@ -593,6 +593,8 @@ typedef void(^GizInnerCallbackHandler)(GizWifiErrorCode *result);
  */
 - (void)setDeviceOnboardingDeploy:(NSString * _Nonnull)ssid key:(NSString * _Nullable)key configMode:(GizWifiConfigureMode)mode softAPSSIDPrefix:(NSString * _Nullable)softAPSSIDPrefix timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
 
+- (void)setDeviceBleOnboarding:(NSString * _Nonnull)ssid key:(NSString * _Nullable)key mac:(NSString*_Nullable)mac configMode:(GizWifiConfigureMode)mode softAPSSIDPrefixs:(NSArray<NSString *> * _Nullable)softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
+
 /**
  设备配网接口。配网时可自动完成设备域名部署，此接口对模组固件版本向前兼容。
  设备处于 softap 模式时，模组会产生一个热点名称，手机 wifi 连接此热点后就可以配置了。如果是机智云提供的固件，模组热点名称前缀为"XPG-GAgent-"，密码为"123456789"或无密码。设备处于 airlink 模式时，手机随时都可以开始配置
