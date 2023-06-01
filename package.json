@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.1",
+  "version": "2.30.4",
   "description": "合并MTU，合并新大循环，修复蓝牙闪退",
   "main": "index.js",
   "scripts": {
