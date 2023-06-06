@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.6-beta-2",
+  "version": "2.30.6-beta-4",
   "description": "增加p0 mesh分组",
   "main": "index.js",
   "scripts": {

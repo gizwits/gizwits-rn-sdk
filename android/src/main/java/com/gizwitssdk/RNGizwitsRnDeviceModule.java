@@ -399,7 +399,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                         // 回调结果
                         JSONObject respCallBackResult = new JSONObject();
                         try {
-                            respCallBackResult.put("errorCode", GizWifiErrorCode.GIZ_SDK_SUCCESS.getResult());
+                            respCallBackResult.put("errorCode", result.getResult());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -441,7 +441,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void deleteMeshDeviceToGroup(ReadableMap readableMap, Callback callback) {
+    public void deleteMeshDeviceFromGroup(ReadableMap readableMap, Callback callback) {
         handleSetMeshDeviceToGroup(2, readableMap, callback);
     }
 
