@@ -363,70 +363,75 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
     }
 
     private void handleSetMeshDeviceToGroup(int type, ReadableMap readableMap, Callback callback){
-        JSONObject args = readable2JsonObject(readableMap);
-        JSONObject deviceobj = args.optJSONObject("device");
-        JSONArray macs = args.optJSONArray("macs");
-        Integer groupID = args.optInt("groupID");
+        try {
+            JSONObject args = readable2JsonObject(readableMap);
+            JSONObject deviceobj = args.optJSONObject("device");
+            JSONArray macs = args.optJSONArray("macs");
+            Integer groupID = args.optInt("groupID");
 
-        JSONObject result = new JSONObject();
+            JSONObject callBackResult = new JSONObject();
 
 
-        WritableArray macsArr = jsonArray2WriteableArray(macs);
-        String mac = deviceobj.optString("mac");
+            WritableArray macsArr = jsonArray2WriteableArray(macs);
+            String mac = deviceobj.optString("mac");
 
-        GizWifiBleDevice device = RNGizwitsDeviceCache.getInstance()
-                .findBleDeviceByMac(mac);
+            GizWifiBleDevice device = RNGizwitsDeviceCache.getInstance()
+                    .findBleDeviceByMac(mac);
 
-        if (device != null) {
-            if(device.getNetStatus()!=GizWifiDeviceNetStatus.GizDeviceControlled){
-                // 回调设备未就绪
-                SDKLog.d("addMeshDeviceToGroup 设备未就绪");
-                result.put("errorCode",
-                        GizWifiErrorCode.GIZ_SDK_DEVICE_NOT_READY.getResult());
-                sendResultEvent(callback, null, result);
-                return;
-            }
+            if (device != null) {
+                if (device.getNetStatus() != GizWifiDeviceNetStatus.GizDeviceControlled) {
+                    // 回调设备未就绪
+                    SDKLog.d("addMeshDeviceToGroup 设备未就绪");
+                    callBackResult.put("errorCode",
+                            GizWifiErrorCode.GIZ_SDK_DEVICE_NOT_READY.getResult());
+                    sendResultEvent(callback, null, callBackResult);
+                    return;
+                }
 
-            List<String> macsList = new ArrayList();
-            try{
+                List<String> macsList = new ArrayList();
                 for (int i = 0; i < macs.length(); i++) {
                     macsList.add(macs.getString(i));
                 }
-            }
-            catch (JSONException e) {
-                e.printStackTrace();
-            }
 
-            GizBleDeviceMeshListener listener = new GizBleDeviceMeshListener() {
-                @Override
-                public void didRespont(GizWifiBleDevice device, GizWifiErrorCode result) {
-                    // 回调结果
-                    result.put("errorCode", GizWifiErrorCode.GIZ_SDK_SUCCESS.getResult());
+                GizBleDeviceMeshListener listener = new GizBleDeviceMeshListener() {
+                    @Override
+                    public void didRespont(GizWifiBleDevice device, GizWifiErrorCode result) {
+                        // 回调结果
+                        JSONObject respCallBackResult = new JSONObject();
+                        try {
+                            respCallBackResult.put("errorCode", GizWifiErrorCode.GIZ_SDK_SUCCESS.getResult());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                    if (GizWifiErrorCode.GIZ_SDK_SUCCESS) {
-                        sendResultEvent(callback, result, null);
-                    } else {
-                        sendResultEvent(callback, null, result);
+
+                        if (GizWifiErrorCode.GIZ_SDK_SUCCESS == result) {
+                            sendResultEvent(callback, respCallBackResult, null);
+                        } else {
+                            sendResultEvent(callback, null, respCallBackResult);
+                        }
+                        SDKLog.d("addMeshDeviceToGroup respont" + result);
                     }
-                    SDKLog.d("addMeshDeviceToGroup respont" + result);
+                };
+
+                SDKLog.d("addMeshDeviceToGroup groupID:" + groupID + ", mac:" + String.join("", macsList));
+
+                if (type == 1) {
+                    device.addMeshDeviceToGroup(macsList, groupID, listener);
+                } else {
+                    device.deleteMeshDeviceFromGroup(macsList, groupID, listener);
+
                 }
-            };
 
-            SDKLog.d("addMeshDeviceToGroup groupID:" + groupID + ", mac:" + String.join("", macsList));
-
-            if (type == 1) {
-                device.addMeshDeviceToGroup(macsList, groupID, listener);
             } else {
-                device.deleteMeshDeviceToGroup(macsList, groupID, listener);
-
+                // 回调设备不存在
+                SDKLog.d("addMeshDeviceToGroup 设备不存在");
+                callBackResult.put("errorCode",
+                        GizWifiErrorCode.GIZ_OPENAPI_DEVICE_NOT_FOUND.getResult());
+                sendResultEvent(callback, null, callBackResult);
             }
-
-        } else {
-            // 回调设备不存在
-            SDKLog.d("addMeshDeviceToGroup 设备不存在");
-            result.put("errorCode",
-                    GizWifiErrorCode.GIZ_OPENAPI_DEVICE_NOT_FOUND.getResult());
-            sendResultEvent(callback, null, result);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
