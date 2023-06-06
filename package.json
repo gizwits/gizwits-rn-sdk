@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.4",
-  "description": "合并MTU，合并新大循环，修复蓝牙闪退",
+  "version": "2.30.6-beta-1",
+  "description": "增加p0 mesh分组",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

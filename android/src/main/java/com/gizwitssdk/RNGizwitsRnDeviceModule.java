@@ -31,6 +31,8 @@ import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.enumration.GizOTAFirmwareType;
 
 import com.gizwits.gizwifisdk.listener.GizWifiDeviceListener;
+import com.gizwits.gizwifisdk.listener.GizBleDeviceMeshListener;
+
 import com.gizwits.gizwifisdk.listener.GizDeviceBleOTAListener;
 
 import com.gizwits.gizwifisdk.log.SDKLog;
@@ -358,6 +360,84 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void handleSetMeshDeviceToGroup(int type, ReadableMap readableMap, Callback callback){
+        JSONObject args = readable2JsonObject(readableMap);
+        JSONObject deviceobj = args.optJSONObject("device");
+        JSONArray macs = args.optJSONArray("macs");
+        Integer groupID = args.optInt("groupID");
+
+        JSONObject result = new JSONObject();
+
+
+        WritableArray macsArr = jsonArray2WriteableArray(macs);
+        String mac = deviceobj.optString("mac");
+
+        GizWifiBleDevice device = RNGizwitsDeviceCache.getInstance()
+                .findBleDeviceByMac(mac);
+
+        if (device != null) {
+            if(device.getNetStatus()!=GizWifiDeviceNetStatus.GizDeviceControlled){
+                // 回调设备未就绪
+                SDKLog.d("addMeshDeviceToGroup 设备未就绪");
+                result.put("errorCode",
+                        GizWifiErrorCode.GIZ_SDK_DEVICE_NOT_READY.getResult());
+                sendResultEvent(callback, null, result);
+                return;
+            }
+
+            List<String> macsList = new ArrayList();
+            try{
+                for (int i = 0; i < macs.length(); i++) {
+                    macsList.add(macs.getString(i));
+                }
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            GizBleDeviceMeshListener listener = new GizBleDeviceMeshListener() {
+                @Override
+                public void didRespont(GizWifiBleDevice device, GizWifiErrorCode result) {
+                    // 回调结果
+                    result.put("errorCode", GizWifiErrorCode.GIZ_SDK_SUCCESS.getResult());
+
+                    if (GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                        sendResultEvent(callback, result, null);
+                    } else {
+                        sendResultEvent(callback, null, result);
+                    }
+                    SDKLog.d("addMeshDeviceToGroup respont" + result);
+                }
+            };
+
+            SDKLog.d("addMeshDeviceToGroup groupID:" + groupID + ", mac:" + String.join("", macsList));
+
+            if (type == 1) {
+                device.addMeshDeviceToGroup(macsList, groupID, listener);
+            } else {
+                device.deleteMeshDeviceToGroup(macsList, groupID, listener);
+
+            }
+
+        } else {
+            // 回调设备不存在
+            SDKLog.d("addMeshDeviceToGroup 设备不存在");
+            result.put("errorCode",
+                    GizWifiErrorCode.GIZ_OPENAPI_DEVICE_NOT_FOUND.getResult());
+            sendResultEvent(callback, null, result);
+        }
+    }
+
+    @ReactMethod
+    public void addMeshDeviceToGroup(ReadableMap readableMap, Callback callback) {
+        handleSetMeshDeviceToGroup(1, readableMap, callback);
+    }
+
+    @ReactMethod
+    public void deleteMeshDeviceToGroup(ReadableMap readableMap, Callback callback) {
+        handleSetMeshDeviceToGroup(2, readableMap, callback);
     }
 
     @ReactMethod

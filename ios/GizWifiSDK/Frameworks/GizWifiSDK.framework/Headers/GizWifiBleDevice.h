@@ -38,6 +38,16 @@ typedef void (^otaProgressListener)(NSInteger firmwareSize, NSInteger packageMax
 - (void)disconnectBle: (bleCallback)callback;
 
 /**
+ 添加mesh设备到分组
+ */
+- (void)deleteMeshDeviceFromGroup:(NSArray<NSString *> *)macs groupID:(int)groupID callback:(bleCallback)callback;
+
+/**
+ 删除mesh设备从分组
+ */
+- (void)addMeshDeviceToGroup:(NSArray<NSString *> *)macs withGroup:(int)groupID callback:(bleCallback)callback;
+
+/**
  升级固件
  @param firmwateType 选择固件类型是mcu还是模组
  */
