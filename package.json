@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.6",
-  "description": "更新sdk，不主动查重置，蓝牙配网结束的时候，设置isConfiguring=No",
+  "version": "2.30.7-biken-1",
+  "description": "启用uuid过滤",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
