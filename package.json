@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.7-biken-1",
-  "description": "启用uuid过滤",
+  "version": "2.30.7-biken-2",
+  "description": "修改重置回写顺序",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
