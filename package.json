@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.8",
+  "version": "2.30.9",
   "description": "ios注册蓝牙延时500ms，接收重置事件",
   "main": "index.js",
   "scripts": {
