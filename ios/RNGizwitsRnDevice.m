@@ -213,20 +213,22 @@ RCT_EXPORT_METHOD(disconnectBle:(id)info result:(RCTResponseSenderBlock)result) 
         return;
     }
 
+    NSInteger sn = [GizSn getSn];
+    NSString identity = device.did + sn;
     if (isConnect) {
-        [self.callBackManager addResult:result type:GizWifiRnResultTypeConnectBle identity:device.did repeatable:YES];
+        [self.callBackManager addResult:result type:GizWifiRnResultTypeConnectBle identity:identity repeatable:YES];
         [device connectBle:^(GizWifiErrorCode errorCode) {
-            [self connectOrDisconnectCallback:YES errorCode:errorCode device:device];
+            [self connectOrDisconnectCallback:YES errorCode:errorCode device:device sn: sn];
         }];
     } else {
-        [self.callBackManager addResult:result type:GizWifiRnResultTypeDisconnectBle identity:device.did repeatable:YES];
+        [self.callBackManager addResult:result type:GizWifiRnResultTypeDisconnectBle identity:identity repeatable:YES];
         [device disconnectBle:^(GizWifiErrorCode errorCode) {
-            [self connectOrDisconnectCallback:NO errorCode:errorCode device:device];
+            [self connectOrDisconnectCallback:NO errorCode:errorCode device:device sn: sn];
         }];
     }
 }
 
-- (void)connectOrDisconnectCallback:(BOOL)isConnect errorCode:(GizWifiErrorCode)errorCode device:(GizWifiDevice *)device {
+- (void)connectOrDisconnectCallback:(BOOL)isConnect errorCode:(GizWifiErrorCode)errorCode device:(GizWifiDevice *)device sn:(NSInteger)sn {
     NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
     NSDictionary *errDict = nil;
     NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
@@ -235,10 +237,11 @@ RCT_EXPORT_METHOD(disconnectBle:(id)info result:(RCTResponseSenderBlock)result) 
     } else {
         errDict = [NSDictionary makeErrorDictFromResultCode:errorCode device:deviceDict];
     }
+    NSString identity = device.did + sn;
     if (isConnect) {
-        [self.callBackManager callBackWithType:GizWifiRnResultTypeConnectBle identity:device.did resultDict:dataDict errorDict:errDict];
+        [self.callBackManager callBackWithType:GizWifiRnResultTypeConnectBle identity:identity resultDict:dataDict errorDict:errDict];
     } else {
-        [self.callBackManager callBackWithType:GizWifiRnResultTypeDisconnectBle identity:device.did resultDict:dataDict errorDict:errDict];
+        [self.callBackManager callBackWithType:GizWifiRnResultTypeDisconnectBle identity:identity resultDict:dataDict errorDict:errDict];
     }
 }
 
