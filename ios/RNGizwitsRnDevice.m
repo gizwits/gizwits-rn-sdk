@@ -214,7 +214,8 @@ RCT_EXPORT_METHOD(disconnectBle:(id)info result:(RCTResponseSenderBlock)result) 
     }
 
     NSInteger sn = [GizSn getSn];
-    NSString identity = device.did + sn;
+    NSString *snString = [NSString stringWithFormat:@"%ld", (long)sn];
+    NSString *identity = [device.did stringByAppendingString:snString];
     if (isConnect) {
         [self.callBackManager addResult:result type:GizWifiRnResultTypeConnectBle identity:identity repeatable:YES];
         [device connectBle:^(GizWifiErrorCode errorCode) {
@@ -237,7 +238,8 @@ RCT_EXPORT_METHOD(disconnectBle:(id)info result:(RCTResponseSenderBlock)result) 
     } else {
         errDict = [NSDictionary makeErrorDictFromResultCode:errorCode device:deviceDict];
     }
-    NSString identity = device.did + sn;
+    NSString *snString = [NSString stringWithFormat:@"%ld", (long)sn];
+    NSString *identity = [device.did stringByAppendingString:snString];
     if (isConnect) {
         [self.callBackManager callBackWithType:GizWifiRnResultTypeConnectBle identity:identity resultDict:dataDict errorDict:errDict];
     } else {
