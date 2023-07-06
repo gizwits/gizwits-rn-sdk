@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.10",
+  "version": "2.30.11",
   "description": "修正蓝牙连接回调",
   "main": "index.js",
   "scripts": {
