@@ -9,12 +9,16 @@
 #import "NSDictionary+Giz.h"
 #import "GizWifiRnCallBackManager.h"
 #import "GizWifiDef.h"
+#import "gizwits_c_sdk.h"
 #import "GizWifiDeviceCache.h"
 #import <objc/runtime.h>
+#import <jsi/jsi.h>
+#import <React/RCTBridge+Private.h>
+#import <React/RCTUtils.h>
+#import "YeetJSIUtils.h"
 
 
 #define SDK_MODULE_VERSION      @"2.26.4"
-
 /**
  @brief GizCompareDeviceProperityType枚举，描述两个设备的属性值是否相同
  */
@@ -33,8 +37,38 @@ typedef NS_ENUM(NSInteger, GizCompareDeviceProperityType) {
 @property (nonatomic) bool supportBle;
 @end
 
+using namespace facebook::jsi;
+using namespace std;
+
 @implementation RNGizwitsRnSdk
 RCT_EXPORT_MODULE();
+
++ (BOOL)requiresMainQueueSetup {
+    return YES;
+}
+
+// Installing JSI Bindings as done by
+// https://github.com/mrousavy/react-native-mmkv
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install)
+{
+    RCTBridge* bridge = [RCTBridge currentBridge];
+    RCTCxxBridge* cxxBridge = (RCTCxxBridge*)bridge;
+    if (cxxBridge == nil) {
+        return @false;
+    }
+
+    auto jsiRuntime = (facebook::jsi::Runtime*) cxxBridge.runtime;
+    if (jsiRuntime == nil) {
+        return @false;
+    }
+
+    gizwits_c_sdk::install(*(facebook::jsi::Runtime *)jsiRuntime);
+    install(*(facebook::jsi::Runtime *)jsiRuntime, self);
+  
+   
+    return @true;
+}
+
 - (dispatch_queue_t)methodQueue{
     return dispatch_get_main_queue();
 }
@@ -137,6 +171,12 @@ RCT_EXPORT_METHOD(getVersion:(RCTResponseSenderBlock)result){
         result(@[[NSNull null], data]);
     }
 }
+
+- (NSString *)getVersion_c {
+    NSString *nativeVersion = [GizWifiSDK getVersion];
+    return nativeVersion;
+}
+
 RCT_EXPORT_METHOD(getBoundBleDevice:(RCTResponseSenderBlock)result){
     NSArray *bleDevices = [[GizWifiSDK sharedInstance] getBoundBleDevice];
     if (!bleDevices) {
@@ -416,7 +456,7 @@ RCT_EXPORT_METHOD(getLog:(id)info result:(RCTResponseSenderBlock)result){
 
     NSDictionary *dict = [info dictionaryObject];
 
-    NSInteger *type = [dict integerValueForKey:@"type" defaultValue:0];
+    NSInteger type = [dict integerValueForKey:@"type" defaultValue:0];
     NSString *address = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/GizWifiSDK"];
     NSString *clientAddress = [NSString stringWithFormat:@"%@%@", address, @"/GizSDKLog/Client/GizSDKClientLogFile.sys" ];
     NSString *deamonAddress = [NSString stringWithFormat:@"%@%@", address, @"/GizSDKLog/Daemon/GizSDKLogFile.sys" ];
@@ -552,7 +592,12 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
     NSLog(@">>> %@", deviceList);
     NSDictionary *dataDict = nil;
     NSDictionary *errDict = nil;
-
+    
+    NSMutableArray *arrDevice = [NSMutableArray array];
+    RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
+    Runtime &jsiRuntime = *(facebook::jsi::Runtime *)cxxBridge.runtime;
+    jsi::Object dataObject = jsi::Object(jsiRuntime);
+    
     BOOL isCallback = [self.callBackManager haveCallBack:GizWifiRnResultTypeGetBoundDevices identity:nil];
 
     if (result.code == GIZ_SDK_SUCCESS) {
@@ -561,10 +606,11 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
             NSLog(@"test - 主动上报，且设备列表只有NetStatus发生变化，不回调列表");
             return;
         }
-        NSMutableArray *arrDevice = [NSMutableArray array];
+        
         [self.oldDeviceList removeAllObjects];
         for (GizWifiDevice *device in deviceList) {
             NSDictionary *dictDevice = [NSDictionary makeDictFromDeviceWithProperties:device];
+            NSUInteger index = [deviceList indexOfObject:device];
             [arrDevice addObject:dictDevice];
             [self.oldDeviceList setValue:dictDevice forKey:device.macAddress];
         }
@@ -575,10 +621,27 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
 
     if (isCallback) {
         // 有回调，要回
-        NSLog(@"test - 调用getBoundDevice得到的回调，回复回调");
         [self.callBackManager callBackWithType:GizWifiRnResultTypeGetBoundDevices identity:nil resultDict:dataDict errorDict:errDict];
     }
-    [self notiWithType:GizWifiRnResultTypeDeviceListNoti result:errDict ? : dataDict];
+    
+    [self emitJSI:"GizDeviceListNotifications" data:dataDict];
+    
+//    NSError *error;
+//    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:&error];
+//
+//    if (!jsonData) {
+//        NSLog(@"转换为 JSON 数据时出错：%@", error);
+//    } else {
+//        // 将 JSON 数据转换为字符串
+//        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+//
+//        std::string utf8String = [jsonString UTF8String];
+//        facebook::jsi::String jsiString = facebook::jsi::String::createFromUtf8(jsiRuntime, utf8String.c_str());
+//
+//        [self emitJSI:"GizDeviceListNotifications" data:std::move(jsiString)];
+//    }
+    
+//    [self notiWithType:GizWifiRnResultTypeDeviceListNoti result:errDict ? : dataDict];
 }
 
 //- (void)wifiSDK:(GizWifiSDK *)wifiSDK didDiscoveredMeshDevices:(NSError *)result meshDeviceList:(NSArray *)meshDeviceList{
@@ -909,7 +972,7 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
         return GizCompareDeviceProperityUnEqual;
     }
 
-    GizWifiDeviceNetStatus dicNetStatus = [deviceDic integerValueForKey:@"netStatus" defaultValue:GizDeviceOffline];
+    NSInteger dicNetStatus = [deviceDic integerValueForKey:@"netStatus" defaultValue:GizDeviceOffline];
     if (dicNetStatus == device.netStatus) {
         return GizCompareDeviceProperityAllEqual;
     }
@@ -932,6 +995,50 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
     }
     return _oldDeviceList;
 }
+
+
+static void install(facebook::jsi::Runtime &jsiRuntime, RNGizwitsRnSdk *rnGizwitsRnSdk) {
+    auto getVersion = Function::createFromHostFunction(jsiRuntime,
+                                                          PropNameID::forAscii(jsiRuntime,
+                                                                               "getVersion"),
+                                                          0,
+                                                          [rnGizwitsRnSdk](Runtime &runtime,
+                                                                   const Value &thisValue,
+                                                                   const Value *arguments,
+                                                                   size_t count) -> Value {
+        
+        jsi::String deviceName = convertNSStringToJSIString(runtime, [rnGizwitsRnSdk getVersion_c]);
+        
+        return Value(runtime, deviceName);
+    });
+    
+    jsiRuntime.global().setProperty(jsiRuntime, "getVersion", move(getVersion));
+    
+    
+}
+
+- (void)emitJSI:(const char *)name data:(NSDictionary *)data{
+  RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
+  Runtime &jsiRuntime = *(facebook::jsi::Runtime *)cxxBridge.runtime;
+    
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:NSJSONWritingPrettyPrinted error:&error];
+
+    if (!jsonData) {
+        NSLog(@"转换为 JSON 数据时出错：%@", error);
+    } else {
+        // 将 JSON 数据转换为字符串
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+
+        std::string utf8String = [jsonString UTF8String];
+        facebook::jsi::String jsiString = facebook::jsi::String::createFromUtf8(jsiRuntime, utf8String.c_str());
+
+        jsiRuntime.global().getProperty(jsiRuntime, name).asObject(jsiRuntime).asFunction(jsiRuntime).call(jsiRuntime,jsiString, 1);
+    }
+    
+    
+}
+
 @end
 
 

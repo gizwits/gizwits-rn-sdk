@@ -21,7 +21,7 @@ GizWifiConfigureMode getConfigModeFromInteger(NSInteger integerValue) {
         default:
             break;
     }
-    return -1;
+    return GizWifiSoftAP;
 }
 
 GizMeshVerdor getMeshVerdorFromInteger(NSInteger integerValue) {
@@ -37,7 +37,7 @@ GizMeshVerdor getMeshVerdorFromInteger(NSInteger integerValue) {
         default:
             break;
     }
-    return -1;
+    return GizMeshTelink;
 }
 
 XPGConfigureMode getCompatibleConfigModeFromInteger(NSInteger integerValue) {
@@ -50,7 +50,7 @@ XPGConfigureMode getCompatibleConfigModeFromInteger(NSInteger integerValue) {
         default:
             break;
     }
-    return -1;
+    return XPGWifiSDKSoftAPMode;
 }
 
 GizLogPrintLevel getLogLevelFromInteger(NSInteger integerValue) {
@@ -72,7 +72,7 @@ GizLogPrintLevel getLogLevelFromInteger(NSInteger integerValue) {
         default:
             break;
     }
-    return -1;
+    return GizLogPrintNone;
 }
 
 NSInteger getDeviceTypeFromEnum(GizWifiDeviceType enumValue) {
@@ -88,7 +88,7 @@ NSInteger getDeviceTypeFromEnum(GizWifiDeviceType enumValue) {
         default:
             break;
     }
-    return -1;
+    return GizDeviceNormal;
 }
 
 NSInteger getEventTypeFromEnum(GizEventType enumValue) {
@@ -110,7 +110,7 @@ NSInteger getEventTypeFromEnum(GizEventType enumValue) {
         default:
             break;
     }
-    return -1;
+    return GizEventSDK;
 }
 
 GizThirdAccountType getThirdAccountTypeFromInteger(NSInteger integerValue) {
@@ -131,7 +131,7 @@ GizThirdAccountType getThirdAccountTypeFromInteger(NSInteger integerValue) {
         default:
             break;
     }
-    return -1;
+    return GizThirdBAIDU;
 }
 
 GizUserGenderType getUserGenderTypeFromInteger(NSInteger integerValue) {
@@ -150,7 +150,7 @@ GizUserGenderType getUserGenderTypeFromInteger(NSInteger integerValue) {
         default:
             break;
     }
-    return -1;
+    return GizUserGenderMale;
 }
 
 GizUserAccountType getUserAccountTypeFromInteger(NSInteger integerValue) {
@@ -169,7 +169,7 @@ GizUserAccountType getUserAccountTypeFromInteger(NSInteger integerValue) {
         default:
             break;
     }
-    return -1;
+    return GizUserNormal;
 }
 
 GizPushType getPushTypeFromInteger(NSInteger integerValue)
@@ -186,7 +186,7 @@ GizPushType getPushTypeFromInteger(NSInteger integerValue)
         default:
             break;
     }
-    return -1;
+    return GizPushBaiDu;
 }
 
 GizWifiDeviceNetStatus getDeviceNetStatus(NSInteger integerValue) {
@@ -205,7 +205,7 @@ GizWifiDeviceNetStatus getDeviceNetStatus(NSInteger integerValue) {
         default:
             break;
     }
-    return -1;
+    return GizDeviceOffline;
 }
 
 NSInteger getDeviceOnboardingProcessTypeFromEnum(GizConfigureProcess enumValue){
@@ -228,7 +228,7 @@ NSInteger getDeviceOnboardingProcessTypeFromEnum(GizConfigureProcess enumValue){
         default:
             break;
     }
-    return -1;
+    return GizConfigureDidBecomeActive;
 }
 
 GizOTAFirmwareType getOTAFirmareTypeFromInteger(NSInteger integerValue) {
@@ -249,7 +249,7 @@ NSInteger getBleWorkStatusFromEnum(GizBleWorkStatusType enumValue) {
         default:
             break;
     }
-    return 1;
+    return GizBleWorkStatusTypeNormal;
 }
 
 NSString* getOTAEventTypeFromEnum(GizOTAEventType enumValue) {

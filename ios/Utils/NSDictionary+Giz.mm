@@ -55,7 +55,7 @@
 - (NSArray *)byteArrayForData:(NSData *)data {
   NSMutableArray<NSNumber *> *numberArray = [NSMutableArray new];
   
-  const unsigned char *bytes = data.bytes;
+  const unsigned char *bytes = (const unsigned char *)data.bytes;
   
   for (NSUInteger i = 0; i < data.length; i++) {
     NSUInteger byte = bytes[i];
@@ -93,7 +93,7 @@
   NSMutableData *data = [NSMutableData dataWithCapacity:byteArray.count];
   
   for (NSNumber *number in byteArray) {
-    unsigned char byte[] = {number.unsignedIntegerValue};
+      unsigned char byte[] = {static_cast<unsigned char>(number.unsignedIntegerValue)};
     [data appendBytes:byte length:sizeof(byte)];
   }
   

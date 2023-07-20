@@ -6,7 +6,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import java.util.List;
 import java.util.ArrayList;
-
+import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -50,8 +50,9 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by linyingqi on 2018/12/19.
  */
-
+@ReactModule(name = RNGizwitsRnSdkModule.NAME)
 public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
+    public static final String NAME = "RNGizwitsRnDeviceModule";
 
     private Map<String,Callback> getDeviceStatusCallback= new HashMap<String, Callback>();
     private  Map<String,Callback> writeCallback= new HashMap<String, Callback>();
@@ -60,11 +61,29 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
     // 保留临时OTA数据
     private OTAPreCheckParse preCheckData;
     private int firmwareSize;
+    private native void nativeInstallDevice(long jsiPtr, String docDir);
+    private native void emitJSIObject(long jsiPtr, String name, JSONObject data);
 
 
     Map<String, Callback> subscribeCallbacks = new HashMap<String, Callback>();
 
     private final ReactApplicationContext reactContext;
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public boolean install() {
+      try {
+        System.loadLibrary("gizwitsjsi");
+
+        ReactApplicationContext context = getReactApplicationContext();
+        nativeInstallDevice(
+          context.getJavaScriptContextHolder().get(),
+          context.getFilesDir().getAbsolutePath()
+        );
+        return true;
+      } catch (Exception exception) {
+        return false;
+      }
+    }
 
     GizDeviceBleOTAListener bleOtaListener = new GizDeviceBleOTAListener() {
         public void didCheckUpdate(GizWifiErrorCode code, GizWifiBleDevice device, String lastVersion, String currentVersion) {
@@ -190,7 +209,9 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
                 // 利用状态上报做回调
                 jsonResult.put("netStatus", _netStatus);
-                callbackDeviceStatus(jsonResult);
+                ReactApplicationContext context = getReactApplicationContext();
+                emitJSIObject(context.getJavaScriptContextHolder().get(), "GizDeviceNetStatusNotifications", jsonResult);
+//                callbackDeviceStatus(jsonResult);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -580,6 +601,12 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
         }
     }
 
+    public void setSubscribe_c(String mac, String did, String productSecret, boolean subscribed) {
+      GizWifiDevice device = RNGizwitsDeviceCache.getInstance()
+        .findDeviceByMac(mac, did);
+      device.setListener(deviceListener);
+      device.setSubscribe(productSecret, subscribed);
+    }
     @ReactMethod
     public void setSubscribeNotGetDeviceStatus(ReadableMap readableMap, Callback callback) {
         JSONObject args = readable2JsonObject(readableMap);
@@ -1010,10 +1037,8 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
     }
 
     public void callbackDeviceStatus(JSONObject params) {
-        WritableMap writableMap = jsonObject2WriteableMap(params);
-        reactContext
-                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit("GizDeviceStatusNotifications", writableMap);
+      ReactApplicationContext context = getReactApplicationContext();
+      emitJSIObject(context.getJavaScriptContextHolder().get(), "GizDeviceStatusNotifications", params);
     }
 
     public void callbackAppToDevDeviceStatus(JSONObject params) {

@@ -10,9 +10,18 @@
 #import "NSDictionary+Giz.h"
 #import "GizWifiRnCallBackManager.h"
 #import "GizWifiDef.h"
+#import "gizwits_c_sdk.h"
 #import "GizWifiDeviceCache.h"
+#import <objc/runtime.h>
+#import <jsi/jsi.h>
+#import <React/RCTBridge+Private.h>
+#import <React/RCTUtils.h>
+#import "YeetJSIUtils.h"
 
 #define GizWifiError_DEVICE_IS_INVALID  GIZ_SDK_DEVICE_DID_INVALID
+
+using namespace facebook::jsi;
+using namespace std;
 
 @interface RNGizwitsRnDevice()<GizWifiDeviceDelegate>
 @property (nonatomic, strong) GizWifiRnCallBackManager *callBackManager;
@@ -20,6 +29,34 @@
 
 @implementation RNGizwitsRnDevice
 RCT_EXPORT_MODULE();
+
+
++ (BOOL)requiresMainQueueSetup {
+    return YES;
+}
+
+// Installing JSI Bindings as done by
+// https://github.com/mrousavy/react-native-mmkv
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install)
+{
+    RCTBridge* bridge = [RCTBridge currentBridge];
+    RCTCxxBridge* cxxBridge = (RCTCxxBridge*)bridge;
+    if (cxxBridge == nil) {
+        return @false;
+    }
+
+    auto jsiRuntime = (facebook::jsi::Runtime*) cxxBridge.runtime;
+    if (jsiRuntime == nil) {
+        return @false;
+    }
+
+    gizwits_c_sdk::install(*(facebook::jsi::Runtime *)jsiRuntime);
+    install(*(facebook::jsi::Runtime *)jsiRuntime, self);
+  
+   
+    return @true;
+}
+
 - (dispatch_queue_t)methodQueue{
     return dispatch_get_main_queue();
 }
@@ -30,6 +67,7 @@ static id _instace;
     dispatch_once(&onceToken, ^{
         _instace = [super allocWithZone:zone];
     });
+    [_instace callBackManager];
     return _instace;
 }
 
@@ -53,6 +91,13 @@ RCT_EXPORT_METHOD(setSubscribe:(id)info result:(RCTResponseSenderBlock)result) {
     }
     [self.callBackManager addResult:result type:GizWifiRnResultTypeSetSubscribe identity:device.did repeatable:YES];
     [device setSubscribe:productSecret subscribed:subscribed];
+}
+
+- (NSInteger *)setSubscribe_c:(NSString*)mac did:(NSString*)did productKey:(NSString*)productKey productSecret:(NSString*)productSecret subscribed:(BOOL)subscribed{
+    GizWifiDevice *device = [GizWifiDeviceCache cachedDeviceWithMacAddress:mac did:did];
+    
+    [device setSubscribe:productSecret subscribed:subscribed];
+    return 0;
 }
 
 RCT_EXPORT_METHOD(setSubscribeNotGetDeviceStatus:(id)info result:(RCTResponseSenderBlock)result) {
@@ -109,7 +154,7 @@ RCT_EXPORT_METHOD(deleteMeshDeviceFromGroup:(id)info result:(RCTResponseSenderBl
     }
     NSDictionary *deviceDict = [dict dictValueForKey:@"device" defaultValue:dict];
     NSString *mac = [deviceDict stringValueForKey:@"mac" defaultValue:@""];
-    NSInteger *groupID = [dict integerValueForKey:@"groupID" defaultValue:0];
+    NSInteger groupID = [dict integerValueForKey:@"groupID" defaultValue:0];
     NSString *productKey = [deviceDict stringValueForKey:@"productKey" defaultValue:@""];
     NSArray *macs = [dict arrayValueForKey:@"macs" defaultValue:nil];
     GizWifiBleDevice *device = [GizWifiDeviceCache cachedBleDeviceWithMacAddress:mac productKey:productKey];
@@ -137,7 +182,7 @@ RCT_EXPORT_METHOD(addMeshDeviceToGroup:(id)info result:(RCTResponseSenderBlock)r
     }
     NSDictionary *deviceDict = [dict dictValueForKey:@"device" defaultValue:dict];
     NSString *mac = [deviceDict stringValueForKey:@"mac" defaultValue:@""];
-    NSInteger *groupID = [dict integerValueForKey:@"groupID" defaultValue:0];
+    NSInteger groupID = [dict integerValueForKey:@"groupID" defaultValue:0];
     NSString *productKey = [deviceDict stringValueForKey:@"productKey" defaultValue:@""];
     NSArray *macs = [dict arrayValueForKey:@"macs" defaultValue:nil];
     GizWifiBleDevice *device = [GizWifiDeviceCache cachedBleDeviceWithMacAddress:mac productKey:productKey];
@@ -180,6 +225,7 @@ RCT_EXPORT_METHOD(write:(id)info result:(RCTResponseSenderBlock)result) {
             return;
         }
     }
+    
     [self.callBackManager addResult:result type:GizWifiRnResultTypeWrite identity:[NSString stringWithFormat:@"%@+%ld", device.did, sn] repeatable:YES];
     if (sn != -1) {
         [device write:data withSN:(int)sn];
@@ -325,7 +371,8 @@ RCT_EXPORT_METHOD(startUpgrade:(id)info result:(RCTResponseSenderBlock)result) {
 - (void)notiWithType:(GizWifiRnResultType)type result:(NSDictionary *)result{
     switch (type) {
         case GizWifiRnResultTypeDeviceStatusNoti:{
-            [self sendEventWithName:GizDeviceStatusNotifications body:result];
+            [self emitJSI:"GizDeviceStatusNotifications" data:result];
+//            [self sendEventWithName:GizDeviceStatusNotifications body:result];
             break;
         }
         case GizWifiRnResultTypeAppToDevNoti:{
@@ -374,17 +421,27 @@ RCT_EXPORT_METHOD(startUpgrade:(id)info result:(RCTResponseSenderBlock)result) {
 
 - (void)device:(GizWifiDevice *)device didUpdateNetStatus:(GizWifiDeviceNetStatus)netStatus{
     NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
+    RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
+    Runtime &jsiRuntime = *(facebook::jsi::Runtime *)cxxBridge.runtime;
     
-    NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
-    [dataDict setValue:deviceDict forKey:@"device"];
-    [dataDict setValue:@(netStatus) forKey:@"netStatus"];
-    if ([device isMemberOfClass:[GizWifiBleDevice class]]) {
-        GizWifiBleDevice *bleDevice = (GizWifiBleDevice *)device;
-        // 子设备其他属性
-        [dataDict setValue:@(bleDevice.isBlueLocal) forKey:@"isBlueLocal"];
-    }
+//    NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
+//    [dataDict setValue:deviceDict forKey:@"device"];
+//    [dataDict setValue:@(netStatus) forKey:@"netStatus"];
+//    if ([device isMemberOfClass:[GizWifiBleDevice class]]) {
+//        GizWifiBleDevice *bleDevice = (GizWifiBleDevice *)device;
+//        // 子设备其他属性
+//        [dataDict setValue:@(bleDevice.isBlueLocal) forKey:@"isBlueLocal"];
+//    }
     
-    [self notiWithType:GizWifiRnResultTypeDeviceStatusNoti result:dataDict];
+    NSString* netStatusString = [NSString stringWithFormat:@"%ld", (long)netStatus];;
+    jsi::String mac = jsi::String::createFromUtf8(jsiRuntime, [device.macAddress UTF8String]);
+    jsi::String did = jsi::String::createFromUtf8(jsiRuntime, [device.did UTF8String]);
+    jsi::String productKey = jsi::String::createFromUtf8(jsiRuntime, [device.productKey UTF8String]);
+    jsi::String netStatusJsi = jsi::String::createFromUtf8(jsiRuntime, [netStatusString UTF8String]);
+      
+      jsiRuntime.global().getProperty(jsiRuntime, "GizDeviceNetStatusNotifications").asObject(jsiRuntime).asFunction(jsiRuntime).call(jsiRuntime,mac, did, productKey, netStatusJsi, 4);
+    
+//    [self notiWithType:GizWifiRnResultTypeDeviceStatusNoti result:dataDict];
 }
 
 - (void)device:(GizWifiDevice *)device didReceiveData:(NSError *)result data:(NSDictionary *)dataMap withSN:(NSNumber *)sn {
@@ -473,5 +530,38 @@ RCT_EXPORT_METHOD(startUpgrade:(id)info result:(RCTResponseSenderBlock)result) {
     }
     return dataDict;
 }
+
+static void install(facebook::jsi::Runtime &jsiRuntime, RNGizwitsRnDevice *rnGizwitsRnDevice) {
+    auto setSubscribe = Function::createFromHostFunction(jsiRuntime,
+                                                          PropNameID::forAscii(jsiRuntime,
+                                                                               "setSubscribe"),
+                                                          0,
+                                                          [rnGizwitsRnDevice](Runtime &runtime,
+                                                                   const Value &thisValue,
+                                                                   const Value *arguments,
+                                                                   size_t count) -> Value {
+
+        
+        NSString *mac = convertJSIValueToObjCObject(runtime, arguments[0]);
+        NSString *did = convertJSIValueToObjCObject(runtime, arguments[1]);
+        NSString *pk = convertJSIValueToObjCObject(runtime,arguments[2]);
+        NSString *ps = convertJSIValueToObjCObject(runtime, arguments[3]);
+        BOOL subscribed = convertJSIValueToObjCObject(runtime, arguments[4]);
+        [rnGizwitsRnDevice setSubscribe_c:mac did:did productKey:pk productSecret:ps subscribed:subscribed];
+        return Value().null();
+    });
+    
+    jsiRuntime.global().setProperty(jsiRuntime, "setSubscribe", move(setSubscribe));
+    
+    
+}
+
+- (void)emitJSI:(const char *)name data:(NSDictionary *)data{
+  RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
+  Runtime &jsiRuntime = *(facebook::jsi::Runtime *)cxxBridge.runtime;
+    
+    jsiRuntime.global().getProperty(jsiRuntime, name).asObject(jsiRuntime).asFunction(jsiRuntime).call(jsiRuntime,convertNSDictionaryToJSIObject(jsiRuntime, data), 1);
+}
+
 
 @end
