@@ -756,7 +756,8 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
 
 - (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didDiscoverBleDevice:(NSError * _Nullable)result deviceList:(NSArray <GizWifiBleDevice *> * _Nullable)deviceList {
     //noti
-    [self notiWithType:GizWifiRnResultTypeBleDeviceListNoti result:[NSDictionary deviceDictArrFromDevices: deviceList]];
+    [self emitJSIArrary:"GizDeviceListNotifications" data:[NSDictionary deviceDictArrFromDevices: deviceList]];
+//    [self notiWithType:GizWifiRnResultTypeBleDeviceListNoti result:[NSDictionary deviceDictArrFromDevices: deviceList]];
 }
 
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didGetCurrentCloudService:(NSError *)result cloudServiceInfo:(NSDictionary<NSString *,NSString *> *)cloudServiceInfo{
@@ -801,7 +802,7 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
 {
     NSDictionary *dataDict = nil;
     NSDictionary *errDict = nil;
-    
+
     if (result.code == GIZ_SDK_SUCCESS) {
         dataDict = [NSMutableDictionary dictionary];
         [dataDict setValue:0 forKey:@"errorCode"];
@@ -809,16 +810,16 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
     } else{
         errDict = [NSDictionary makeErrorDictFromError:result];
     }
-    
+
     [self.callBackManager callBackWithType:GizWifiRnResultTypeBindChannel identity:nil resultDict:dataDict errorDict:errDict];
-    
+
 }
 
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didChannelIDUnBind:(NSError *)result
 {
     NSDictionary *dataDict = nil;
     NSDictionary *errDict = nil;
-    
+
     if (result.code == GIZ_SDK_SUCCESS) {
         dataDict = [NSMutableDictionary dictionary];
         [dataDict setValue:@(0) forKey:@"errorCode"];
@@ -826,9 +827,9 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
     } else{
         errDict = [NSDictionary makeErrorDictFromError:result];
     }
-    
+
     [self.callBackManager callBackWithType:GizWifiRnResultTypeBindChannel identity:nil resultDict:dataDict errorDict:errDict];
-    
+
 }
 
 - (void)wifiSDK:(GizWifiSDK *)wifiSDK didBindDevice:(NSError *)result did:(NSString *)did{
@@ -1006,13 +1007,36 @@ static void install(facebook::jsi::Runtime &jsiRuntime, RNGizwitsRnSdk *rnGizwit
                                                                    const Value &thisValue,
                                                                    const Value *arguments,
                                                                    size_t count) -> Value {
-        
+
         jsi::String deviceName = convertNSStringToJSIString(runtime, [rnGizwitsRnSdk getVersion_c]);
-        
+
         return Value(runtime, deviceName);
     });
-    
+
     jsiRuntime.global().setProperty(jsiRuntime, "getVersion", move(getVersion));
+
+
+}
+
+// 临时
+- (void)emitJSIArrary:(const char *)name data:(NSArray *)data{
+  RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
+  Runtime &jsiRuntime = *(facebook::jsi::Runtime *)cxxBridge.runtime;
+
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:NSJSONWritingPrettyPrinted error:&error];
+
+    if (!jsonData) {
+        NSLog(@"转换为 JSON 数据时出错：%@", error);
+    } else {
+        // 将 JSON 数据转换为字符串
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+
+        std::string utf8String = [jsonString UTF8String];
+        facebook::jsi::String jsiString = facebook::jsi::String::createFromUtf8(jsiRuntime, utf8String.c_str());
+
+        jsiRuntime.global().getProperty(jsiRuntime, name).asObject(jsiRuntime).asFunction(jsiRuntime).call(jsiRuntime,jsiString, 1);
+    }
     
     
 }

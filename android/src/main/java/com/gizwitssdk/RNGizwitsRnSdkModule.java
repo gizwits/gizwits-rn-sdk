@@ -81,8 +81,8 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
 
       ReactApplicationContext context = getReactApplicationContext();
       nativeInstall(
-        context.getJavaScriptContextHolder().get(),
-        context.getFilesDir().getAbsolutePath()
+              context.getJavaScriptContextHolder().get(),
+              context.getFilesDir().getAbsolutePath()
       );
       return true;
     } catch (Exception exception) {
@@ -763,7 +763,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
 
         if (args.isNull("appSecret")) {
           GizWifiSDK.sharedInstance().startWithAppID(reactContext, appID, specialKey, cloudServiceInfos,
-            autoSetDeviceDomain);
+                  autoSetDeviceDomain);
         } else {
           String appSecret = args.optString("appSecret");
           if (specialProductKeySecrets != null) {
@@ -774,7 +774,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
 
           } else {
             GizWifiSDK.sharedInstance().startWithAppID(reactContext, appID, appSecret, specialKey, cloudServiceInfos,
-              autoSetDeviceDomain);
+                    autoSetDeviceDomain);
           }
         }
 
@@ -1384,25 +1384,20 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
   }
 
   public void callbackNofitication(JSONObject params) {
-    WritableMap writableMap = jsonObject2WriteableMap(params);
-    reactContext
-      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-      .emit("GizDeviceListNotifications", writableMap);
+    ReactApplicationContext context = getReactApplicationContext();
+    emitJSI(context.getJavaScriptContextHolder().get(), "GizDeviceListNotifications", params.toString());
   }
 
   public void callbackMeshDeviceNofitication(JSONObject params) {
     Log.e("meshDevice",params.toString());
     WritableMap writableMap = jsonObject2WriteableMap(params);
     reactContext
-      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-      .emit("GizMeshDeviceListNotifications", writableMap);
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("GizMeshDeviceListNotifications", writableMap);
   }
   public void callbackBleDeviceNofitication(JSONArray params) {
-    Log.e("bleDevice",params.toString());
-    WritableArray writableMap = jsonArray2WriteableArray(params);
-    reactContext
-      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-      .emit("GizBleDeviceListNotifications", writableMap);
+    ReactApplicationContext context = getReactApplicationContext();
+    emitJSI(context.getJavaScriptContextHolder().get(), "GizBleDeviceListNotifications", params.toString());
   }
 
   // 推送配网成功或失败事件
@@ -1410,23 +1405,23 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
     Log.e("bleDevice",params.toString());
     WritableMap writableMap = jsonObject2WriteableMap(params);
     reactContext
-      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-      .emit("GizDeviceOnboardingNotifications", writableMap);
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("GizDeviceOnboardingNotifications", writableMap);
   }
   public void callbackDeviceLogNofitication(JSONObject params) {
     Log.e("meshDevice", params.toString());
     WritableMap writableMap = jsonObject2WriteableMap(params);
     reactContext
-      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-      .emit("GizDeviceLogNotifications", writableMap);
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("GizDeviceLogNotifications", writableMap);
   }
 
   public void callbackDeviceOnboardingProcessNofitication(JSONObject params) {
     Log.e("DeviceOnboardingProcess", params.toString());
     WritableMap writableMap = jsonObject2WriteableMap(params);
     reactContext
-      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-      .emit("GizDeviceOnboardingProcessNotifications", writableMap);
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("GizDeviceOnboardingProcessNotifications", writableMap);
   }
 
   public JSONObject readable2JsonObject(ReadableMap readableMap) {

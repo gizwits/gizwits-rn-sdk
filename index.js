@@ -56,7 +56,8 @@ function debounce(func, delay) {
 const callbacks = {
     "GizDeviceListNotifications": () => {},
     "GizDeviceNetStatusNotifications": () => {},
-    "GizDeviceStatusNotifications": () => {}
+    "GizDeviceStatusNotifications": () => {},
+    "GizBleDeviceListNotifications": () => {},
 
 }
 RNGizwitsRnSdkJSI.addListener = (name, callback) => {
@@ -65,6 +66,10 @@ RNGizwitsRnSdkJSI.addListener = (name, callback) => {
 
 global.GizDeviceListNotifications = debounce((data) => {
    callbacks["GizDeviceListNotifications"] && callbacks["GizDeviceListNotifications"](JSON.parse(data))
+}, 600)
+
+global.GizBleDeviceListNotifications = debounce((data) => {
+   callbacks["GizBleDeviceListNotifications"] && callbacks["GizBleDeviceListNotifications"](JSON.parse(data))
 }, 600)
 
 global.GizDeviceStatusNotifications = (data) => {
