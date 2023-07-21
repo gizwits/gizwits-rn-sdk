@@ -128,6 +128,17 @@ void installDevice(facebook::jsi::Runtime &jsiRuntime) {
                                                              const Value *arguments,
                                                              size_t count) -> Value {
 
+        // 检查参数个数是否正确
+          if (count < 5) {
+            // 返回错误或抛出异常，根据你的需求
+            return Value::boolean(false);
+        }
+
+        // 检查参数类型是否正确
+        if (!arguments[0].isString() || !arguments[1].isString() || !arguments[2].isString() || !arguments[3].isString() || !arguments[4].isBool()) {
+            // 返回错误或抛出异常，根据你的需求
+            return Value::boolean(false);
+        }
         JNIEnv *jniEnv = GetJniEnv();
 
         string mac = arguments[0].getString(
@@ -164,7 +175,7 @@ void installDevice(facebook::jsi::Runtime &jsiRuntime) {
                 "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)V");
         jniEnv->CallObjectMethodA(
                 java_object_device, setSubscribe_c, params);
-        return Value::undefined();
+        return Value::boolean(true);
 
     });
 
