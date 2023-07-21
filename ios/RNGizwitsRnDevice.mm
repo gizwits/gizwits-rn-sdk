@@ -555,13 +555,35 @@ static void install(facebook::jsi::Runtime &jsiRuntime, RNGizwitsRnDevice *rnGiz
     
     
 }
+//
+//- (void)emitJSI:(const char *)name data:(NSDictionary *)data{
+//  RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
+//  Runtime &jsiRuntime = *(facebook::jsi::Runtime *)cxxBridge.runtime;
+//
+//    jsiRuntime.global().getProperty(jsiRuntime, name).asObject(jsiRuntime).asFunction(jsiRuntime).call(jsiRuntime,convertNSDictionaryToJSIObject(jsiRuntime, data), 1);
+//}
+
 
 - (void)emitJSI:(const char *)name data:(NSDictionary *)data{
   RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
   Runtime &jsiRuntime = *(facebook::jsi::Runtime *)cxxBridge.runtime;
-    
-    jsiRuntime.global().getProperty(jsiRuntime, name).asObject(jsiRuntime).asFunction(jsiRuntime).call(jsiRuntime,convertNSDictionaryToJSIObject(jsiRuntime, data), 1);
-}
 
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:NSJSONWritingPrettyPrinted error:&error];
+
+    if (!jsonData) {
+        NSLog(@"转换为 JSON 数据时出错：%@", error);
+    } else {
+        // 将 JSON 数据转换为字符串
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+
+        std::string utf8String = [jsonString UTF8String];
+        facebook::jsi::String jsiString = facebook::jsi::String::createFromUtf8(jsiRuntime, utf8String.c_str());
+
+        jsiRuntime.global().getProperty(jsiRuntime, name).asObject(jsiRuntime).asFunction(jsiRuntime).call(jsiRuntime,jsiString, 1);
+    }
+
+
+}
 
 @end

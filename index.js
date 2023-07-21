@@ -68,7 +68,7 @@ global.GizDeviceListNotifications = debounce((data) => {
 }, 600)
 
 global.GizDeviceStatusNotifications = (data) => {
-   callbacks["GizDeviceStatusNotifications"] && callbacks["GizDeviceStatusNotifications"](data)
+   callbacks["GizDeviceStatusNotifications"] && callbacks["GizDeviceStatusNotifications"](JSON.parse(data))
 }
 
 global.GizDeviceNetStatusNotifications = (...args) => {

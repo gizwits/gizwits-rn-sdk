@@ -171,6 +171,28 @@ void installDevice(facebook::jsi::Runtime &jsiRuntime) {
     jsiRuntime.global().setProperty(jsiRuntime, "setSubscribe", move(setSubscribe));
 }
 
+void emitJsi(JNIEnv *env, jobject thiz, jlong jsi, jstring name, jstring data) {
+    auto runtime = reinterpret_cast<facebook::jsi::Runtime *>(jsi);
+
+    facebook::jsi::Object globalObject = runtime->global();
+
+    std::string functionName = env->GetStringUTFChars(name, nullptr);
+    facebook::jsi::String functionNameString = facebook::jsi::String::createFromUtf8(*runtime, functionName);
+
+    std::string jsonString = env->GetStringUTFChars(data, nullptr);
+
+    facebook::jsi::String jsonStringJsi = facebook::jsi::String::createFromUtf8(*runtime, jsonString);
+
+    if (globalObject.hasProperty(*runtime, functionNameString)) {
+      facebook::jsi::Value nameFunction = globalObject.getProperty(*runtime, functionNameString);
+      if (nameFunction.isObject() && nameFunction.asObject(*runtime).isFunction(*runtime)) {
+        __android_log_print(ANDROID_LOG_DEBUG, "Java_com_gizwitssdk_RNGizwitsRnSdkModule_emitJSI", "Function Name: %s", functionName.c_str());
+        facebook::jsi::Function function = nameFunction.asObject(*runtime).asFunction(*runtime);
+        function.call(*runtime, jsonStringJsi, 1); // 传递需要的参数
+      }
+    }
+}
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_gizwitssdk_RNGizwitsRnSdkModule_nativeInstall(JNIEnv *env, jobject thiz, jlong jsi) {
@@ -205,67 +227,12 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_gizwitssdk_RNGizwitsRnSdkModule_emitJSI(JNIEnv *env, jobject thiz, jlong jsi, jstring name, jstring data) {
 
-    auto runtime = reinterpret_cast<facebook::jsi::Runtime *>(jsi);
+    emitJsi(env, thiz, jsi, name, data);
 
-    facebook::jsi::Object globalObject = runtime->global();
-
-    std::string functionName = env->GetStringUTFChars(name, nullptr);
-    facebook::jsi::String functionNameString = facebook::jsi::String::createFromUtf8(*runtime, functionName);
-
-    std::string jsonString = env->GetStringUTFChars(data, nullptr);
-
-    facebook::jsi::String jsonStringJsi = facebook::jsi::String::createFromUtf8(*runtime, jsonString);
-
-    if (globalObject.hasProperty(*runtime, functionNameString)) {
-      facebook::jsi::Value nameFunction = globalObject.getProperty(*runtime, functionNameString);
-      if (nameFunction.isObject() && nameFunction.asObject(*runtime).isFunction(*runtime)) {
-        __android_log_print(ANDROID_LOG_DEBUG, "Java_com_gizwitssdk_RNGizwitsRnSdkModule_emitJSI", "Function Name: %s", functionName.c_str());
-        facebook::jsi::Function function = nameFunction.asObject(*runtime).asFunction(*runtime);
-        function.call(*runtime, jsonStringJsi, 1); // 传递需要的参数
-      }
-    }
 }
 
-facebook::jsi::Value convertJObjectToJSObject(facebook::jsi::Runtime* runtime, jobject jObject) {
-    JNIEnv *env = GetJniEnv();
-    // 创建一个新的 JSI 对象
-    facebook::jsi::Object jsObject(*runtime);
-
-    // 获取 Java 对象的类
-    jclass jClass = env->GetObjectClass(jObject);
-
-    // 获取 Java 类的所有方法
-    jmethodID jMethodId = env->GetMethodID(jClass, "toString", "()Ljava/lang/String;");
-    jstring jString = (jstring)env->CallObjectMethod(jObject, jMethodId);
-
-    // 将 Java 字符串转换为 C++ 字符串
-    const char* cString = env->GetStringUTFChars(jString, nullptr);
-    __android_log_print(ANDROID_LOG_DEBUG, "Java_com_gizwitssdk_RNGizwitsRnDeviceModule_emitJSIObject", "Function Name: %s", cString);
-
-    size_t length = std::strlen(cString);
-     const uint8_t* utf8String = reinterpret_cast<const uint8_t*>(cString);
-
-    facebook::jsi::Value jsonString = facebook::jsi::String::createFromUtf8(*runtime, utf8String, length);
-    // 释放资源
-    env->ReleaseStringUTFChars(jString, cString);
-
-    return jsonString;
-}
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_gizwitssdk_RNGizwitsRnDeviceModule_emitJSIObject(JNIEnv *env, jobject thiz, jlong jsi, jstring name, jobject data) {
-    auto runtime = reinterpret_cast<facebook::jsi::Runtime *>(jsi);
-    facebook::jsi::Object globalObject = runtime->global();
-    std::string functionName = env->GetStringUTFChars(name, nullptr);
-    facebook::jsi::String functionNameString = facebook::jsi::String::createFromUtf8(*runtime, functionName);
-
-    facebook::jsi::Value jsData = convertJObjectToJSObject(runtime, data);
-
-    if (globalObject.hasProperty(*runtime, functionNameString)) {
-      facebook::jsi::Value nameFunction = globalObject.getProperty(*runtime, functionNameString);
-      if (nameFunction.isObject() && nameFunction.asObject(*runtime).isFunction(*runtime)) {
-        facebook::jsi::Function function = nameFunction.asObject(*runtime).asFunction(*runtime);
-        function.call(*runtime, jsData, 1); // 传递需要的参数
-      }
-    }
+Java_com_gizwitssdk_RNGizwitsRnDeviceModule_emitJSI(JNIEnv *env, jobject thiz, jlong jsi, jstring name, jstring data) {
+    emitJsi(env, thiz, jsi, name, data);
 }
