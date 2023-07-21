@@ -543,15 +543,13 @@ static void install(facebook::jsi::Runtime &jsiRuntime, RNGizwitsRnDevice *rnGiz
 
         // 检查参数个数是否正确
         if (count < 5) {
-            // 返回错误或抛出异常，根据你的需求
-            return Value().boolean(false);
+            return Value(false);
         }
 
         // 检查参数类型是否正确
         if (!arguments[0].isString() || !arguments[1].isString() || !arguments[2].isString() ||
             !arguments[3].isString() || !arguments[4].isBool()) {
-            // 返回错误或抛出异常，根据你的需求
-            return Value().boolean(false);
+            return Value(false);
         }
         NSString *mac = convertJSIValueToObjCObject(runtime, arguments[0]);
         NSString *did = convertJSIValueToObjCObject(runtime, arguments[1]);
@@ -559,7 +557,7 @@ static void install(facebook::jsi::Runtime &jsiRuntime, RNGizwitsRnDevice *rnGiz
         NSString *ps = convertJSIValueToObjCObject(runtime, arguments[3]);
         BOOL subscribed = convertJSIValueToObjCObject(runtime, arguments[4]);
         [rnGizwitsRnDevice setSubscribe_c:mac did:did productKey:pk productSecret:ps subscribed:subscribed];
-        return Value().boolean(true);
+        return Value(true);
     });
     
     jsiRuntime.global().setProperty(jsiRuntime, "setSubscribe", move(setSubscribe));
