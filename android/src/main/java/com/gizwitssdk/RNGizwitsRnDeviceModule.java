@@ -601,11 +601,15 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
         }
     }
 
-    public void setSubscribe_c(String mac, String did, String productSecret, boolean subscribed) {
+    public boolean setSubscribe_c(String mac, String did, String productSecret, boolean subscribed) {
         GizWifiDevice device = RNGizwitsDeviceCache.getInstance()
                 .findDeviceByMac(mac, did);
-        device.setListener(deviceListener);
-        device.setSubscribe(productSecret, subscribed);
+        if (device != null) {
+            device.setListener(deviceListener);
+            device.setSubscribe(productSecret, subscribed);
+            return true;
+        }
+        return false;
     }
     @ReactMethod
     public void setSubscribeNotGetDeviceStatus(ReadableMap readableMap, Callback callback) {

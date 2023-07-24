@@ -624,7 +624,7 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
         [self.callBackManager callBackWithType:GizWifiRnResultTypeGetBoundDevices identity:nil resultDict:dataDict errorDict:errDict];
     }
     
-    [self emitJSI:"GizDeviceListNotifications" data:dataDict];
+    [self emitJSI:"GizDeviceListNotifications" data:errDict ? : dataDict];
     
 //    NSError *error;
 //    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:&error];

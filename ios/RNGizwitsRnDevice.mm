@@ -93,11 +93,14 @@ RCT_EXPORT_METHOD(setSubscribe:(id)info result:(RCTResponseSenderBlock)result) {
     [device setSubscribe:productSecret subscribed:subscribed];
 }
 
-- (NSInteger *)setSubscribe_c:(NSString*)mac did:(NSString*)did productKey:(NSString*)productKey productSecret:(NSString*)productSecret subscribed:(BOOL)subscribed{
+- (BOOL)setSubscribe_c:(NSString*)mac did:(NSString*)did productKey:(NSString*)productKey productSecret:(NSString*)productSecret subscribed:(BOOL)subscribed{
     GizWifiDevice *device = [GizWifiDeviceCache cachedDeviceWithMacAddress:mac did:did];
+    if (device != NULL) {
+        [device setSubscribe:productSecret subscribed:subscribed];
+        return true;
+    }
     
-    [device setSubscribe:productSecret subscribed:subscribed];
-    return 0;
+    return false;
 }
 
 RCT_EXPORT_METHOD(setSubscribeNotGetDeviceStatus:(id)info result:(RCTResponseSenderBlock)result) {
@@ -547,8 +550,8 @@ static void install(facebook::jsi::Runtime &jsiRuntime, RNGizwitsRnDevice *rnGiz
         NSString *pk = convertJSIValueToObjCObject(runtime,arguments[2]);
         NSString *ps = convertJSIValueToObjCObject(runtime, arguments[3]);
         BOOL subscribed = convertJSIValueToObjCObject(runtime, arguments[4]);
-        [rnGizwitsRnDevice setSubscribe_c:mac did:did productKey:pk productSecret:ps subscribed:subscribed];
-        return Value(true);
+        BOOL res = [rnGizwitsRnDevice setSubscribe_c:mac did:did productKey:pk productSecret:ps subscribed:subscribed];
+        return Value(res);
     });
     
     jsiRuntime.global().setProperty(jsiRuntime, "setSubscribe", move(setSubscribe));

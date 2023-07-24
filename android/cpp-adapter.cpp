@@ -168,10 +168,11 @@ void installDevice(facebook::jsi::Runtime &jsiRuntime) {
                 java_object_device);
         jmethodID setSubscribe_c = jniEnv->GetMethodID(
                 java_class_device, "setSubscribe_c",
-                "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)V");
-        jniEnv->CallVoidMethodA(
+                "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Z");
+        jboolean result = jniEnv->CallBooleanMethodA(
                 java_object_device, setSubscribe_c, params);
-        return Value(true);
+        bool cppBoolValue = result == JNI_TRUE;
+        return Value(cppBoolValue);
 
     });
 
