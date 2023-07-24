@@ -76,8 +76,15 @@ global.GizDeviceStatusNotifications = (data) => {
    callbacks["GizDeviceStatusNotifications"] && callbacks["GizDeviceStatusNotifications"](JSON.parse(data))
 }
 
-global.GizDeviceNetStatusNotifications = (...args) => {
-   callbacks["GizDeviceNetStatusNotifications"] && callbacks["GizDeviceNetStatusNotifications"](...args)
+global.GizDeviceNetStatusNotifications = (data) => {
+  try {
+    const newData = JSON.parse(data);
+    const {mac, did,productKey} = newData.device;
+    const {netStatus} = newData;
+    callbacks["GizDeviceNetStatusNotifications"] && callbacks["GizDeviceNetStatusNotifications"](mac, did, productKey, parseInt(netStatus))
+  } catch (error) {
+    console.error("GizDeviceNetStatusNotifications parse error: ",error)
+  }
 }
 
 

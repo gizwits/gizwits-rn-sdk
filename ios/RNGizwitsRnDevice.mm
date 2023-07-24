@@ -424,24 +424,15 @@ RCT_EXPORT_METHOD(startUpgrade:(id)info result:(RCTResponseSenderBlock)result) {
     RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
     Runtime &jsiRuntime = *(facebook::jsi::Runtime *)cxxBridge.runtime;
     
-//    NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
-//    [dataDict setValue:deviceDict forKey:@"device"];
-//    [dataDict setValue:@(netStatus) forKey:@"netStatus"];
-//    if ([device isMemberOfClass:[GizWifiBleDevice class]]) {
-//        GizWifiBleDevice *bleDevice = (GizWifiBleDevice *)device;
-//        // 子设备其他属性
-//        [dataDict setValue:@(bleDevice.isBlueLocal) forKey:@"isBlueLocal"];
-//    }
-    
-    NSString* netStatusString = [NSString stringWithFormat:@"%ld", (long)netStatus];;
-    jsi::String mac = jsi::String::createFromUtf8(jsiRuntime, [device.macAddress UTF8String]);
-    jsi::String did = jsi::String::createFromUtf8(jsiRuntime, [device.did UTF8String]);
-    jsi::String productKey = jsi::String::createFromUtf8(jsiRuntime, [device.productKey UTF8String]);
-    jsi::String netStatusJsi = jsi::String::createFromUtf8(jsiRuntime, [netStatusString UTF8String]);
-      
-      jsiRuntime.global().getProperty(jsiRuntime, "GizDeviceNetStatusNotifications").asObject(jsiRuntime).asFunction(jsiRuntime).call(jsiRuntime,mac, did, productKey, netStatusJsi, 4);
-    
-//    [self notiWithType:GizWifiRnResultTypeDeviceStatusNoti result:dataDict];
+    NSDictionary *deviceDict = [NSDictionary makeDictFromLiteDeviceWithProperties:device];
+    [dataDict setValue:deviceDict forKey:@"device"];
+    [dataDict setValue:@(netStatus) forKey:@"netStatus"];
+    if ([device isMemberOfClass:[GizWifiBleDevice class]]) {
+        GizWifiBleDevice *bleDevice = (GizWifiBleDevice *)device;
+        // 子设备其他属性
+        [dataDict setValue:@(bleDevice.isBlueLocal) forKey:@"isBlueLocal"];
+    }
+    [self emitJSI:"GizDeviceStatusNotifications" data:dataDict];
 }
 
 - (void)device:(GizWifiDevice *)device didReceiveData:(NSError *)result data:(NSDictionary *)dataMap withSN:(NSNumber *)sn {
