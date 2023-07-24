@@ -130,13 +130,11 @@ void installDevice(facebook::jsi::Runtime &jsiRuntime) {
 
         // 检查参数个数是否正确
           if (count < 5) {
-            // 返回错误或抛出异常，根据你的需求
             return Value(false);
         }
 
         // 检查参数类型是否正确
         if (!arguments[0].isString() || !arguments[1].isString() || !arguments[2].isString() || !arguments[3].isString() || !arguments[4].isBool()) {
-            // 返回错误或抛出异常，根据你的需求
             return Value(false);
         }
         JNIEnv *jniEnv = GetJniEnv();
@@ -154,17 +152,15 @@ void installDevice(facebook::jsi::Runtime &jsiRuntime) {
 
         jstring jsmac = string2jstring(jniEnv,mac);
         jstring jsdid = string2jstring(jniEnv,did);
-        jstring jspk = string2jstring(jniEnv,productKey);
         jstring jsps = string2jstring(jniEnv,productSecret);
         jboolean jsubscribed = (jboolean)subscribed;
 
 
-        jvalue params[5];
+        jvalue params[4];
         params[0].l = jsmac;
         params[1].l = jsdid;
-        params[2].l = jspk;
-        params[3].l = jsps;
-        params[4].z = jsubscribed;
+        params[2].l = jsps;
+        params[3].z = jsubscribed;
 
         __android_log_print(ANDROID_LOG_DEBUG, "setSubscribe_c", "Function Name: %s", mac.c_str());
 
@@ -173,7 +169,7 @@ void installDevice(facebook::jsi::Runtime &jsiRuntime) {
         jmethodID setSubscribe_c = jniEnv->GetMethodID(
                 java_class_device, "setSubscribe_c",
                 "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)V");
-        jniEnv->CallObjectMethodA(
+        jniEnv->CallVoidMethodA(
                 java_object_device, setSubscribe_c, params);
         return Value(true);
 
@@ -265,3 +261,4 @@ JNIEXPORT void JNICALL
 Java_com_gizwitssdk_RNGizwitsRnDeviceModule_emitJSI(JNIEnv *env, jobject thiz, jlong jsi, jstring name, jstring data) {
     emitJsi(env, thiz, jsi, name, data);
 }
+
