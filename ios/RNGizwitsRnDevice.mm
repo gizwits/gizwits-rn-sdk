@@ -432,7 +432,7 @@ RCT_EXPORT_METHOD(startUpgrade:(id)info result:(RCTResponseSenderBlock)result) {
         // 子设备其他属性
         [dataDict setValue:@(bleDevice.isBlueLocal) forKey:@"isBlueLocal"];
     }
-    [self emitJSI:"GizDeviceStatusNotifications" data:dataDict];
+    [self emitJSI:"GizDeviceNetStatusNotifications" data:dataDict];
 }
 
 - (void)device:(GizWifiDevice *)device didReceiveData:(NSError *)result data:(NSDictionary *)dataMap withSN:(NSNumber *)sn {
