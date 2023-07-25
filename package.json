@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.11-jiebao",
+  "version": "2.30.11-jiebao-hotfix",
   "description": "修正蓝牙连接回调管理",
   "main": "index.js",
   "scripts": {
