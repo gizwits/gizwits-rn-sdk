@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.31.13-beta",
+  "version": "2.31.14-beta",
   "description": "js 容错",
   "main": "index.js",
   "scripts": {
