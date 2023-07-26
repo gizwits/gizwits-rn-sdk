@@ -96,10 +96,8 @@ global.GizDeviceNetStatusNotifications = (data) => {
   setTimeout(() => {
     try {
       const newData = JSON.parse(data);
-      const { mac, did, productKey } = newData.device;
-      const { netStatus } = newData;
       callbacks.GizDeviceNetStatusNotifications
-      && callbacks.GizDeviceNetStatusNotifications(mac, did, productKey, parseInt(netStatus, 10));
+      && callbacks.GizDeviceNetStatusNotifications(newData);
     } catch (error) {
       console.error('GizDeviceNetStatusNotifications parse error: ', error);
     }
