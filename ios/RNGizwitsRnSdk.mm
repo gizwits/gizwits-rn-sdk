@@ -756,7 +756,7 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
 
 - (void)wifiSDK:(GizWifiSDK * _Nonnull)wifiSDK didDiscoverBleDevice:(NSError * _Nullable)result deviceList:(NSArray <GizWifiBleDevice *> * _Nullable)deviceList {
     //noti
-    [self emitJSIArrary:"GizDeviceListNotifications" data:[NSDictionary deviceDictArrFromDevices: deviceList]];
+    [self emitJSIArrary:"GizBleDeviceListNotifications" data:[NSDictionary deviceDictArrFromDevices: deviceList]];
 //    [self notiWithType:GizWifiRnResultTypeBleDeviceListNoti result:[NSDictionary deviceDictArrFromDevices: deviceList]];
 }
 
