@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.14-beta",
-  "description": "兼容安卓flag == 1",
+  "version": "2.30.15",
+  "description": "支持蓝牙广播包bit2 为1 不用登录绑定",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
