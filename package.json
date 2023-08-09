@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.31.19-jiebao",
-  "description": "修正蓝牙注册时机",
+  "version": "2.31.20-jiebao",
+  "description": "更新ios OTA模块",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
