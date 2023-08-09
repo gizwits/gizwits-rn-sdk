@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.15",
-  "description": "支持蓝牙广播包bit2 为1 不用登录绑定",
+  "version": "2.30.16",
+  "description": "修正justget passcode",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
