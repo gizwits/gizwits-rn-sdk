@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.31.18-jiebao",
-  "description": "修正蓝牙连接回调管理",
+  "version": "2.31.19-jiebao",
+  "description": "修正蓝牙注册时机",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
