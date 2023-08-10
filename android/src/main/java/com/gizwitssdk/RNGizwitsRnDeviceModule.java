@@ -849,7 +849,7 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
                 }
 //                        resultJson.put("isConnected", isConnected); // 用于兼容
 //                        resultJson.put("isOnline", isOnline); // 用于兼容
-                resultJson.put("netStatus", netStatus);
+//                resultJson.put("netStatus", netStatus);
                 // 检查是否是蓝牙设备。如果是蓝牙设备的话
                 if(device instanceof GizWifiBleDevice){
                     resultJson.put("isBlueLocal", ((GizWifiBleDevice)device).isBlueLocal());
