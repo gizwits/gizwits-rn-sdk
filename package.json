@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.18",
-  "description": "更新设备数据，不推送状态更新",
+  "version": "2.30.19",
+  "description": "修正ios 发送队列",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
