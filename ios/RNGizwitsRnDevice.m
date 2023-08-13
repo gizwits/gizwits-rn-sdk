@@ -406,8 +406,8 @@ RCT_EXPORT_METHOD(startUpgrade:(id)info result:(RCTResponseSenderBlock)result) {
     [self.callBackManager callBackWithType:GizWifiRnResultTypeGetDeviceStatus identity:[NSString stringWithFormat:@"%@+%ld", device.did, [sn integerValue]] resultDict:dataDict errorDict:errDict];
 
     // 只有通知才需要 netStatus 字段
-    NSInteger netStatus = getDeviceNetStatus(device.netStatus);
-    [dataDict setValue:@(netStatus) forKey:@"netStatus"];
+    // NSInteger netStatus = getDeviceNetStatus(device.netStatus);
+    // [dataDict setValue:@(netStatus) forKey:@"netStatus"];
     if ([device isMemberOfClass:[GizWifiBleDevice class]]) {
         GizWifiBleDevice *bleDevice = (GizWifiBleDevice *)device;
         // 子设备其他属性
