@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.19",
-  "description": "修正ios 发送队列",
+  "version": "2.30.20",
+  "description": "修复没有开蓝牙，stopscan 空指针",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
