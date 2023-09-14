@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.19-nfc",
-  "description": "更新sdk，修正蓝牙相关bug",
+  "version": "2.30.21-nfc",
+  "description": "更新安卓http 到 okhttp",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
