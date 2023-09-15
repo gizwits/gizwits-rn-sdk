@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.31.20-jiebao",
-  "description": "更新ios OTA模块",
+  "version": "2.30.21-noLanConfig",
+  "description": "更新安卓http",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
