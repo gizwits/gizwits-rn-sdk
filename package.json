@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.8-biken",
+  "version": "2.30.9-biken",
   "description": "合并sdk，强制 主人 绑定",
   "main": "index.js",
   "scripts": {
