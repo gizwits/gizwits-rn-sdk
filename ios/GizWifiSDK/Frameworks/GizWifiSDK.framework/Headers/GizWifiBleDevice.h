@@ -22,6 +22,9 @@ typedef void (^otaProgressListener)(NSInteger firmwareSize, NSInteger packageMax
 // 蓝牙名称
 @property (strong, nonatomic) NSString * _Nonnull bleAlias;
 
+@property (nonatomic) dispatch_semaphore_t ble_lock;
+@property (nonatomic) dispatch_time_t bleLockdelayTime;
+
 /**
  标志设备当前的状态；true: 表示当前使用的是蓝牙通道
  */

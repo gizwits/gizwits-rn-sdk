@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.9-biken",
-  "description": "合并sdk，强制 主人 绑定",
+  "version": "2.30.13-biken",
+  "description": "增加判空，优化获取getPasscode",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
