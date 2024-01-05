@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.22-noLanConfig",
-  "description": "更新安卓http",
+  "version": "2.30.23-noLanConfig",
+  "description": "取消小循环",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
