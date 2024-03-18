@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.26-noLanConfig",
+  "version": "2.30.27-noLanConfig",
   "description": "error 11 daemon 增加重试",
   "main": "index.js",
   "scripts": {
