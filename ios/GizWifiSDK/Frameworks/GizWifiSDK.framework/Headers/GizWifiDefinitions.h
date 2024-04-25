@@ -661,15 +661,39 @@ typedef NS_ENUM(NSInteger, GizWifiConfigureMode) {
 };
 
 /**
- @brief GizConfigureProcess 配置进程（目前仅支持NFC）
+ @brief GizConfigureProcess 配置进程
  */
 typedef NS_ENUM(NSInteger, GizConfigureProcess) {
     /** 配置会话被激活 */
-    GizConfigureDidBecomeActive = 0,
+    GIZ_CONFIG_ACTIVE = 1000,
+    /** 发现设备成功 */
+    GIZ_CONFIG_DISCOVER_SUCCESS = 1001,
+    /** 连接设备成功 */
+    GIZ_CONFIG_CONNECT_SUCCESS = 1002,
+    /** 连接设备失败 */
+    GIZ_CONFIG_CONNECT_FAILED = 1003,
     /** 发送配置数据成功 */
-    GizConfigureDidSendDataSuccess = 1,
+    GIZ_CONFIG_SEND_SUCCESS = 1004,
     /** 发送配置数据失败 */
-    GizConfigureDidSendDataFailed = 2,
+    GIZ_CONFIG_SEND_FAILED = 1005,
+    /** 解包失败 */
+    GIZ_CONFIG_INVALID_ONBOARDING_PKG = 1,
+    /** 设备连接路由器中 */
+    GIZ_CONFIG_CONNECTING_ROUTER = 2,
+    /** 设备连接路由器失败 */
+    GIZ_CONFIG_CONNECT_ROUTER_FAILED = 3,
+    /** 设备准备注册 */
+    GIZ_CONFIG_REGISTERING = 4,
+    /**注册失败**/
+    GIZ_CONFIG_REGISTER_FAILED = 5,
+    /**PROVISIONING**/
+    GIZ_CONFIG_PROVISIONING = 6,
+    /**PROVISIONING failed**/
+    GIZ_CONFIG_PROVISIO_FAILED = 7,
+    /**连m2m中**/
+    GIZ_CONFIG_CONNECTING_M2M = 8,
+    GIZ_CONFIG_CONNECT_M2M_FAILED = 9,
+    GIZ_CONFIG_CLOUD_CONNECTED = 10
 };
 
 /**
