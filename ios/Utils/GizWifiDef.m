@@ -208,6 +208,7 @@ GizWifiDeviceNetStatus getDeviceNetStatus(NSInteger integerValue) {
     return -1;
 }
 
+
 NSInteger getDeviceOnboardingProcessTypeFromEnum(GizConfigureProcess enumValue){
     /**
      //  配置会话被激活
@@ -219,12 +220,38 @@ NSInteger getDeviceOnboardingProcessTypeFromEnum(GizConfigureProcess enumValue){
      */
     
     switch (enumValue) {
-        case GizConfigureDidBecomeActive:
-            return 0;
-        case GizConfigureDidSendDataSuccess:
+        case GIZ_CONFIG_ACTIVE:
+            return 1000;
+        case GIZ_CONFIG_DISCOVER_SUCCESS:
+            return 1001;
+        case GIZ_CONFIG_CONNECT_SUCCESS:
+            return 1002;
+        case GIZ_CONFIG_CONNECT_FAILED:
+            return 1003;
+        case GIZ_CONFIG_SEND_SUCCESS:
+            return 1004;
+        case GIZ_CONFIG_SEND_FAILED:
+            return 1005;
+        case GIZ_CONFIG_INVALID_ONBOARDING_PKG:
             return 1;
-        case GizConfigureDidSendDataFailed:
+        case GIZ_CONFIG_CONNECTING_ROUTER:
             return 2;
+        case GIZ_CONFIG_CONNECT_ROUTER_FAILED:
+            return 3;
+        case GIZ_CONFIG_REGISTERING:
+            return 4;
+        case GIZ_CONFIG_REGISTER_FAILED:
+            return 5;
+        case GIZ_CONFIG_PROVISIONING:
+            return 6;
+        case GIZ_CONFIG_PROVISIO_FAILED:
+            return 7;
+        case GIZ_CONFIG_CONNECTING_M2M:
+            return 8;
+        case GIZ_CONFIG_CONNECT_M2M_FAILED:
+            return 9;
+        case GIZ_CONFIG_CLOUD_CONNECTED:
+            return 10;
         default:
             break;
     }

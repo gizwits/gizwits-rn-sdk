@@ -43,5 +43,13 @@ repositories {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+'
-    implementation files('libs/GizWifiSDK.aar')
+    implementation files('libs/GizWifiSDK.jar')
+    implementation files('libs/Lark7618SDK_noudp1606031910_0101.jar')
+    implementation files('libs/easylink2.0.jar')
+    implementation files('libs/easylinkv3-0.2.6.jar')
+    implementation files('libs/libForEElink.jar')
+    implementation files('libs/ltlink2.jar')
+    implementation files('libs/OneShotConfig.jar')
+
+
 }

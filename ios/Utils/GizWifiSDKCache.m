@@ -112,7 +112,7 @@ for (id <GizWifiSDKDelegate>delegate in self.mDelegates) { \
 
 -(void)wifiSDK:(GizWifiSDK *)wifiSDK deviceOnboardingProcess:(GizConfigureProcess)process{
     GIZ_SDK_DELEGATE_CALLBACK_BEGIN(@selector(wifiSDK:deviceOnboardingProcess:))
-    [delegate wifiSDK:wifiSDK deviceOnboardingProcess:process];
+    [delegate wifiSDK:wifiSDK didDeviceOnboardingProcess:process];
     GIZ_SDK_DELEGATE_CALLBACK_END()
 }
 
