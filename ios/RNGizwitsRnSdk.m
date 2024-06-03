@@ -452,6 +452,7 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
     }
 
     NSString *ssid = [dict stringValueForKey:@"ssid" defaultValue:@""];
+    NSString *bssid = [dict stringValueForKey:@"bssid" defaultValue:@""];
     NSString *productKey = [dict stringValueForKey:@"productKey" defaultValue:@""];
     NSString *key = [dict stringValueForKey:@"key" defaultValue:@""];
     NSString *mac = [dict stringValueForKey:@"mac" defaultValue:nil];
@@ -468,7 +469,7 @@ RCT_EXPORT_METHOD(setDeviceBleOnboarding:(id)info result:(RCTResponseSenderBlock
     }
 
     [self.callBackManager addResult:result type:GizWifiRnResultTypeSetDeviceOnboardingDeploy identity:nil repeatable:YES];
-    [[GizWifiSDK sharedInstance] setDeviceBleOnboarding:ssid key:key mac:mac productKey:productKey configMode:configMode softAPSSIDPrefixs:softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:gagentTypes bind:isbind];
+    [[GizWifiSDK sharedInstance] setDeviceBleOnboarding:ssid bssid:bssid key:key mac:mac productKey:productKey configMode:configMode softAPSSIDPrefixs:softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:gagentTypes bind:isbind];
 }
 
 #pragma mark - noti
