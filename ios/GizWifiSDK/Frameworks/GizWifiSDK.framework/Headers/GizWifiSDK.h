@@ -598,7 +598,7 @@ typedef void(^GizInnerCallbackHandler)(GizWifiErrorCode *result);
 //- (void)setDeviceBleOnboarding:(NSString * _Nonnull)ssid key:(NSString * _Nullable)key mac:(NSString*_Nullable)mac configMode:(GizWifiConfigureMode)mode softAPSSIDPrefixs:(NSArray<NSString *> * _Nullable)softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
 
 // 带pk
-- (void)setDeviceBleOnboarding:(NSString * _Nonnull)ssid key:(NSString * _Nullable)key mac:(NSString*_Nullable)mac productKey:(NSString*_Nullable)productKey configMode:(GizWifiConfigureMode)mode softAPSSIDPrefixs:(NSArray<NSString *> * _Nullable)softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
+- (void)setDeviceBleOnboarding:(NSString * _Nonnull)ssid bssid:(NSString * _Nullable)bssid key:(NSString * _Nullable)key mac:(NSString*_Nullable)mac productKey:(NSString*_Nullable)productKey configMode:(GizWifiConfigureMode)mode softAPSSIDPrefixs:(NSArray<NSString *> * _Nullable)softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
 
 /**
  设备配网接口。配网时可自动完成设备域名部署，此接口对模组固件版本向前兼容。
