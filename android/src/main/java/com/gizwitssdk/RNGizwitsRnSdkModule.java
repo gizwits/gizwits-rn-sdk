@@ -935,6 +935,15 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                         case 12:
                             types.add(GizWifiGAgentType.GizGAgentFlyLink);
                             break;
+                        case 13:
+                            types.add(GizWifiGAgentType.GizGAgentMxchipAWS);
+                            break;
+                        case 14:
+                            types.add(GizWifiGAgentType.GizGAgentHFV8);
+                            break;
+                        case 15:
+                            types.add(GizWifiGAgentType.GizGAgentESPBroadcast);
+                            break;
                         default:
                             types.add(GizWifiGAgentType.GizGAgentESP);
                             break;
@@ -1061,6 +1070,15 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                             break;
                         case 12:
                             types.add(GizWifiGAgentType.GizGAgentFlyLink);
+                            break;
+                        case 13:
+                            types.add(GizWifiGAgentType.GizGAgentMxchipAWS);
+                            break;
+                        case 14:
+                            types.add(GizWifiGAgentType.GizGAgentHFV8);
+                            break;
+                        case 15:
+                            types.add(GizWifiGAgentType.GizGAgentESPBroadcast);
                             break;
                         default:
                             types.add(GizWifiGAgentType.GizGAgentESP);

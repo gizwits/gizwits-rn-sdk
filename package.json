@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.32-noLanConfig",
+  "version": "2.30.33-noLanConfig",
   "description": "修正重置组包",
   "main": "index.js",
   "scripts": {
