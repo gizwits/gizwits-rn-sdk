@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.33-noLanConfig",
-  "description": "修正重置组包",
+  "version": "2.30.34-noLanConfig",
+  "description": "平衡模式扫描",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
