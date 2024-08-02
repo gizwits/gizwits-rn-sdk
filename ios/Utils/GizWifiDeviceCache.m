@@ -69,10 +69,11 @@ static GizWifiDeviceCache *sharedInstance = nil;
       }
       if ([device.macAddress isEqualToString:macAddress]) {
         // 没有 did 的情况
-        if (device.did.length == 0 && did.length == 0) return device;
+        // if (device.did.length == 0 && did.length == 0) return device;
         
-        // did 匹配的情况
-        if (device.did.length > 0 && [device.did isEqualToString:did]) return device;
+        // // did 匹配的情况
+        // if (device.did.length > 0 && [device.did isEqualToString:did]) return device;
+        return device;
       }
     }
     return nil;
