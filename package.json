@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.40.14-nfc",
-  "description": "平衡模式扫描",
+  "version": "2.40.22",
+  "description": "修正蓝牙OTA确认机制",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

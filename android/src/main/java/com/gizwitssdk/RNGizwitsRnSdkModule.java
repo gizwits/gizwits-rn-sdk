@@ -1129,13 +1129,17 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             ConcurrentHashMap<String, Object> deviceInfo = new ConcurrentHashMap<String, Object>();
             JSONObject jsonObject = jsonArray.optJSONObject(i);
             GizWifiDevice gizWifiDevice = RNGizwitsDeviceCache.getInstance().findDeviceByMac(jsonObject.optString("mac"), jsonObject.optString("did"));
-            deviceInfo.put("device", gizWifiDevice);
-            if (jsonObject.optString("authCode") != null) {
-                deviceInfo.put("authCode", jsonObject.optString("authCode"));
+            if (gizWifiDevice != null) {
+                deviceInfo.put("device", gizWifiDevice);
+                if (jsonObject.optString("authCode") != null) {
+                    deviceInfo.put("authCode", jsonObject.optString("authCode"));
+                }
+                deviceInfos.add(deviceInfo);
             }
-            deviceInfos.add(deviceInfo);
         }
-        GizWifiSDK.sharedInstance().deviceSafetyUnbind(deviceInfos);
+        if (deviceInfos.size() > 0) {
+            GizWifiSDK.sharedInstance().deviceSafetyUnbind(deviceInfos);
+        }
     }
 
     @ReactMethod
