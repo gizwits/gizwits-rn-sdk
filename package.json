@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.40.22",
+  "version": "2.40.23",
   "description": "修正蓝牙OTA确认机制",
   "main": "index.js",
   "scripts": {
