@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.24-noLanConfig",
-  "description": "error 11 daemon 增加重试",
+  "version": "2.30.25-noLanConfig",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
