@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.30.34-noLanConfig",
+  "version": "2.30.35-noLanConfig",
   "description": "平衡模式扫描",
   "main": "index.js",
   "scripts": {
