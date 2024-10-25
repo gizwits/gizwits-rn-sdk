@@ -592,8 +592,14 @@ typedef void(^GizInnerCallbackHandler)(GizWifiErrorCode *result);
  @see 回调函数 [GizWifiSDKDelegate wifiSDK:didSetDeviceOnboarding:mac:did:productKey:]
  */
 - (void)setDeviceOnboardingDeploy:(NSString * _Nonnull)ssid key:(NSString * _Nullable)key configMode:(GizWifiConfigureMode)mode softAPSSIDPrefix:(NSString * _Nullable)softAPSSIDPrefix timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
+// 带pk
+- (void)setDeviceOnboardingDeploy:(NSString * _Nonnull)ssid key:(NSString * _Nullable)key productKey:(NSString*_Nullable)productKey configMode:(GizWifiConfigureMode)mode softAPSSIDPrefix:(NSString * _Nullable)softAPSSIDPrefix timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
+
 
 - (void)setDeviceBleOnboarding:(NSString * _Nonnull)ssid key:(NSString * _Nullable)key mac:(NSString*_Nullable)mac configMode:(GizWifiConfigureMode)mode softAPSSIDPrefixs:(NSArray<NSString *> * _Nullable)softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
+
+// 带pk
+- (void)setDeviceBleOnboarding:(NSString * _Nonnull)ssid key:(NSString * _Nullable)key mac:(NSString*_Nullable)mac productKey:(NSString*_Nullable)productKey configMode:(GizWifiConfigureMode)mode softAPSSIDPrefixs:(NSArray<NSString *> * _Nullable)softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
 
 /**
  设备配网接口。配网时可自动完成设备域名部署，此接口对模组固件版本向前兼容。
@@ -609,6 +615,8 @@ typedef void(^GizInnerCallbackHandler)(GizWifiErrorCode *result);
  @see 回调函数 [GizWifiSDKDelegate wifiSDK:didSetDeviceOnboarding:mac:did:productKey:]
  */
 - (void)setDeviceOnboardingDeploy:(NSString * _Nonnull)ssid key:(NSString * _Nullable)key configMode:(GizWifiConfigureMode)mode softAPSSIDPrefixs:(NSArray<NSString *> * _Nullable)softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
+// 带PK
+- (void)setDeviceOnboardingDeploy:(NSString * _Nonnull)ssid key:(NSString * _Nullable)key productKey:(NSString * _Nullable)productKey configMode:(GizWifiConfigureMode)mode softAPSSIDPrefixs:(NSArray<NSString *> * _Nullable)softAPSSIDPrefixs timeout:(int)timeout wifiGAgentType:(NSArray * _Nullable)types bind:(BOOL)bind;
 
 /** 停止配网接口，停止后回调中返回的错误为GIZ_SDK_ONBOARDING_STOPPED
  @see 回调函数 [GizWifiSDKDelegate wifiSDK:didSetDeviceOnboarding:GizWifiDevice:]
