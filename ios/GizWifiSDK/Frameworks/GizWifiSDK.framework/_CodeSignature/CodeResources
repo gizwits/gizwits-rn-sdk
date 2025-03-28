@@ -94,7 +94,7 @@
 		</data>
 		<key>Headers/GizWifiBleDevice.h</key>
 		<data>
-		AVGI/cAyHQadvwSFUYpeCwpJcHE=
+		ZzMlOIc2nvsYDRR6g8tYAtfIJqQ=
 		</data>
 		<key>Headers/GizWifiCentralControlDevice.h</key>
 		<data>
@@ -106,7 +106,7 @@
 		</data>
 		<key>Headers/GizWifiDevice.h</key>
 		<data>
-		L3cbdGncjMBN+taXqbEOKqxh4LY=
+		eaLb2X3x+rePAFEwIhrBkqpCHHg=
 		</data>
 		<key>Headers/GizWifiSDK.h</key>
 		<data>
@@ -377,11 +377,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			AVGI/cAyHQadvwSFUYpeCwpJcHE=
+			ZzMlOIc2nvsYDRR6g8tYAtfIJqQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			X3mofTd7NWN1eoVlS0zPXmuso/QPJlMAbxtgSE4EF7U=
+			19o2gCbt2t75+ngyS0tXmPWvSo+/mLOooAc7QC41jhE=
 			</data>
 		</dict>
 		<key>Headers/GizWifiCentralControlDevice.h</key>
@@ -410,11 +410,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			L3cbdGncjMBN+taXqbEOKqxh4LY=
+			eaLb2X3x+rePAFEwIhrBkqpCHHg=
 			</data>
 			<key>hash2</key>
 			<data>
-			0tH4hK/sVtbWHaGRWWCftezeN6QOfRBNfwSnhQ9MLec=
+			Q3trrBGoA7N5JkRr5pM3POGe7/OBosanVuNHcEevT0o=
 			</data>
 		</dict>
 		<key>Headers/GizWifiSDK.h</key>

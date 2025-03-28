@@ -26,6 +26,7 @@ extern NSString * _Null_unspecified XPGWifiDeviceHardwareProductKey DEPRECATED_M
 @protocol GizWifiDeviceDelegate <NSObject>
 @optional
 
+typedef void (^apiCallback)(GizWifiErrorCode errorCode);
 /**
  设备订阅或解除订阅的回调
  @param device 回调的 GizWifiDevice 对象
@@ -303,6 +304,12 @@ extern NSString * _Null_unspecified XPGWifiDeviceHardwareProductKey DEPRECATED_M
  @see 对应的回调接口：[GizWifiDeviceDelegate device: didReceiveAttrStatus:attrStatus:adapterAttrStatus:withSN:]
  */
 - (void)write:(NSDictionary <NSString *, id>* _Nonnull)data withSN:(int)sn;
+
+
+/**
+重置设备
+ */
+- (void)resetDevice:(apiCallback)callback;
 
 /**
  给设备发送控制指令。已订阅的设备变为可控状态后才能发送控制指令

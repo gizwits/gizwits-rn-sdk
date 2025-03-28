@@ -101,6 +101,37 @@ RCT_EXPORT_METHOD(getDeviceStatus:(id)info result:(RCTResponseSenderBlock)result
     [device getDeviceStatus:attrs withSN:(int)sn];
 }
 
+
+//getDeviceStatus
+RCT_EXPORT_METHOD(resetDevice:(id)info result:(RCTResponseSenderBlock)result) {
+    NSDictionary *dict = [info dictionaryObject];
+    if (!dict) {
+        [self.callBackManager callbackParamInvalid:result];
+        return;
+    }
+    NSDictionary *deviceDict = [dict dictValueForKey:@"device" defaultValue:dict];
+    NSString *mac = [deviceDict stringValueForKey:@"mac" defaultValue:@""];
+    NSString *productKey = [deviceDict stringValueForKey:@"productKey" defaultValue:@""];
+    GizWifiDevice *device = [GizWifiDeviceCache cachedBleDeviceWithMacAddress:mac productKey:productKey];
+    if (!device || device.netStatus != GizDeviceControlled) { // 若存在可控的蓝牙设备，选择蓝牙控制
+        NSString *did = [deviceDict stringValueForKey:@"did" defaultValue:@""];
+        device = [GizWifiDeviceCache cachedDeviceWithMacAddress:mac did:did];
+        if (!device) {
+            NSDictionary *errDict = [NSDictionary makeErrorDictFromResultCode:GizWifiError_DEVICE_IS_INVALID];
+            [self.callBackManager callBackError:errDict result:result];
+            return;
+        }
+    }
+  [device resetDevice:^(GizWifiErrorCode errorCode) {
+    if (errorCode == GIZ_SDK_SUCCESS) {
+      result([self.callBackManager getEmptySuccessResult]);
+    } else {
+      NSDictionary *errDict = [NSDictionary makeErrorDictFromResultCode:errorCode];
+      [self.callBackManager callBackError:errDict result:result];
+    }
+  }];
+}
+
 RCT_EXPORT_METHOD(deleteMeshDeviceFromGroup:(id)info result:(RCTResponseSenderBlock)result) {
     NSDictionary *dict = [info dictionaryObject];
     if (!dict) {
