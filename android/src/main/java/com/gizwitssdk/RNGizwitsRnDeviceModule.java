@@ -324,6 +324,57 @@ public class RNGizwitsRnDeviceModule extends ReactContextBaseJavaModule {
 
     }
 
+  @ReactMethod
+  public void resetDevice(ReadableMap readableMap, Callback callback) {
+    JSONObject args = readable2JsonObject(readableMap);
+
+    JSONObject result = new JSONObject();
+    JSONObject deviceobj = args.optJSONObject("device");
+    try {
+
+      String mac = deviceobj.optString("mac");
+      String did = deviceobj.optString("did");
+      result.put("device", deviceobj);
+
+      GizWifiDevice device = null;
+      device = RNGizwitsDeviceCache.getInstance()
+        .findDeviceByMac(mac, did);
+
+      GizWifiBleDevice bleDevice = RNGizwitsDeviceCache.getInstance()
+        .findBleDeviceByMac(mac);
+      Integer sn = Utils.getSn();
+      if(bleDevice!=null&&bleDevice.getNetStatus()==GizWifiDeviceNetStatus.GizDeviceControlled)
+      {
+        device = bleDevice;
+      }
+      if (device == null) {
+        result.put("errorCode",
+          GizWifiErrorCode.GIZ_SDK_PARAM_INVALID.getResult());
+        result.put("msg", GizWifiErrorCode.GIZ_SDK_PARAM_INVALID.name());
+        sendResultEvent(callback, null, result);
+      } else {
+        device.setListener(deviceListener);
+        device.resetDevice(errorCode -> {
+          try {
+            result.put("errorCode",
+              errorCode.getResult());
+            result.put("msg", errorCode.name());
+            if (errorCode == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+              sendResultEvent(callback, result, null);
+            } else {
+              sendResultEvent(callback, null, result);
+            }
+          } catch (JSONException e) {
+            throw new RuntimeException(e);
+          }
+        });
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+  }
+
     @ReactMethod
     public void checkUpdate(ReadableMap readableMap, Callback callback) {
         JSONObject args = readable2JsonObject(readableMap);

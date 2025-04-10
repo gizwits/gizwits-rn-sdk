@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.40.29-nfc",
+  "version": "2.40.32-nfc",
   "description": "修正蓝牙OTA确认机制",
   "main": "index.js",
   "scripts": {

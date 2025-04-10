@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^bleCallback)(GizWifiErrorCode errorCode);
+
 typedef void (^otaProgressListener)(NSInteger firmwareSize, NSInteger packageMaxLen, int currentNumber);
 @interface GizWifiBleDevice : GizWifiDevice
 
@@ -33,22 +33,22 @@ typedef void (^otaProgressListener)(NSInteger firmwareSize, NSInteger packageMax
 /**
  建立连接
  */
-- (void)connectBle: (bleCallback)callback;
+- (void)connectBle: (apiCallback)callback;
 
 /**
  断开连接
  */
-- (void)disconnectBle: (bleCallback)callback;
+- (void)disconnectBle: (apiCallback)callback;
 
 /**
  添加mesh设备到分组
  */
-- (void)deleteMeshDeviceFromGroup:(NSArray<NSString *> *)macs groupID:(int)groupID callback:(bleCallback)callback;
+- (void)deleteMeshDeviceFromGroup:(NSArray<NSString *> *)macs groupID:(int)groupID callback:(apiCallback)callback;
 
 /**
  删除mesh设备从分组
  */
-- (void)addMeshDeviceToGroup:(NSArray<NSString *> *)macs withGroup:(int)groupID callback:(bleCallback)callback;
+- (void)addMeshDeviceToGroup:(NSArray<NSString *> *)macs withGroup:(int)groupID callback:(apiCallback)callback;
 
 /**
  升级固件
