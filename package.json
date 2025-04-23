@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.40.32",
-  "description": "修正蓝牙OTA确认机制",
+  "version": "2.40.33",
+  "description": "修正iOS重置",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
