@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.40.33",
-  "description": "修正iOS重置",
+  "version": "2.40.34",
+  "description": "【Android】新增离线数据同步前下发时间戳",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
