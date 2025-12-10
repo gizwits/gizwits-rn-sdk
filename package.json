@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.40.35",
-  "description": "修正iOS下发时间戳",
+  "version": "2.40.36",
+  "description": "修正iOS write",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
