@@ -65,6 +65,9 @@ RCT_EXPORT_METHOD(startWithAppID:(id)configInfo result:(RCTResponseSenderBlock)r
     NSArray *specialProductKeySecrets = [dict arrayValueForKey:@"specialProductKeySecrets" defaultValue:nil];
     BOOL autoSetDeviceDomain = [dict boolValueForKey:@"autoSetDeviceDomain" defaultValue:NO];
     NSArray *specialUsingAdapter = [dict arrayValueForKey:@"specialUsingAdapter" defaultValue:nil];
+    BOOL alwaysLoginBleDevice = [dict boolValueForKey:@"alwaysLoginBleDevice" defaultValue:NO];
+
+    [GizWifiSDK setAlwaysLoginBleDevice:alwaysLoginBleDevice];
 
     // 检查是否支持蓝牙设备
     bool isSupportBle = NO;
