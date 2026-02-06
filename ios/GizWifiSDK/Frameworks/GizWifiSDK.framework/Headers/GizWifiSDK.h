@@ -485,6 +485,14 @@ typedef void(^GizInnerCallbackHandler)(GizWifiErrorCode *result);
 + (void)setLogLevel:(GizLogPrintLevel)logPrintLevel;
 
 /**
+ 设置 BLE 设备连接行为：当 needAuth 为 NO 时，是否仍发送登录协议包。
+ 默认 NO：连接后直接回调成功；设为 YES 时，连接后仍会发送登录命令（模组需收到登录包才维持连接）。
+ 请在 startWithAppID/startWithAppInfo 之前或之后调用均可，建议在初始化时设置。
+ @param alwaysLoginBleDevice YES 表示 needAuth=NO 时也发送登录；NO 表示直接成功。
+ */
+ + (void)setAlwaysLoginBleDevice:(BOOL)alwaysLoginBleDevice;
+
+/**
  搜索mesh网络设备。每次搜索指定超时时间，时间到则停止搜索。App可重复调用此接口
 
  @param meshName 指定mesh网络名称。如果为nil，则搜索所有mesh网络设备；不为nil，则只搜索该mesh网络设备
