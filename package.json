@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.40.36-nfc",
+  "version": "2.40.37-nfc",
   "description": "Gizwits SDK",
   "main": "index.js",
   "scripts": {
