@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-sdk",
-  "version": "2.40.37",
+  "version": "2.40.38",
   "description": "Gizwits SDK",
   "main": "index.js",
   "scripts": {
