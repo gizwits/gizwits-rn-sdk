@@ -452,7 +452,7 @@ typedef void(^GizInnerCallbackHandler)(GizWifiErrorCode *result);
  注意：设备域名自动设置开启后会一直生效，但调用setDeviceServerInfo接口时将会终止自动设置
  
  @param appInfo 应用信息，格式：{"appId": "xxx", "appSecret": "xxx"}。此参数不能填nil，appId和appSecret必须为有效值。在机智云开发者中心 dev.gizwits.com 中，每个注册的设备在对应的“应用配置”中，都能够查到对应的 appID和appSecret
- @param productInfo 产品信息数组，格式：[{"productKey": "xxx", "productSecret": "xxx", "usingAdapter":"xxx", "localMeshType":"xxx"}]，usingAdapter见GizAdapterType枚举定义， localMeshType见GizLocalMeshType枚举定义。此参数为选填，如果填写了此参数，需保证productKey和productSecret为有效值，无效值会被忽略。SDK会根据此参数过滤设备列表
+ @param productInfo 产品信息数组，格式：[{"productKey": "xxx", "productSecret": "xxx", "usingAdapter":"xxx", "localMeshType":"xxx", "cmbDeviceTypeId":"xxx"}]，usingAdapter见GizAdapterType枚举定义， localMeshType见GizLocalMeshType枚举定义。可选键 cmbDeviceTypeId：移动爱家（CMB）设备在广播 Local Name 中的十进制设备类型 ID（如 CMB278000-xxxx 中的 278000），与 productKey 对应；非 CMB 产品可省略。此参数为选填，如果填写了此参数，需保证productKey和productSecret为有效值，无效值会被忽略。SDK会根据此参数过滤设备列表
  @param cloudSeviceInfo 服务器域名信息，格式：{"openAPIInfo": "xxx", "siteInfo": "xxx", "pushInfo": ""}。如果使用机智云统一部署的云服务域名，此参数填nil，此时将根据用户手机的地理位置信息使用匹配的域名。如果需要独立部署，此参数必须指定域名信息。如果需要指定端口号，可指定Http端口如：xxx.gizwits.com:81，或同时指定Http和Https端口如：xxx.gizwits.com:81&8443。不指定端口号时，形如：xxx.gizwits.com
  @param autoSetDeviceDomain 是否要开启设备域名的自动设置功能。此参数默认值为NO，即不开启自动设置。参数值传YES则开启设备域名的自动设置功能，如果开启了设备域名的自动设置，小循环设备将被连接到App当前使用的云服务域名上
  @see 回调 [wifiSDK didNotifyEvent:eventSource:eventID:eventMessage:]

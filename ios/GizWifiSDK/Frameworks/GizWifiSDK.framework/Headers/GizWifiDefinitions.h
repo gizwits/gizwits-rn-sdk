@@ -1114,6 +1114,12 @@ typedef NS_ENUM(NSInteger, GizBleWorkStatusType) {
     GizBleWorkStatusTypeOnBording = 1,
 };
 
+/** BLE 模块变体（标准机智云广播/GATT vs 移动爱家 CMB） */
+typedef NS_ENUM(NSInteger, GizBleModuleVariant) {
+    GizBleModuleVariantStandard = 0,
+    GizBleModuleVariantChinaMobileAijia = 1,
+};
+
 /** @deprecated 此枚举定义已废弃，不再提供支持。请使用替代定义：GizWifiErrorCode */
 typedef NS_ENUM(NSInteger, XPGWifiErrorCode) {
     XPGWifiError_NONE = 0,

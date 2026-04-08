@@ -642,6 +642,7 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             JSONArray specialProductKeys = null;
             JSONArray specialProductKeySecrets = null;
             JSONArray specialUsingAdapter = null;
+            JSONArray specialCmbDeviceTypeIds = null;
 
             boolean autoSetDeviceDomain = false;
             startWithAppIdCallback = callback;
@@ -661,6 +662,9 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
             }
             if (!args.isNull("specialUsingAdapter")) {
                 specialUsingAdapter = args.optJSONArray("specialUsingAdapter");
+            }
+            if (!args.isNull("specialCmbDeviceTypeIds")) {
+                specialCmbDeviceTypeIds = args.optJSONArray("specialCmbDeviceTypeIds");
             }
 
             ConcurrentHashMap<String, String> cloudServiceInfos = null;
@@ -703,6 +707,12 @@ public class RNGizwitsRnSdkModule extends ReactContextBaseJavaModule {
                         ConcurrentHashMap<String, String> product = new ConcurrentHashMap<String, String>();
                         product.put("productKey", specialProductKeys.optString(i));
                         product.put("productSecret", specialProductKeySecrets.optString(i));
+                        if (specialCmbDeviceTypeIds != null) {
+                            String cmbId = specialCmbDeviceTypeIds.optString(i, "");
+                            if (!cmbId.isEmpty()) {
+                                product.put("cmbDeviceTypeId", cmbId);
+                            }
+                        }
                         if (specialUsingAdapter != null) {
                             GizAdapterType type = GizAdapterType.GizAdapterNon;
                             String typeStr = specialUsingAdapter.getString(i);

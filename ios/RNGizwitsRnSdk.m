@@ -65,6 +65,7 @@ RCT_EXPORT_METHOD(startWithAppID:(id)configInfo result:(RCTResponseSenderBlock)r
     NSArray *specialProductKeySecrets = [dict arrayValueForKey:@"specialProductKeySecrets" defaultValue:nil];
     BOOL autoSetDeviceDomain = [dict boolValueForKey:@"autoSetDeviceDomain" defaultValue:NO];
     NSArray *specialUsingAdapter = [dict arrayValueForKey:@"specialUsingAdapter" defaultValue:nil];
+    NSArray *specialCmbDeviceTypeIds = [dict arrayValueForKey:@"specialCmbDeviceTypeIds" defaultValue:nil];
     BOOL alwaysLoginBleDevice = [dict boolValueForKey:@"alwaysLoginBleDevice" defaultValue:NO];
 
     [GizWifiSDK setAlwaysLoginBleDevice:alwaysLoginBleDevice];
@@ -88,10 +89,23 @@ RCT_EXPORT_METHOD(startWithAppID:(id)configInfo result:(RCTResponseSenderBlock)r
     if (specialProductKeySecrets.count > 0) {
         if (specialProductKeys.count == specialProductKeySecrets.count) {
             NSMutableArray *productInfoArray = [[NSMutableArray alloc] init];
-            [specialProductKeys enumerateObjectsUsingBlock:^(NSString*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithDictionary:@{@"productKey":obj,@"productSecret":specialProductKeySecrets[idx]}];
+            [specialProductKeys enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSString *pk = [obj isKindOfClass:[NSString class]] ? (NSString *)obj : [obj description];
+                NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithDictionary:@{@"productKey":pk,@"productSecret":specialProductKeySecrets[idx]}];
                 if (isUsingAdapter) {
                     [tmpDic setValue:specialUsingAdapter[idx] forKey:@"usingAdapter"];
+                }
+                if (specialCmbDeviceTypeIds != nil && idx < specialCmbDeviceTypeIds.count) {
+                    id cmbRaw = specialCmbDeviceTypeIds[idx];
+                    NSString *cmbId = nil;
+                    if ([cmbRaw isKindOfClass:[NSString class]]) {
+                        cmbId = (NSString *)cmbRaw;
+                    } else if ([cmbRaw isKindOfClass:[NSNumber class]]) {
+                        cmbId = [(NSNumber *)cmbRaw stringValue];
+                    }
+                    if (cmbId.length > 0) {
+                        [tmpDic setValue:cmbId forKey:@"cmbDeviceTypeId"];
+                    }
                 }
                 [productInfoArray addObject:tmpDic];
             }];
