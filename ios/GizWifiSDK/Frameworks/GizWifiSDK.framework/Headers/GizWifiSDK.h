@@ -490,7 +490,7 @@ typedef void(^GizInnerCallbackHandler)(GizWifiErrorCode *result);
  请在 startWithAppID/startWithAppInfo 之前或之后调用均可，建议在初始化时设置。
  @param alwaysLoginBleDevice YES 表示 needAuth=NO 时也发送登录；NO 表示直接成功。
  */
-+ (void)setAlwaysLoginBleDevice:(BOOL)alwaysLoginBleDevice;
+ + (void)setAlwaysLoginBleDevice:(BOOL)alwaysLoginBleDevice;
 
 /**
  搜索mesh网络设备。每次搜索指定超时时间，时间到则停止搜索。App可重复调用此接口
