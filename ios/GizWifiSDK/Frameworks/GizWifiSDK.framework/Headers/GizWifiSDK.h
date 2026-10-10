@@ -490,7 +490,7 @@ typedef void(^GizInnerCallbackHandler)(GizWifiErrorCode *result);
  请在 startWithAppID/startWithAppInfo 之前或之后调用均可，建议在初始化时设置。
  @param alwaysLoginBleDevice YES 表示 needAuth=NO 时也发送登录；NO 表示直接成功。
  */
- + (void)setAlwaysLoginBleDevice:(BOOL)alwaysLoginBleDevice;
++ (void)setAlwaysLoginBleDevice:(BOOL)alwaysLoginBleDevice;
 
 /**
  搜索mesh网络设备。每次搜索指定超时时间，时间到则停止搜索。App可重复调用此接口
@@ -615,7 +615,7 @@ typedef void(^GizInnerCallbackHandler)(GizWifiErrorCode *result);
  @param ssid 待配置的路由SSID名。此参数不能为nil
  @param key 待配置的路由密码。此参数不能为nil
  @param mode 配置模式，详细见GizWifiConfigureMode枚举定义。此参数必须填有效范围内的值
- @param softAPSSIDPrefixs 热点模式下设备热点前缀或全名集合。默认前缀为:XPG-GAgent-，SDK以此判断手机当前是否连上了设备的热点。AirLink模式下可传nil
+ @param softAPSSIDPrefixs 设备热点前缀或全名集合。SoftAP/蓝牙配网时必须非空且每项为非空字符串，不补默认前缀，参数无效返回8006。SoftAP校验异步读取新的SSID并允许短暂重试；无法读取有效SSID返回8313，与所有前缀均不匹配返回8310。AirLink模式下可传nil
  @param timeout 配网绑定的超时时间，默认超时时间为30秒。在超时时间内如果无法配置和绑定会回调配网失败
  @param types 待配置的模组类型数组，详细见GizWifiGAgentType枚举。默认类型为GizGAgentESP。如果在模组类型中找不到自己使用的模组，可传GizGAgentOther
  @param bind 配网时是否自动绑定，自动绑定要求先用户登录。YES为自动绑定，NO为不绑定
